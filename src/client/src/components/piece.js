@@ -25,7 +25,7 @@ const cube_style = (actual, color) => ({
 
 const Piece = ({ piece, pos }) => (
 	<div style={piece_style(pos)}>
-		{piece.display.map((column, index) => (
+		{piece.position[pos.rotation].display.map((column, index) => (
 			<div key={index} style={column_style}>
 				{column.map((actual, index) =>
 					<div key={index} style={cube_style(actual, piece.color)} />
