@@ -1,5 +1,10 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: row;
+  margin-top: 3em;
+  margin-left: 3em;
+  justify-content: space-evenly;
 }
 
 .App-logo {
