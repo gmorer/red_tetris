@@ -28,17 +28,38 @@ const random_pieces_array = x => Array(x).fill(null).map(_ => Math.floor(Math.ra
 
 const pieces_array = random_pieces_array(500);
 
+const delete_completed_row = (tab) => {
+
+	var row_to_delete = [];
+
+	tab.map((columns, i) => {
+		if (!columns.includes(" "))
+			return row_to_delete.push(i)
+		else
+			return null;
+	});
+
+	row_to_delete.map(e => {
+		for (var i = 0; i < tab[e].length; i++) {
+			tab[e][i] = " ";
+		}
+	});
+}
+
+
 const App = () => {
-	// console.log(pieces)
+	// console.log(pieces.length)
 	const [tab, setTab] = useState(twoDArray(20, 10, ' '));
 	const [piece_index, setIndex] = useState(0);
 	const [update, forceUpdate] = useState(Math.random())
 	const finish_cb = (pos, piece) => {
-		console.log(piece)
+		// console.log(piece)
 		piece.position[pos.rotation].display.forEach((row, y) => row.forEach((cube, x) => {
 			if (cube !== ' ') tab[y + pos.y][x + pos.x] = piece.color;
 		}))
 		setIndex(piece_index + 1)
+		delete_completed_row(tab)
+		//foncton qui check si il y a une
 		setTab(tab);
 		forceUpdate(Math.random())
 	}
