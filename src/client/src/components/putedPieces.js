@@ -1,4 +1,5 @@
 import React from 'react';
+import Block from './block'
 
 const piece_style = ({
 	width: "100%",
@@ -26,8 +27,11 @@ const PutedPieces = ({ tab }) => (
 	<div style={piece_style}>
 		{tab.map((column, index) => (
 			<div key={index} style={column_style}>
-				{column.map((actual, index) =>
-					<div key={index} style={cube_style(actual)} />
+				{column.map((actual, index) => {
+					if (actual === ' ')
+						return <div key={index} style={cube_style(actual)} />
+					else return <Block key={index} color={actual} height="100%" width="10%" />
+				}
 				)}
 			</div>
 		))}

@@ -7,11 +7,12 @@ const PreviewStyle = {
 	backgroundColor: "grey"
 }
 
-const pos = {x: 0, y: 0, rotation: 0}
+const pos = { x: 0, y: 0, rotation: 0 }
 
 const PiecePreview = ({ piece }) => (
 	<div style={PreviewStyle}>
-		<Piece piece={piece} pos={pos} isPreview={true}/>
+		<Piece piece={piece} pos={pos} isPreview={true} />
+		<p>{piece.name}</p>
 	</div>
 )
 

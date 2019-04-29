@@ -1,6 +1,6 @@
 [
 	{
-		"name": "baton",
+		"name": "Bâton",
 		"color": "#FF765C",
 		"position": [
 			{
@@ -34,7 +34,7 @@
 		]
 	},
 	{
-		"name": "block",
+		"name": "Bloc",
 		"color": "#E85654",
 		"position": [
 			{
@@ -54,7 +54,7 @@
 		]
 	},
 	{
-		"name": "te",
+		"name": "Té",
 		"color": "#FF68AC",
 		"position": [
 			{
@@ -116,7 +116,7 @@
 		]
 	},
 	{
-		"name": "lambda",
+		"name": "Lambda",
 		"color": "#E854E1",
 		"position": [
 			{
@@ -178,7 +178,7 @@
 		]
 	},
 	{
-		"name": "gamma",
+		"name": "Gamma",
 		"color": "#D75CFF",
 		"position": [
 			{
@@ -240,7 +240,7 @@
 		]
 	},
 	{
-		"name": "biais",
+		"name": "Biais",
 		"color": "#E38986",
 		"position": [
 			{
@@ -274,7 +274,7 @@
 		]
 	},
 	{
-		"name": "biaisInv",
+		"name": "Biais inversé",
 		"color": "#C888FF",
 		"position": [
 			{
@@ -288,7 +288,7 @@
 					"left": 0,
 					"right": 2,
 					"top": 0,
-					"bot": 1
+					"bot": 2
 				}
 			},
 			{
@@ -299,7 +299,7 @@
 					[" ", " ", " ", " "]
 				],
 				"hitbox": {
-					"left": 0,
+					"left": 1,
 					"right": 2,
 					"top": 0,
 					"bot": 1
