@@ -51,7 +51,6 @@ const rotate = (pos, piece, setPose, tab) => {
 const Piece = ({ piece, finish_cb, tab }) => {
 	const [pos, setPose] = useState({ x: 3, y: 0 - piece.position[0].hitbox.top, last_interval: Date.now(), rotation: 0, space_trigered: false });
 	const onKeyPress = ({ key }) => {
-		console.log(key)
 		switch (key) {
 			case 'ArrowLeft':
 				return goLeft(pos, piece.position[pos.rotation].hitbox, setPose, piece, tab)

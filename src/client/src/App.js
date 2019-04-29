@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import SocketHandler from './containers/socketHandler'
 import Piece from './containers/piece';
 import PieceDejaPose from './components/putedPieces';
 import PiecePreview from './components/piecePreview';
@@ -25,8 +26,6 @@ const twoDArray = (x, y, fill) =>
 		.map(() => Array(y).fill(fill));
 
 // const isTherePieces = (map) => map.some(columns => columns.some(a => a !== ' '))
-
-const randomPiece = () => pieces[Math.floor(Math.random() * pieces.length)];
 
 const random_pieces_array = x =>
 	Array(x)
@@ -75,11 +74,9 @@ const App = () => {
 		piece.position[pos.rotation].display.forEach((row, y) => {
 			if (pos.y + y > tab.length) pos.y = tab.length - y - 1
 			row.forEach((cube, x) => {
-				if (cube !== ' ') console.log('y:', y, 'pos.y:', pos.y)
 				if (cube !== ' ') {
 					if (y + pos.y >= tab.length || y + pos.y < 0) return
 					if (y + pos.y >= tab.length) y = tab.length - pos.y - 1
-					console.log('after', 'y:', y, 'pos.y:', pos.y)
 					tab[y + pos.y][x + pos.x] = piece.color;
 				}
 			})
@@ -106,4 +103,10 @@ const App = () => {
 		</div>
 	);
 };
-export default App;
+const lel = () => (
+	<SocketHandler>
+		<App />
+	</SocketHandler>
+)
+
+export default lel;
