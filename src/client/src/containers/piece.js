@@ -33,12 +33,10 @@ const goDown = (pos, piece, setPose, finish_cb, tab) => {
 
 const goSpace = (pos, piece, setPose, finish_cb, tab) => {
 	if (pos.space_trigered) return
-	for (let i = pos.y; ; i++) {
+	for (let i = 0; ; i++) {
 		if (pos.y + i - piece.position[pos.rotation].hitbox.bot >= 17 ||
 			IsItBlock(piece, { y: pos.y + i, x: pos.x, rotation: pos.rotation }, tab)) {
-			return setPose({ ...pos, y: pos.y + i - 1, space_trigered: true })
-			// setPose({ rotation: 0, x: 3, y: 0, last_interval: Date.now() })
-			// return finish_cb({ x: pos.x, y: pos.y + i - 1, rotation: pos.rotation }, piece)
+			return setPose({ ...pos, y: pos.y + i - 1, space_trigered: true, last_interval: Date.now() })
 		}
 	}
 }
