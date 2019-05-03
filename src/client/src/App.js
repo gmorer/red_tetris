@@ -15,7 +15,9 @@ const piecesArray = random_pieces_array(500);
 const App = () => (
 	<SocketHandler>
 		{/* <MainBoard piecesArray={piecesArray} /> */}
-		<GameChooser />
+		{(socket) =>
+			<GameChooser socket={socket} />
+		}
 	</SocketHandler>
 );
 
