@@ -2,6 +2,7 @@ const http = require('http');
 const path = require('path');
 const fs = require('fs')
 const socketio = require('socket.io')
+const launch = require('./src/app')
 
 const PORT = process.env.port || 1337
 
@@ -39,6 +40,7 @@ const server = http.createServer(handler);
 const io = socketio(server)
 
 io.on('connection', socket => {
+	launch(socket);
 	socket.emit('message', { msg: 'hello from the server' })
 	socket.on('message', console.log)
 })

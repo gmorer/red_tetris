@@ -36,8 +36,8 @@ const deleteEmptyRow = tab => {
 	return toRemove.length
 };
 
- const getNextPiece = (array, index) =>
- 	index === (array.length - 1) ? 0 : index + 1
+const getNextPiece = (array, index) =>
+	index === (array.length - 1) ? 0 : index + 1
 
 const Board = ({ piecesArray }) => {
 	const [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '));
@@ -61,7 +61,7 @@ const Board = ({ piecesArray }) => {
 		<div className="App">
 			<div style={board_style}>
 				<Piece piece={pieces[piecesArray[pieceIndex]]} tab={tab} finish_cb={finish_cb} />
-				<PieceDejaPose tab={tab}  />
+				<PieceDejaPose tab={tab} />
 			</div>
 			<div>
 				<PiecePreview piece={pieces[piecesArray[getNextPiece(piecesArray, pieceIndex)]]} />
