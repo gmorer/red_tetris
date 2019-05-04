@@ -13,6 +13,7 @@ class Player {
 		this.name = name;
 		this.socket = socket;
 		this.state = "loading";
+		this.id = socket.id;
 		this.board = twoDArray(BOARD_HEIGHT, BOARD_WIDTH, ' ');
 		this.cb = cb
 		socket.on('ChangeState', ({ state }) => {
@@ -26,9 +27,6 @@ class Player {
 			this.board = board;
 			cb('board', this.id, board)
 		})
-		socket.on('disconnect', _ =>
-			cb('disconnect', this.id)
-		)
 	}
 
 	/* Bonus */
@@ -67,7 +65,8 @@ class Player {
 
 	/* GETTER */
 	getState() { return this.state }
-	getId() { return id }
+	getName() { return this.name }
+	getId() { return this.id }
 }
 
 module.exports = Player

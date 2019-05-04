@@ -29,17 +29,17 @@ const buttonStyle = {
 
 }
 
-const clickHandler = setName => _ => {
+const clickHandler = setState => _ => {
 	let name = document.getElementById("name_input").value.trim()
-	if (!!name) setName(name)
+	if (!!name) setState({ name })
 }
 
-const NameChooser = ({ setName }) => (
+const NameChooser = ({ setState }) => (
 	<div style={parentStyle} >
 		{/* <div style={{ maxWidth: "50%" }} /> */}
 		<div>
 			<input id="name_input" style={inputStyle} placeholder="Enter your Name" />
-			<button style={buttonStyle} onClick={clickHandler(setName)}>
+			<button style={buttonStyle} onClick={clickHandler(setState)}>
 				OK
 		</button>
 		</div>

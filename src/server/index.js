@@ -40,7 +40,7 @@ const server = http.createServer(handler);
 const io = socketio(server)
 
 io.on('connection', socket => {
-	launch(socket);
+	launch(socket, io);
 	socket.emit('message', { msg: 'hello from the server' })
 	socket.on('message', console.log)
 })

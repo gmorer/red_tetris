@@ -60,16 +60,16 @@ class Game {
 	}
 
 	disconnect(id) {
-		let index = players.findIndex(player => player.getId() === id)
-		delete PushSubscriptionOptions.players[index];
+		let index = this.players.findIndex(player => player.getId() === id)
+		delete this.players[index];
 		this.players.splice(index, 1)
-		const playersList = this.players.map(player => player.getId())
+		const playersList = this.players.map(player => player.getName()) // actally player list is juste "name" TODO { name state }
 		this.players.forEach(player => player.newPlayerList(playersList))
 	}
 
 	addPlayer(name, socket) {
 		if (this.state === 'playing') return false
-		const playersList = this.players.map(player => player.getId())
+		const playersList = this.players.map(player => player.getName())
 		if (playersList.some(name => id === name)) return false // one player already with the same name
 		playersList.push(name)
 		this.players.push(new Player(name, socket, this.cb))
@@ -78,6 +78,8 @@ class Game {
 	}
 
 	getId() { return this.id }
+	getPlayerNo() { return this.players.length }
+	isIdIn(id) { return this.players.some(player => player.getId() === id) }
 }
 
 module.exports = Game

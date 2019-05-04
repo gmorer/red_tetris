@@ -1,6 +1,7 @@
 import React from 'react'
+import NameChooser from './nameChooser'
 
-const games = ['a', 'b', 'c', 'd', 'a', 'b', 'c', 'd', 'a', 'b', 'c', 'd', 'a', 'b', 'c', 'd', 'a', 'b', 'c', 'd',]
+// const games = [{ id: "superGame", no: 6 }]
 
 const mainStyle = {
 	height: "100%",
@@ -14,16 +15,6 @@ const topBarStyle = {
 	padding: "1em",
 	marginBottom: "1em",
 	boxShadow: "0 2px 3px rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.1)"
-}
-
-const refreshButtonStyle = {
-	margin: "1em",
-	right: "0px",
-	position: "absolute"
-}
-
-const plusButton = {
-	margin: "1em",
 }
 
 const entryStyle = {
@@ -42,36 +33,44 @@ const gameListStyle = {
 	justifyContent: "space-around",
 	flexFlow: "row wrap",
 	padding: "0",
-	margin: "0"
+	margin: "0",
+	alignItems: "center"
 }
 
-const GameCard = ({ game }) => (
+const GameCard = ({ id, no }) => (
 	<div style={entryStyle}>
 		<div style={{ height: "60%" }}>
-			<h2 style={{ marginTop: "5%" }}>{game}</h2>
+			<h2 style={{ marginTop: "5%" }}>{id}</h2>
 			<br />
-			4 jouers
+			{`${no} player${no > 1 ? 's' : ''}`}
 		</div>
-		<button style={{ height: "35%", width: "100%", border: "none", outline: "none" }}>Join</button>
+		<button style={{ height: "35%", width: "100%", border: "none", outline: "none", cursor: "pointer" }}>Join</button>
 	</div>
 )
 
-const ShowGames = ({ userId, setUserId, newGame }) => (
-	<div style={mainStyle}>
-		<div style={topBarStyle}>
-			{userId}
-			<button style={{ marginLeft: "1em" }} onClick={() => setUserId(null)}>
-				change username
+const newGame = (socket, playerId) => () => {
+	const gameId = prompt("Enter game name");
+	socket.emit('newGame', { gameId, playerId }, itWorked => {
+		if (!itWorked) alert("Error maybe the name is already taken")
+	})
+}
+
+const ShowGames = ({ games, name, setState, socket }) => {
+	if (!name) return <NameChooser setState={setState} />
+	else return (
+		<div style={mainStyle}>
+			<div style={topBarStyle}>
+				{name}
+				<button style={{ marginLeft: "1em" }} onClick={() => setState({ name: null })}>
+					change username
 		</button>
-		</div>
-		<div style={{ position: "relative", width: "100%" }}>
-			<button style={plusButton} onClick={newGame}>+</button>
-			<button style={refreshButtonStyle}>Refresh</button>
-		</div>
-		<div style={gameListStyle}>
-			{games.map(game => GameCard({ game }))}
-		</div>
-	</div >
-)
+			</div>
+			<div style={gameListStyle}>
+				<button style={entryStyle} onClick={newGame(socket, name)}>+</button>
+				{games.map(game => GameCard(game))}
+			</div>
+		</div >
+	)
+}
 
 export default ShowGames
