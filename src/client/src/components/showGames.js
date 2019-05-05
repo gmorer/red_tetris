@@ -37,8 +37,8 @@ const gameListStyle = {
 	alignItems: "center"
 }
 
-const GameCard = ({ id, no }) => (
-	<div style={entryStyle}>
+const GameCard = ({ id, no }, index) => (
+	<div style={entryStyle} key={index}>
 		<div style={{ height: "60%" }}>
 			<h2 style={{ marginTop: "5%" }}>{id}</h2>
 			<br />
@@ -50,7 +50,9 @@ const GameCard = ({ id, no }) => (
 
 const newGame = (socket, playerId) => () => {
 	const gameId = prompt("Enter game name");
-	socket.emit('newGame', { gameId, playerId }, itWorked => {
+	if (gameId === null) return
+	if (!gameId.trim()) return alert("invalid name")
+	socket.emit('newGame', { gameId: gameId.trim(), playerId }, itWorked => {
 		if (!itWorked) alert("Error maybe the name is already taken")
 	})
 }
@@ -67,7 +69,7 @@ const ShowGames = ({ games, name, setState, socket }) => {
 			</div>
 			<div style={gameListStyle}>
 				<button style={entryStyle} onClick={newGame(socket, name)}>+</button>
-				{games.map(game => GameCard(game))}
+				{games.map(GameCard)}
 			</div>
 		</div >
 	)

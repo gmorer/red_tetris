@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import openSocket from 'socket.io-client';
 import ShowGames from '../components/showGames'
+import LoadingRoom from '../components/loadingRoom'
 
 const PORT = 1337
 
@@ -15,18 +16,28 @@ state incatif -> waiting -> ready -> playing -> gameOver
  callServer('')
 */
 
-const socketOn = (socket, state, setState) => {
-	socket.on('getGames', ({ games }) => setState({ ...state, games }))
+const socketOn = (socket, oldState, setState) => {
+	socket.on('getGames', ({ games }) => setState({ ...oldState, games }))
+	socket.on('ChangeState', ({ state }) => setState({ ...oldState, state }))
 }
 
 const Handler = ({ socket }) => {
 	const [state, setState] = useState({ state: "inactive", games: [], name: null })
 	const setStatePlus = (newState) => setState({ ...state, ...newState })
 	socketOn(socket, state, setState)
+	let Display = <div>Lool</div>
 	switch (state.state) {
-		case "inactive": return <ShowGames {...state} socket={socket} setState={setStatePlus} />
-		default: return <div>lol</div>
+		case "inactive":
+			Display = ShowGames
+			break
+		case "loading":
+			Display = LoadingRoom
+			break
+		default: break
 	}
+	// To remove
+	Display = LoadingRoom
+	return <Display {...state} socket={socket} setState={setStatePlus} />
 }
 
 const Connector = () => {

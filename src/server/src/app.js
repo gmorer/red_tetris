@@ -2,7 +2,7 @@ const Game = require('./classes/game')
 
 let games = []
 
-const getGameId = id => games.findIndex(game => game.getid() === id)
+const getGameId = id => games.findIndex(game => game.getId() === id)
 
 const packGames = () => games.map(game => ({ id: game.getId(), no: game.getPlayerNo() }))
 

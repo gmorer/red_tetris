@@ -16,6 +16,7 @@ class Player {
 		this.id = socket.id;
 		this.board = twoDArray(BOARD_HEIGHT, BOARD_WIDTH, ' ');
 		this.cb = cb
+		socket.emit('ChangeState', ({ state: 'loading' }))
 		socket.on('ChangeState', ({ state }) => {
 			this.state = state;
 			cb('state', this.id, state);
