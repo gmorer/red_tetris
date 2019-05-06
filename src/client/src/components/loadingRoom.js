@@ -9,7 +9,8 @@ import React from "react"
 
 const mainStyle = {
 	height: "100%",
-	backgroundColor: "blue"
+	backgroundColor: "blue",
+	textAlign: "center"
 }
 
 const entryStyle = {
@@ -57,19 +58,18 @@ const readyButton = (socket, setState) => () => {
 
 const LoadingRoom = ({ socket, setState, players, gameName }) => (
 	<div style={mainStyle}>
-		{console.log('players:', players)}
-		<div>
-			<b>{gameName}</b>
-			<button style={{ margin: "1em" }} onClick={exitRoom(socket, setState)}>Exit Room</button>
+		<div style={{ paddingTop: "1em", paddingBottom: "1em" }}>
+			<b style={{ fontSize: "3em" }}>{gameName}</b>
+			<button style={{ margin: "1em", float: "right" }} onClick={exitRoom(socket, setState)}>Exit Room</button>
 		</div>
-		<div style={{ display: "flex", height: "80%" }}>
-			<div style={{ width: "30%", backgroundColor: "grey" }}>Tchat</div>
-			<div style={{ width: "40%" }}>
+		<div style={{ display: "flex", height: "90%", marginLeft: "5%", width: "90%" }}>
+			<div style={{ width: "50%", backgroundColor: "grey" }}>Tchat</div>
+			<div style={{ width: "65%", display: "flex", justifyContent: "space-evenly", marginLeft: "5%" }}>
 				{players.map(PlayerCard)}
+				<button onClick={readyButton(socket, setState)} style={{ position: "fixed", bottom: "4em", right: "4em", borderRadius: "20px", height: "6em", width: "10em", backgroundColor: "green" }}><b>Ready</b></button>
 			</div>
 		</div>
-		<button onClick={readyButton(socket, setState)}>Ready</button>
-	</div>
+	</div >
 )
 
 export default LoadingRoom

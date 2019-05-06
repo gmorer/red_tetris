@@ -60,7 +60,7 @@ class Player {
 		}
 	}
 
-	newPlayerList(players, gameName) { console.log('hey'); this.socket.emit('playersList', players) }
+	newPlayerList(players) { console.log('hey'); this.socket.emit('playersList', players) }
 	givePieces(pieces) { this.socket.emit('piecesArray', pieces) }
 	isId(id) { return id === this.id }
 

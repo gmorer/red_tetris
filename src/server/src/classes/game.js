@@ -41,8 +41,8 @@ class Game {
 				const piecesSet = random_pieces_array(500);
 				this.state = 'playing'
 				this.players.forEach(player => {
-					player.changeState('playing')
 					player.givePieces(piecesSet);
+					player.changeState('playing')
 				})
 			}
 			else if (this.players[0].getState() === 'game_over') {

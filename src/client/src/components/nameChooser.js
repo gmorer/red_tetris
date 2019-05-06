@@ -38,7 +38,7 @@ const NameChooser = ({ setName }) => (
 	<div style={parentStyle} >
 		{/* <div style={{ maxWidth: "50%" }} /> */}
 		<form onSubmit={clickHandler(setName)}>
-			<input id="name_input" style={inputStyle} placeholder="Enter your Name" />
+			<input id="name_input" style={inputStyle} placeholder="Enter your Name" autoFocus={true} />
 			<button style={buttonStyle} onClick={clickHandler(setName)}>
 				OK
 		</button>

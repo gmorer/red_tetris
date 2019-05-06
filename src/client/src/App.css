@@ -8,6 +8,14 @@ body {
 	overflow: hidden
 }
 
+*:focus {
+    outline: none;
+}
+
+textarea:focus, input:focus{
+    outline: none;
+}
+
 .App {
 	height: 100%;
 	text-align: center;

@@ -47,9 +47,9 @@ const deleteEmptyRow = tab => {
 const getNextPiece = (array, index) =>
 	index === (array.length - 1) ? 0 : index + 1
 
-const piecesArray = [0, 1, 2, 3, 4, 5, 6]
-
-const Board = ({ _ }) => {
+const Board = ({ piecesArray, gameName }) => {
+	console.log('pieces:', piecesArray)
+	console.log('gameName:', gameName)
 	const [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '));
 	const [pieceIndex, setIndex] = useState(0);
 	const [score, setScore] = useState(0);
@@ -69,6 +69,7 @@ const Board = ({ _ }) => {
 	};
 	return (
 		<div style={pageStyle}>
+			<h1>{gameName}</h1>
 			<div style={board_style}>
 				<Piece piece={pieces[piecesArray[pieceIndex]]} tab={tab} finish_cb={finish_cb} />
 				<PieceDejaPose tab={tab} />

@@ -37,13 +37,14 @@ const gameListStyle = {
 	alignItems: "center"
 }
 
-const joinGame = (socket, name, id) => () => {
+const joinGame = (socket, name, id, setGameName) => () => {
 	socket.emit('connectToGame', { playerId: name, gameId: id }, itWorked => {
 		if (!itWorked) alert("Error maybe someone as the same name as you in that game")
+		else setGameName(id)
 	})
 }
 
-const GameCard = (socket, name) => ({ id, no }, index) => (
+const GameCard = (socket, name, setGameName) => ({ id, no }, index) => (
 	<div style={entryStyle} key={index}>
 		<div style={{ height: "60%" }}>
 			<h2 style={{ marginTop: "5%" }}>{id}</h2>
@@ -52,22 +53,23 @@ const GameCard = (socket, name) => ({ id, no }, index) => (
 		</div>
 		<button
 			style={{ height: "35%", width: "100%", border: "none", outline: "none", cursor: "pointer" }}
-			onClick={joinGame(socket, name, id)}>
+			onClick={joinGame(socket, name, id, setGameName)}>
 			Join
 		</button>
 	</div>
 )
 
-const newGame = (socket, playerId) => () => {
+const newGame = (socket, playerId, setGameName) => () => {
 	const gameId = prompt("Enter game name");
 	if (gameId === null) return
 	if (!gameId.trim()) return alert("invalid name")
 	socket.emit('newGame', { gameId: gameId.trim(), playerId }, itWorked => {
 		if (!itWorked) alert("Error maybe the name is already taken")
+		else setGameName(gameId)
 	})
 }
 
-const ShowGames = ({ games, name, socket, setName }) => {
+const ShowGames = ({ games, name, socket, setName, setGameName }) => {
 	if (!name) return <NameChooser setName={setName} />
 	else return (
 		<div style={mainStyle}>
@@ -79,8 +81,8 @@ const ShowGames = ({ games, name, socket, setName }) => {
 		</button>
 			</div>
 			<div style={gameListStyle}>
-				<button style={entryStyle} onClick={newGame(socket, name)}>+</button>
-				{games.map(GameCard(socket, name))}
+				<button style={entryStyle} onClick={newGame(socket, name, setGameName)}>+</button>
+				{games.map(GameCard(socket, name, setGameName))}
 			</div>
 		</div >
 	)

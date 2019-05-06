@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import openSocket from 'socket.io-client';
 import ShowGames from '../components/showGames'
 import LoadingRoom from '../components/loadingRoom'
-import MainBoard from '../containers/mainBoard'
+import MainBoard from './mainBoard'
 
 const PORT = 1337
 
@@ -17,13 +17,6 @@ Commming from the server:
  callServer('')
 */
 
-
-const socketOn = (socket, oldState, setState) => {
-	socket.on('getGames', arg => setState(Object.assign(oldState, arg)))
-	socket.on('changeState', arg => setState(Object.assign(oldState, arg)))
-	socket.on('playersList', arg => setState(Object.assign(oldState, arg)))
-}
-
 const Handler = ({ socket }) => {
 	const [name, setName] = useState(null)
 	const [state, setState] = useState("inactive")
@@ -37,7 +30,9 @@ const Handler = ({ socket }) => {
 		socket.on('changeState', setState)
 		socket.on('playersList', setPlayers)
 		socket.on('piecesArray', setPiecesArray)
+		socket.on('piecesArray', console.log)
 	}, [])
+	console.log('piecesArray:', piecesArray)
 	switch (state) {
 		case "inactive":
 			return <ShowGames games={games} name={name} setName={setName} setGameName={setGameName} socket={socket} />
