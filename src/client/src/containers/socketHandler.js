@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import openSocket from 'socket.io-client';
 import ShowGames from '../components/showGames'
 import LoadingRoom from '../components/loadingRoom'
+import MainBoard from '../containers/mainBoard'
 
 const PORT = 1337
 
@@ -9,37 +10,43 @@ const URL = 'http://localhost'
 
 /*
 state incatif -> waiting -> ready -> playing -> gameOver
- state {
+Commming from the server:
 	 state,
-	 games,
- }
+	 
+
  callServer('')
 */
 
+
 const socketOn = (socket, oldState, setState) => {
-	socket.on('getGames', ({ games }) => setState({ ...oldState, games }))
-	socket.on('ChangeState', ({ state }) => setState({ ...oldState, state }))
+	socket.on('getGames', arg => setState(Object.assign(oldState, arg)))
+	socket.on('changeState', arg => setState(Object.assign(oldState, arg)))
+	socket.on('playersList', arg => setState(Object.assign(oldState, arg)))
 }
 
 const Handler = ({ socket }) => {
-	const [state, setState] = useState({ state: "inactive", games: [], name: null })
-	const setStatePlus = (newState) => setState({ ...state, ...newState })
-	socketOn(socket, state, setState)
-	let Display = <div>Lool</div>
-	switch (state.state) {
+	const [name, setName] = useState(null)
+	const [state, setState] = useState("inactive")
+	const [players, setPlayers] = useState([])
+	const [games, setGames] = useState([])
+	const [gameName, setGameName] = useState(null)
+	const [piecesArray, setPiecesArray] = useState(null)
+	useEffect(() => {
+		// socketOn(socket, state, setState)
+		socket.on('getGames', setGames)
+		socket.on('changeState', setState)
+		socket.on('playersList', setPlayers)
+		socket.on('piecesArray', setPiecesArray)
+	}, [])
+	switch (state) {
 		case "inactive":
-			Display = ShowGames
-			break
-		case "loading":
-			Display = LoadingRoom
-			break
-		default: break
+			return <ShowGames games={games} name={name} setName={setName} setGameName={setGameName} socket={socket} />
+		case "ready":
+		case "loading": return <LoadingRoom socket={socket} setState={setState} players={players} gameName={gameName} />
+		case "playing": return <MainBoard piecesArray={piecesArray} gameName={gameName} players={players} />
+		default: return null
 	}
-	// To remove
-	Display = LoadingRoom
-	return <Display {...state} socket={socket} setState={setStatePlus} />
 }
-
 const Connector = () => {
 	const socket = openSocket(`${URL}:${PORT}`);
 	socket.on('message', console.log)

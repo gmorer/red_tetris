@@ -4,35 +4,39 @@ let games = []
 
 const getGameId = id => games.findIndex(game => game.getId() === id)
 
-const packGames = () => games.map(game => ({ id: game.getId(), no: game.getPlayerNo() }))
+const packGames = () => games.filter(game => game.getState() === "loading")
+	.map(game => ({ id: game.getId(), no: game.getPlayerNo() }))
+
+const disconnect = (socket, io) => () => {
+	const index = games.findIndex(game => game.isIdIn(socket.id))
+	if (index === -1) return
+	games[index].disconnect(socket.id)
+	if (games[index].getPlayerNo() === 0) {
+		games.splice(index, 1)
+	}
+	io.emit('getGames', packGames())
+}
 
 const launch = (socket, io) => {
-	socket.emit('getGames', ({ games: packGames() }))
+	socket.emit('getGames', packGames())
 	socket.on('newGame', ({ gameId, playerId }, cb) => {
 		if (getGameId(gameId) !== -1) return cb(false) // cb
 		const newGame = new Game(gameId)
 		newGame.addPlayer(playerId, socket)
-		games.push(newGame) - 1
-		io.emit('getGames', ({ games: packGames() }))
+		games.push(newGame)
+		io.emit('getGames', packGames())
 		return cb(true)
 	})
 	socket.on('connectToGame', ({ playerId, gameId }, cb) => {
 		const game = games[getGameId(gameId)]
 		if (game.addPlayer(playerId, socket)) {
-			io.emit('getGames', ({ games: packGames() }))
-			cb(true)
+			io.emit('getGames', packGames())
+			return cb(true)
 		}
-		cb(false)
+		return cb(false)
 	})
-	socket.on('disconnect', () => {
-		const index = games.findIndex(game => game.isIdIn(socket.id))
-		if (index === -1) return
-		games[index].disconnect(socket.id)
-		if (games[index].getPlayerNo() === 0) {
-			games.splice(index, 1)
-			io.emit('getGames', ({ games: packGames() }))
-		}
-	})
+	socket.on('disconnect', disconnect(socket, io))
+	socket.on('disconnectFromGame', disconnect(socket, io))
 }
 
 module.exports = launch

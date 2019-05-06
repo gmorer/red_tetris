@@ -9,6 +9,8 @@ const informPlayers = (players, id, fn) => players.forEach(player => {
 	fn(player);
 })
 
+const getPlayerList = players => players.map(player => ({ name: player.getName(), state: player.getState() }))
+
 class Game {
 	/* TO DO : destructor callback to remove the game from the array when everyone disconnected */
 	constructor(id) {
@@ -17,19 +19,20 @@ class Game {
 		this.state = "loading";
 		this.cb = (type, ...args) => {
 			switch (type) {
-				case 'state': return stateCB(...args)
-				case 'blackLine': return blackLineCB(...args)
-				case 'board': return boardCB(...args)
-				case 'disconnect': return disconnect(...args)
-				case 'quit': return disconnect(...args)
+				case 'state': return this.stateCB(...args)
+				case 'blackLine': return this.blackLineCB(...args)
+				case 'board': return this.boardCB(...args)
+				case 'disconnect': return this.disconnect(...args)
+				case 'quit': return this.disconnect(...args)
 			}
 		}
 	}
 
 	stateCB(id, newState) {
 		let all_same = true
-		informPlayers(this.players, id, player => {
-			player.emit('newState', { id, newState })
+		const playersList = getPlayerList(this.players)
+		this.players.forEach(player => {
+			player.newPlayerList(playersList, this.id)
 			if (player.getState() !== newState) all_same = false
 		})
 		if (all_same) {
@@ -37,7 +40,10 @@ class Game {
 				/* NEW GAME */
 				const piecesSet = random_pieces_array(500);
 				this.state = 'playing'
-				this.players.forEach(player => player.changeState('playing', { piecesSet }))
+				this.players.forEach(player => {
+					player.changeState('playing')
+					player.givePieces(piecesSet);
+				})
 			}
 			else if (this.players[0].getState() === 'game_over') {
 				/* GAME FINISHED */
@@ -63,21 +69,23 @@ class Game {
 		let index = this.players.findIndex(player => player.getId() === id)
 		delete this.players[index];
 		this.players.splice(index, 1)
-		const playersList = this.players.map(player => player.getName()) // actally player list is juste "name" TODO { name state }
+		const playersList = getPlayerList(this.players)
 		this.players.forEach(player => player.newPlayerList(playersList))
 	}
 
 	addPlayer(name, socket) {
 		if (this.state === 'playing') return false
-		const playersList = this.players.map(player => player.getName())
-		if (playersList.some(name => id === name)) return false // one player already with the same name
-		playersList.push(name)
+		const playersList = getPlayerList(this.players)
+		if (playersList.some(player => player.name === name)) return false // one player already with the same name
+		playersList.push({ name, state: "loading" })
 		this.players.push(new Player(name, socket, this.cb))
-		this.players.forEach(player => player.newPlayerList(playersList))
+		console.log(playersList)
+		this.players.forEach(player => player.newPlayerList(playersList, this.id))
 		return true
 	}
 
 	getId() { return this.id }
+	getState() { return this.state }
 	getPlayerNo() { return this.players.length }
 	isIdIn(id) { return this.players.some(player => player.getId() === id) }
 }

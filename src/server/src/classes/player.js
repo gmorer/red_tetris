@@ -16,8 +16,8 @@ class Player {
 		this.id = socket.id;
 		this.board = twoDArray(BOARD_HEIGHT, BOARD_WIDTH, ' ');
 		this.cb = cb
-		socket.emit('ChangeState', ({ state: 'loading' }))
-		socket.on('ChangeState', ({ state }) => {
+		socket.emit('changeState', 'loading')
+		socket.on('changeState', state => {
 			this.state = state;
 			cb('state', this.id, state);
 		})
@@ -40,9 +40,9 @@ class Player {
 		}
 	}
 
-	changeState(state, options) {
+	changeState(state) {
 		this.state = state;
-		this.socket.emit('ChangeState', { state, options })
+		this.socket.emit('changeState', state)
 	}
 
 	newPlayerBoard(id, board) {
@@ -54,14 +54,14 @@ class Player {
 		if (heigth + n > BOARD_HEIGHT) {
 			this.state = 'game_over'
 			this.cb('state', this.id, 'game_over');
-			this.socket.emit('state', { state: 'game_over' })
+			this.socket.emit('state', 'game_over')
 		} else {
-			this.socket.emit('blackLine', { n })
+			this.socket.emit('blackLine', n)
 		}
 	}
 
-	newPlayerList(list) { this.socket.emit('players', { list }) }
-	givePices(pieces) { this.socket.emit('pieces', ({ pieces })) }
+	newPlayerList(players, gameName) { console.log('hey'); this.socket.emit('playersList', players) }
+	givePieces(pieces) { this.socket.emit('piecesArray', pieces) }
 	isId(id) { return id === this.id }
 
 	/* GETTER */

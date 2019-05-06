@@ -25,24 +25,24 @@ const buttonStyle = {
 	height: "2em",
 	width: "6em",
 	textDecoration: "none",
-	borderRadius: "4px"
-
+	borderRadius: "4px",
 }
 
-const clickHandler = setState => _ => {
+const clickHandler = setName => e => {
 	let name = document.getElementById("name_input").value.trim()
-	if (!!name) setState({ name })
+	if (!!name) setName(name)
+	e.preventDefault();
 }
 
-const NameChooser = ({ setState }) => (
+const NameChooser = ({ setName }) => (
 	<div style={parentStyle} >
 		{/* <div style={{ maxWidth: "50%" }} /> */}
-		<div>
+		<form onSubmit={clickHandler(setName)}>
 			<input id="name_input" style={inputStyle} placeholder="Enter your Name" />
-			<button style={buttonStyle} onClick={clickHandler(setState)}>
+			<button style={buttonStyle} onClick={clickHandler(setName)}>
 				OK
 		</button>
-		</div>
+		</form>
 		{/* <div style={{ maxWidth: "50%" }} /> */}
 	</div>
 )

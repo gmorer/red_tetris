@@ -1,6 +1,11 @@
 import React from "react"
 
-const players = ["a", "b", "c", "d"]
+// const players = [
+// 	{ name: "linus", state: "ready" },
+// 	{ name: "torvald", state: "loading" },
+// 	{ name: "smash", state: "loading" },
+// 	{ name: "bros", state: "ready" }
+// ]
 
 const mainStyle = {
 	height: "100%",
@@ -18,27 +23,52 @@ const entryStyle = {
 	overflow: "hidden"
 }
 
-const PlayerCard = ({ id, no }, index) => (
+const stateStyle = state => ({
+	height: "35%",
+	width: "100%",
+	textAlign: "center",
+	backgroundColor: state === "ready" ? "green" : "red",
+	paddingTop: "10%" // redo that
+})
+
+const PlayerCard = ({ name, state }, index) => (
 	<div style={entryStyle} key={index}>
 		<div style={{ height: "60%" }}>
-			<h2 style={{ marginTop: "5%" }}>{id}</h2>
-			<br />
-			{`${no} player${no > 1 ? 's' : ''}`}
+			<h2 style={{ marginTop: "5%" }}>{name}</h2>
 		</div>
-		<button style={{ height: "35%", width: "100%", border: "none", outline: "none", cursor: "pointer" }}>Join</button>
+		<div style={stateStyle(state)}>
+			<b>
+				{console.log(state)}
+				{state}
+			</b>
+		</div>
 	</div>
 )
 
-const LoadingRoom = ({ }) => (
+const exitRoom = (socket, setState) => () => {
+	setState("inactive");
+	socket.emit('disconnectFromGame')
+}
+
+const readyButton = (socket, setState) => () => {
+	setState("ready");
+	socket.emit('changeState', "ready")
+}
+
+const LoadingRoom = ({ socket, setState, players, gameName }) => (
 	<div style={mainStyle}>
-		<button style={{ margin: "1em" }}>Exit Room</button>
-		<div style={{ display: "flex" }}>
+		{console.log('players:', players)}
+		<div>
+			<b>{gameName}</b>
+			<button style={{ margin: "1em" }} onClick={exitRoom(socket, setState)}>Exit Room</button>
+		</div>
+		<div style={{ display: "flex", height: "80%" }}>
 			<div style={{ width: "30%", backgroundColor: "grey" }}>Tchat</div>
 			<div style={{ width: "40%" }}>
 				{players.map(PlayerCard)}
 			</div>
 		</div>
-		<button>Ready</button>
+		<button onClick={readyButton(socket, setState)}>Ready</button>
 	</div>
 )
 

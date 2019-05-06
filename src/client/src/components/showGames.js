@@ -37,14 +37,24 @@ const gameListStyle = {
 	alignItems: "center"
 }
 
-const GameCard = ({ id, no }, index) => (
+const joinGame = (socket, name, id) => () => {
+	socket.emit('connectToGame', { playerId: name, gameId: id }, itWorked => {
+		if (!itWorked) alert("Error maybe someone as the same name as you in that game")
+	})
+}
+
+const GameCard = (socket, name) => ({ id, no }, index) => (
 	<div style={entryStyle} key={index}>
 		<div style={{ height: "60%" }}>
 			<h2 style={{ marginTop: "5%" }}>{id}</h2>
 			<br />
 			{`${no} player${no > 1 ? 's' : ''}`}
 		</div>
-		<button style={{ height: "35%", width: "100%", border: "none", outline: "none", cursor: "pointer" }}>Join</button>
+		<button
+			style={{ height: "35%", width: "100%", border: "none", outline: "none", cursor: "pointer" }}
+			onClick={joinGame(socket, name, id)}>
+			Join
+		</button>
 	</div>
 )
 
@@ -57,19 +67,20 @@ const newGame = (socket, playerId) => () => {
 	})
 }
 
-const ShowGames = ({ games, name, setState, socket }) => {
-	if (!name) return <NameChooser setState={setState} />
+const ShowGames = ({ games, name, socket, setName }) => {
+	if (!name) return <NameChooser setName={setName} />
 	else return (
 		<div style={mainStyle}>
+			{console.log(games)}
 			<div style={topBarStyle}>
 				{name}
-				<button style={{ marginLeft: "1em" }} onClick={() => setState({ name: null })}>
+				<button style={{ marginLeft: "1em" }} onClick={() => setName(null)}>
 					change username
 		</button>
 			</div>
 			<div style={gameListStyle}>
 				<button style={entryStyle} onClick={newGame(socket, name)}>+</button>
-				{games.map(GameCard)}
+				{games.map(GameCard(socket, name))}
 			</div>
 		</div >
 	)
