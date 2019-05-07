@@ -17,6 +17,7 @@ class Game {
 		this.players = [];
 		this.id = id;
 		this.state = "loading";
+		this.messages = [];
 		this.cb = (type, ...args) => {
 			switch (type) {
 				case 'state': return this.stateCB(...args)
@@ -84,9 +85,14 @@ class Game {
 		return true
 	}
 
+	addMessage(msg, gameName) {
+		return true
+	}
+
 	getId() { return this.id }
 	getState() { return this.state }
 	getPlayerNo() { return this.players.length }
+	getMessages() { return this.messages }
 	isIdIn(id) { return this.players.some(player => player.getId() === id) }
 }
 

@@ -35,6 +35,12 @@ const launch = (socket, io) => {
 		}
 		return cb(false)
 	})
+
+	socket.on('newMessage', ({ msg, gameName }, cb) => {
+		console.log(msg)
+		console.log(gameName)
+		game.addMessage(msg, gameName)
+	})
 	socket.on('disconnect', disconnect(socket, io))
 	socket.on('disconnectFromGame', disconnect(socket, io))
 }
