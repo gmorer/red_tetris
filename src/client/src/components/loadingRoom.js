@@ -1,4 +1,5 @@
 import React from "react"
+import Chat from "./chat"
 
 // const players = [
 // 	{ name: "linus", state: "ready" },
@@ -56,14 +57,15 @@ const readyButton = (socket, setState) => () => {
 	socket.emit('changeState', "ready")
 }
 
-const LoadingRoom = ({ socket, setState, players, gameName }) => (
+const LoadingRoom = ({ socket, setState, players, gameName, messages }) => (
 	<div style={mainStyle}>
 		<div style={{ paddingTop: "1em", paddingBottom: "1em" }}>
 			<b style={{ fontSize: "3em" }}>{gameName}</b>
 			<button style={{ margin: "1em", float: "right" }} onClick={exitRoom(socket, setState)}>Exit Room</button>
 		</div>
 		<div style={{ display: "flex", height: "90%", marginLeft: "5%", width: "90%" }}>
-			<div style={{ width: "50%", backgroundColor: "grey" }}>Tchat</div>
+			<Chat messages={messages} socket={socket} gameName={gameName} />
+			{/* <div style={{ width: "50%", backgroundColor: "grey" }}>Tchat</div> */}
 			<div style={{ width: "65%", display: "flex", justifyContent: "space-evenly", marginLeft: "5%" }}>
 				{players.map(PlayerCard)}
 				<button onClick={readyButton(socket, setState)} style={{ position: "fixed", bottom: "4em", right: "4em", borderRadius: "20px", height: "6em", width: "10em", backgroundColor: "green" }}><b>Ready</b></button>

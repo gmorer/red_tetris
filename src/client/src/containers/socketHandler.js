@@ -24,6 +24,7 @@ const Handler = ({ socket }) => {
 	const [games, setGames] = useState([])
 	const [gameName, setGameName] = useState(null)
 	const [piecesArray, setPiecesArray] = useState(null)
+	const [messages, setMessage] = useState([])
 	useEffect(() => {
 		// socketOn(socket, state, setState)
 		socket.on('getGames', setGames)
@@ -31,13 +32,16 @@ const Handler = ({ socket }) => {
 		socket.on('playersList', setPlayers)
 		socket.on('piecesArray', setPiecesArray)
 		socket.on('piecesArray', console.log)
+		socket.on('newMessage', message => { messages.push(message); setMessage(messages); console.log(messages) })
 	}, [])
 	console.log('piecesArray:', piecesArray)
+	// return <LoadingRoom socket={socket} setState={setState} players={players} gameName={gameName} messages={messages} />
+
 	switch (state) {
 		case "inactive":
 			return <ShowGames games={games} name={name} setName={setName} setGameName={setGameName} socket={socket} />
 		case "ready":
-		case "loading": return <LoadingRoom socket={socket} setState={setState} players={players} gameName={gameName} />
+		case "loading": return <LoadingRoom socket={socket} setState={setState} players={players} gameName={gameName} messages={messages} />
 		case "playing": return <MainBoard piecesArray={piecesArray} gameName={gameName} players={players} />
 		default: return null
 	}
