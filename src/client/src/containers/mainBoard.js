@@ -8,6 +8,7 @@ import pieces from '../ressources/pieces.json';
 const CUBE_SIZE = 2;
 const COLUMNS_NUMBER = 10;
 const LIGNE_NUMBER = 20;
+const BLACKBLOCK = "#393939"
 
 const board_style = {
 	backgroundColor: 'grey',
@@ -27,19 +28,15 @@ const pageStyle = {
 
 const scorePoints = [0, 40, 100, 300, 1200];
 
-const twoDArray = (x, y, fill) =>
-	Array(x)
-		.fill(null)
-		.map(() => Array(y).fill(fill));
-
 const deleteEmptyRow = tab => {
 	const toRemove = [];
 	tab.forEach((row, index) => {
-		if (!row.includes(' ')) toRemove.push(index);
+		if (!row.includes(' ') && !row.includes(BLACKBLOCK))
+			toRemove.push(index);
 	});
 	toRemove.forEach(index => {
 		tab.splice(index, 1);
-		tab.unshift(Array(10).fill(' '));
+		tab.unshift(Array(COLUMNS_NUMBER).fill(' '));
 	});
 	return toRemove.length
 };
@@ -47,10 +44,7 @@ const deleteEmptyRow = tab => {
 const getNextPiece = (array, index) =>
 	index === (array.length - 1) ? 0 : index + 1
 
-const Board = ({ piecesArray, gameName }) => {
-	console.log('pieces:', piecesArray)
-	console.log('gameName:', gameName)
-	const [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '));
+const Board = ({ piecesArray, gameName, tab, setTab, socket }) => {
 	const [pieceIndex, setIndex] = useState(0);
 	const [score, setScore] = useState(0);
 	const finish_cb = (pos, piece) => {
@@ -64,7 +58,11 @@ const Board = ({ piecesArray, gameName }) => {
 		);
 		setIndex(getNextPiece(piecesArray, pieceIndex));
 		const deleted = deleteEmptyRow(tab);
-		if (!!deleted) setScore(score + scorePoints[deleted])
+		if (!!deleted) {
+			setScore(score + scorePoints[deleted])
+		if (deleted > 1)
+			socket.emit('blackLine', {n: deleted - 1})
+		}
 		setTab(tab);
 	};
 	return (

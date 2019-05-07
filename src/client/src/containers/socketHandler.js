@@ -5,17 +5,17 @@ import LoadingRoom from '../components/loadingRoom'
 import MainBoard from './mainBoard'
 
 const PORT = 1337
-
 const URL = 'http://localhost'
+const COLUMNS_NUMBER = 10;
+const LIGNE_NUMBER = 20;
 
-/*
-state incatif -> waiting -> ready -> playing -> gameOver
-Commming from the server:
-	 state,
-	 
+const BLACKBLOCK = "#393939"
 
- callServer('')
-*/
+const twoDArray = (x, y, fill) =>
+	Array(x)
+		.fill(null)
+		.map(() => Array(y).fill(fill));
+
 
 const Handler = ({ socket }) => {
 	const [name, setName] = useState(null)
@@ -24,21 +24,25 @@ const Handler = ({ socket }) => {
 	const [games, setGames] = useState([])
 	const [gameName, setGameName] = useState(null)
 	const [piecesArray, setPiecesArray] = useState(null)
+	const [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
 	useEffect(() => {
-		// socketOn(socket, state, setState)
 		socket.on('getGames', setGames)
 		socket.on('changeState', setState)
 		socket.on('playersList', setPlayers)
 		socket.on('piecesArray', setPiecesArray)
-		socket.on('piecesArray', console.log)
-	}, [])
-	console.log('piecesArray:', piecesArray)
+		socket.on('blackLine', n => {
+			tab.splice(0, n);
+			for (let i = 0; i < n; i++)
+				tab.push(Array(COLUMNS_NUMBER).fill(BLACKBLOCK))
+			setTab(tab)
+		})
+	}, [socket])
 	switch (state) {
 		case "inactive":
 			return <ShowGames games={games} name={name} setName={setName} setGameName={setGameName} socket={socket} />
 		case "ready":
 		case "loading": return <LoadingRoom socket={socket} setState={setState} players={players} gameName={gameName} />
-		case "playing": return <MainBoard piecesArray={piecesArray} gameName={gameName} players={players} />
+		case "playing": return <MainBoard piecesArray={piecesArray} gameName={gameName} players={players} tab={tab} setTab={setTab} socket={socket}/>
 		default: return null
 	}
 }
