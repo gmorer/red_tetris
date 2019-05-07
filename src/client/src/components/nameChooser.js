@@ -6,7 +6,9 @@ const parentStyle = {
 	justifyContent: "center",
 	height: "100%",
 	textAlign: "center",
-	backgroundColor: "blue"
+	backgroundImage: "url('bg.jpg')",
+	backgroundSize: "cover"
+
 }
 
 const inputStyle = {
@@ -14,11 +16,11 @@ const inputStyle = {
 	border: "none",
 	padding: "12px 20px",
 	boxSizing: "border-box",
-	borderRadius: "25px"
+	borderRadius: "25px",
 }
 
 const buttonStyle = {
-	backgroundColor: "green",
+	backgroundColor: "white",
 	marginTop: "1em",
 	border: "none",
 	cursor: "pointer",

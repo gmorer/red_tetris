@@ -5,12 +5,16 @@ import NameChooser from './nameChooser'
 
 const mainStyle = {
 	height: "100%",
+	backgroundImage: "url('bg.jpg')",
+	backgroundSize: "cover",
 	backgroundColor: "blue",
 	overflowY: "auto"
 }
 
 const topBarStyle = {
-	backgroundColor: "red",
+	// backgroundColor: "black",
+	// border: "1px solid #717D88",
+	borderRadius: "5px",
 	textAlign: "end",
 	padding: "1em",
 	marginBottom: "1em",
@@ -35,6 +39,17 @@ const gameListStyle = {
 	padding: "0",
 	margin: "0",
 	alignItems: "center"
+}
+
+const buttonStyle = {
+	marginLeft: "1em",
+	color: "#fff",
+	backgroundColor: "black",
+	borderRadius: "50px",
+	display: "inline-block",
+	border: "none",
+	width: "15em",
+	height: "5em"
 }
 
 const joinGame = (socket, name, id, setGameName) => () => {
@@ -75,10 +90,10 @@ const ShowGames = ({ games, name, socket, setName, setGameName }) => {
 		<div style={mainStyle}>
 			{console.log(games)}
 			<div style={topBarStyle}>
-				{name}
-				<button style={{ marginLeft: "1em" }} onClick={() => setName(null)}>
-					change username
-		</button>
+				<p style={{ display: "inline-block", color: "white", fontSize: "30px" }}>{name}</p>
+				<button style={buttonStyle} onClick={() => setName(null)}>
+					<p style={{ fontSize: "150%" }}>change username</p>
+				</button>
 			</div>
 			<div style={gameListStyle}>
 				<button style={entryStyle} onClick={newGame(socket, name, setGameName)}>+</button>
