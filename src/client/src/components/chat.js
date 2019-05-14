@@ -1,38 +1,67 @@
 import React from "react"
 
 const mainStyle = {
-	backgroundColor: "grey",
+	background: "linear-gradient(to bottom right, black, white)",
+	borderRadius: "10px",
 	width: "50%"
-	// height: "20px"
+}
+
+const inputStyle = {
+	height: "4.5%",
+	width: "80%",
+	borderRadius: "6px",
+	border: "2px solid black",
+	marginTop: "75em"
+}
+
+const buttonStyle = {
+	// position: "relative",
+	// bottom: "0",
+	marginTop: "3em",
+	width: "40%",
+	height: "3%",
+	color: "white",
+	border: "2px solid black",
+	borderRadius: "6px",
+	backgroundColor: "black"
+}
+
+const msgStyle = {
+	backgroundColor: "black",
+	color: "white",
+	width: "80%",
+	height: "10%",
+	borderRadius: "5px"
 }
 
 const sendMessage = (socket, gameName) => () => {
 	let msg = document.getElementById("msg").value.trim();
+	let name = document.getElementById("name").value;
 	if (msg === "")
 		return console.log('votre message est vide')
 	else {
-		socket.emit("newMessage", { msg: msg, gameName: gameName })
+
+		socket.emit("newMessage", { msg: msg, name: name, gameName: gameName })
 	}
 
 }
 
 const messages = [{ user: "toto", msg: "ready" }, { user: "tata", msg: "ready" }, { user: "titi", msg: "ready" }]
 
-const Chat = ({ message, socket, gameName }) => (
+const Chat = ({ message, socket, gameName, name }) => (
 	<div style={mainStyle}>
 		{gameName}
 		{messages.map((e, index) => (
 			<div key={index}>
 				<p > {e.user}</p>
-				<p > {e.msg}</p>
+				<div style={msgStyle}> {e.msg}</div>
 			</div>
 		)
 		)
 		}
-
-		<input placeholder="Your message" id="msg" />
-		<button onClick={sendMessage(socket, gameName)}>Send</button>
-
+		<input style={inputStyle} placeholder="Your message" id="msg" />
+		<input type="hidden" id="name" value={name} />
+		<button style={buttonStyle} onClick={sendMessage(socket, gameName)}>Send</button>
 	</div >
 )
 

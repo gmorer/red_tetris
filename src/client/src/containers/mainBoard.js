@@ -26,7 +26,8 @@ const twoDArray = (x, y, fill) =>
 		.map(() => Array(y).fill(fill));
 
 const pageStyle = {
-	backgroundColor: "blue",
+	backgroundImage: "url('bg.jpg')",
+	backgroundSize: "cover",
 	display: "flex",
 	position: "relative",
 	height: "100%",

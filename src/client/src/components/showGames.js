@@ -88,7 +88,7 @@ const ShowGames = ({ games, name, socket, setName, setGameName }) => {
 	if (!name) return <NameChooser setName={setName} />
 	else return (
 		<div style={mainStyle}>
-			{console.log(games)}
+			{/* {console.log(games)} */}
 			<div style={topBarStyle}>
 				<p style={{ display: "inline-block", color: "white", fontSize: "30px" }}>{name}</p>
 				<button style={buttonStyle} onClick={() => setName(null)}>

@@ -86,6 +86,7 @@ class Game {
 	}
 
 	addMessage(msg, gameName) {
+		console.log(msg)
 		return true
 	}
 

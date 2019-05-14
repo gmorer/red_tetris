@@ -10,7 +10,9 @@ import Chat from "./chat"
 
 const mainStyle = {
 	height: "100%",
-	backgroundColor: "blue",
+	backgroundImage: "url('bg.jpg')",
+	backgroundSize: "cover",
+	// backgroundColor: "blue",
 	textAlign: "center"
 }
 
@@ -40,7 +42,7 @@ const PlayerCard = ({ name, state }, index) => (
 		</div>
 		<div style={stateStyle(state)}>
 			<b>
-				{console.log(state)}
+				{/* {console.log(state)} */}
 				{state}
 			</b>
 		</div>
@@ -57,15 +59,15 @@ const readyButton = (socket, setState) => () => {
 	socket.emit('changeState', "ready")
 }
 
-const LoadingRoom = ({ socket, setState, players, gameName, messages }) => (
+const LoadingRoom = ({ socket, setState, players, gameName, messages, name }) => (
 	<div style={mainStyle}>
 		<div style={{ paddingTop: "1em", paddingBottom: "1em" }}>
 			<b style={{ fontSize: "3em" }}>{gameName}</b>
 			<button style={{ margin: "1em", float: "right" }} onClick={exitRoom(socket, setState)}>Exit Room</button>
 		</div>
 		<div style={{ display: "flex", height: "90%", marginLeft: "5%", width: "90%" }}>
-			<Chat messages={messages} socket={socket} gameName={gameName} />
-			{/* <div style={{ width: "50%", backgroundColor: "grey" }}>Tchat</div> */}
+			{/* {console.log(players)} */}
+			<Chat messages={messages} socket={socket} gameName={gameName} name={name} />
 			<div style={{ width: "65%", display: "flex", justifyContent: "space-evenly", marginLeft: "5%" }}>
 				{players.map(PlayerCard)}
 				<button onClick={readyButton(socket, setState)} style={{ position: "fixed", bottom: "4em", right: "4em", borderRadius: "20px", height: "6em", width: "10em", backgroundColor: "green" }}><b>Ready</b></button>
