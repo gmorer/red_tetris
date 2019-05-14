@@ -34,34 +34,36 @@ const msgStyle = {
 	borderRadius: "5px"
 }
 
-const sendMessage = (socket, gameName) => () => {
+const sendMessage = (socket, name, gameName) => () => {
 	let msg = document.getElementById("msg").value.trim();
-	let name = document.getElementById("name").value;
+	// let name = document.getElementById("name").value;
 	if (msg === "")
 		return console.log('votre message est vide')
 	else {
 
-		socket.emit("newMessage", { msg: msg, name: name, gameName: gameName })
+		socket.emit("newMessage", { msg, name, gameId: gameName })
+		document.getElementById("msg").value = "";
 	}
 
 }
 
-const messages = [{ user: "toto", msg: "ready" }, { user: "tata", msg: "ready" }, { user: "titi", msg: "ready" }]
+const messagdes = [{ user: "toto", msg: "ready" }, { user: "tata", msg: "ready" }, { user: "titi", msg: "ready" }]
 
-const Chat = ({ message, socket, gameName, name }) => (
+const Chat = ({ messages, socket, gameName, name }) => (
 	<div style={mainStyle}>
 		{gameName}
-		{messages.map((e, index) => (
-			<div key={index}>
-				<p > {e.user}</p>
-				<div style={msgStyle}> {e.msg}</div>
-			</div>
-		)
-		)
+		{/* {console.log("msgs: ", messages)} */}
+		{
+			messages.map((e, index) => (
+				<div key={index}>
+					<p > {e.name}</p>
+					<div style={msgStyle}> {e.msg}</div>
+				</div>
+			)
+			)
 		}
 		<input style={inputStyle} placeholder="Your message" id="msg" />
-		<input type="hidden" id="name" value={name} />
-		<button style={buttonStyle} onClick={sendMessage(socket, gameName)}>Send</button>
+		<button style={buttonStyle} onClick={sendMessage(socket, name, gameName)}>Send</button>
 	</div >
 )
 

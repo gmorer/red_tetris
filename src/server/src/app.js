@@ -36,12 +36,13 @@ const launch = (socket, io) => {
 		return cb(false)
 	})
 
-	socket.on('newMessage', ({ msg, name, gameName }, cb) => {
-		console.log(msg)
-		console.log(name)
-		console.log(gameName)
-		const game = games[getGameId(gameName)]
-		// game.addMessage(msg, gameName)
+	socket.on('newMessage', ({ msg, name, gameId }, cb) => {
+		console.log("msg: ", msg)
+		console.log("name: ", name)
+		console.log("gameId: ", gameId)
+		const game = games[getGameId(gameId)]
+		if (!game) return
+		game.addMessage(msg, name)
 	})
 	socket.on('disconnect', disconnect(socket, io))
 	socket.on('disconnectFromGame', disconnect(socket, io))

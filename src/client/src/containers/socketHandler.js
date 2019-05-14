@@ -23,15 +23,22 @@ const Handler = ({ socket }) => {
 	const [games, setGames] = useState([])
 	const [gameName, setGameName] = useState(null)
 	const [piecesArray, setPiecesArray] = useState(null)
-	const [messages, setMessage] = useState([])
+	let [messages, setMessage] = useState(new Array())
 	const [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
 	useEffect(() => {
 		socket.on('getGames', setGames)
 		socket.on('changeState', setState)
 		socket.on('playersList', setPlayers)
 		socket.on('piecesArray', setPiecesArray)
-		socket.on('piecesArray', console.log)
-		socket.on('newMessage', message => { messages.push(message); setMessage(messages); console.log(messages) })
+		socket.on('getMessages', newMessages => {
+			setMessage(newMessages);
+			messages = newMessages
+			socket.on('newMessage', args => {
+				const newNewMessages = messages.concat([args])
+				messages = newNewMessages;
+				setMessage(newNewMessages);
+			})
+		})
 		socket.on('blackLine', n => {
 			tab.splice(0, n);
 			for (let i = 0; i < n; i++)
@@ -39,7 +46,7 @@ const Handler = ({ socket }) => {
 			setTab(tab)
 		})
 	}, [socket])
-	console.log('piecesArray:', piecesArray)
+	// console.log('piecesArray:', piecesArray)
 	// return <LoadingRoom socket={socket} setState={setState} players={players} gameName={gameName} messages={messages} />
 
 
@@ -47,7 +54,7 @@ const Handler = ({ socket }) => {
 		case "inactive":
 			return <ShowGames games={games} name={name} setName={setName} setGameName={setGameName} socket={socket} />
 		case "ready":
-		case "loading": return <LoadingRoom socket={socket} setState={setState} players={players} gameName={gameName} messages={messages} />
+		case "loading": return <LoadingRoom socket={socket} setState={setState} players={players} gameName={gameName} messages={messages} name={name} />
 		case "gameOver":
 		case "playing": return <MainBoard piecesArray={piecesArray} gameName={gameName} players={players} tab={tab} setTab={setTab} socket={socket} setState={setState} state={state} setPiecesArray={setPiecesArray} />
 		default: return null

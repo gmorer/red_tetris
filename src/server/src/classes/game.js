@@ -79,16 +79,19 @@ class Game {
 		const playersList = getPlayerList(this.players)
 		if (playersList.some(player => player.name === name)) return false // one player already with the same name
 		playersList.push({ name, state: "loading" })
-		this.players.push(new Player(name, socket, this.cb))
+		const index = this.players.push(new Player(name, socket, this.cb))
 		console.log(playersList)
 		this.players.forEach(player => player.newPlayerList(playersList, this.id))
+		this.players[index - 1].sendMessages(this.messages)
 		return true
 	}
 
-	addMessage(msg, gameName) {
-		console.log(msg)
+	addMessage(msg, name) {
+		this.messages.push({ name, msg })
+		this.players.forEach(player => player.sendMessage(msg, name))
 		return true
 	}
+
 
 	getId() { return this.id }
 	getState() { return this.state }

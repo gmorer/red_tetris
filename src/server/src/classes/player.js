@@ -60,6 +60,14 @@ class Player {
 		}
 	}
 
+	sendMessage(msg, name) {
+		this.socket.emit('newMessage', { msg, name });
+	}
+
+	sendMessages(msgs) {
+		this.socket.emit('getMessages', msgs);
+	}
+
 	newPlayerList(players) { console.log('hey'); this.socket.emit('playersList', players) }
 	givePieces(pieces) { this.socket.emit('piecesArray', pieces) }
 	isId(id) { return id === this.id }
