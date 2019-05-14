@@ -36,7 +36,7 @@ class Game {
 			player.newPlayerList(playersList, this.id)
 			if (player.getState() !== newState) all_same = false
 		})
-		if (all_same) {
+		if (all_same && this.players.length > 0) {
 			if (this.players[0].getState() === 'ready') {
 				/* NEW GAME */
 				const piecesSet = random_pieces_array(500);
@@ -46,7 +46,7 @@ class Game {
 					player.changeState('playing')
 				})
 			}
-			else if (this.players[0].getState() === 'game_over') {
+			else if (this.players[0].getState() === 'gameOver') {
 				/* GAME FINISHED */
 				this.state = 'loading';
 				this.players.forEach(player => player.changeState('loading'))

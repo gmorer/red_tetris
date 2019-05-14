@@ -1,10 +1,10 @@
 import React from 'react';
 import Block from './block'
 
-const piece_style = ({
+const piece_style = state => ({
 	width: "100%",
 	height: "100%",
-	marginTop: "-40%",
+	marginTop: state === "gameOver" ? null : "-40%",
 	display: "flex",
 	flexDirection: "column"
 })
@@ -23,8 +23,8 @@ const cube_style = (actual) => ({
 	// border: "2px solid black"
 })
 
-const PutedPieces = ({ tab }) => (
-	<div style={piece_style}>
+const PutedPieces = ({ tab, state }) => (
+	<div style={piece_style(state)}>
 		{tab.map((column, index) => (
 			<div key={index} style={column_style}>
 				{column.map((actual, index) => {

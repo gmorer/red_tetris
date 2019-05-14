@@ -5,17 +5,16 @@ import LoadingRoom from '../components/loadingRoom'
 import MainBoard from './mainBoard'
 
 const PORT = 1337
-
 const URL = 'http://localhost'
+const COLUMNS_NUMBER = 10;
+const LIGNE_NUMBER = 20;
 
-/*
-state incatif -> waiting -> ready -> playing -> gameOver
-Commming from the server:
-	 state,
-	 
+const BLACKBLOCK = "#393939"
 
- callServer('')
-*/
+const twoDArray = (x, y, fill) =>
+	Array(x)
+		.fill(null)
+		.map(() => Array(y).fill(fill));
 
 const Handler = ({ socket }) => {
 	const [name, setName] = useState(null)
@@ -25,24 +24,32 @@ const Handler = ({ socket }) => {
 	const [gameName, setGameName] = useState(null)
 	const [piecesArray, setPiecesArray] = useState(null)
 	const [messages, setMessage] = useState([])
+	const [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
 	useEffect(() => {
-		// socketOn(socket, state, setState)
 		socket.on('getGames', setGames)
 		socket.on('changeState', setState)
 		socket.on('playersList', setPlayers)
 		socket.on('piecesArray', setPiecesArray)
 		socket.on('piecesArray', console.log)
 		socket.on('newMessage', message => { messages.push(message); setMessage(messages); console.log(messages) })
-	}, [])
+		socket.on('blackLine', n => {
+			tab.splice(0, n);
+			for (let i = 0; i < n; i++)
+				tab.push(Array(COLUMNS_NUMBER).fill(BLACKBLOCK))
+			setTab(tab)
+		})
+	}, [socket])
 	console.log('piecesArray:', piecesArray)
 	// return <LoadingRoom socket={socket} setState={setState} players={players} gameName={gameName} messages={messages} />
+
 
 	switch (state) {
 		case "inactive":
 			return <ShowGames games={games} name={name} setName={setName} setGameName={setGameName} socket={socket} />
 		case "ready":
 		case "loading": return <LoadingRoom socket={socket} setState={setState} players={players} gameName={gameName} messages={messages} />
-		case "playing": return <MainBoard piecesArray={piecesArray} gameName={gameName} players={players} />
+		case "gameOver":
+		case "playing": return <MainBoard piecesArray={piecesArray} gameName={gameName} players={players} tab={tab} setTab={setTab} socket={socket} setState={setState} state={state} setPiecesArray={setPiecesArray} />
 		default: return null
 	}
 }
