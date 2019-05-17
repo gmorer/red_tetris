@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import DisplayPiece from "../components/piece"
 
+// TODO make those fuctions pure
+
 const IsItBlock = (piece, pos, tab) => {
 	return piece.position[pos.rotation].display.some((row, y) => row.some((cube, x) => {
 		if (y + pos.y >= 20) return false // hmmm
@@ -31,7 +33,7 @@ const goDown = (pos, piece, setPose, finish_cb, tab) => {
 		setPose({ ...pos, y: pos.y + 1, last_interval: Date.now() })
 }
 
-const goSpace = (pos, piece, setPose, finish_cb, tab) => {
+const goSpace = (pos, piece, setPose, tab) => {
 	if (pos.space_trigered) return
 	for (let i = 0; ; i++) {
 		if (pos.y + i - piece.position[pos.rotation].hitbox.bot >= 17 ||
@@ -59,7 +61,7 @@ const Piece = ({ piece, finish_cb, tab }) => {
 			case 'ArrowUp':
 				return rotate(pos, piece, setPose, tab)
 			case ' ':
-				return goSpace(pos, piece, setPose, finish_cb, tab)
+				return goSpace(pos, piece, setPose, tab)
 			default: return
 		}
 	}

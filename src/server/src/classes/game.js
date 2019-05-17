@@ -60,9 +60,9 @@ class Game {
 		})
 	}
 
-	boardCB(id, board) {
+	boardCB(name, id, board) {
 		informPlayers(this.players, id, player => {
-			player.newPlayerBoard(id, board)
+			player.newPlayerBoard(name, board)
 		})
 	}
 

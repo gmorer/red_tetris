@@ -23,13 +23,14 @@ const cube_style = (actual) => ({
 	// border: "2px solid black"
 })
 
-const PutedPieces = ({ tab, state }) => (
+const PutedPieces = ({ tab, state, mode }) => (
 	<div style={piece_style(state)}>
 		{tab.map((column, index) => (
 			<div key={index} style={column_style}>
 				{column.map((actual, index) => {
 					if (actual === ' ')
 						return <div key={index} style={cube_style(actual)} />
+					else if (mode === "dark") return <div key={index} style={cube_style("black")} />
 					else return <Block key={index} color={actual} height="100%" width="10%" />
 				}
 				)}

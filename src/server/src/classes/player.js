@@ -24,9 +24,9 @@ class Player {
 		socket.on('blackLine', ({ n }) => {
 			cb('blackLine', this.id, n)
 		})
-		socket.on('BoardChange', ({ board }) => {
+		socket.on('boardChange', board => {
 			this.board = board;
-			cb('board', this.id, board)
+			cb('board', this.name, this.id, board)
 		})
 	}
 
@@ -45,8 +45,8 @@ class Player {
 		this.socket.emit('changeState', state)
 	}
 
-	newPlayerBoard(id, board) {
-		this.socket.emit('newPlayerBoard', { id, board })
+	newPlayerBoard(name, board) {
+		this.socket.emit('newPlayerBoard', { name, board })
 	}
 
 	getBlackLine(n) {
