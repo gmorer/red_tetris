@@ -1,22 +1,22 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon index.js",
-	"build": "webpack --config webpack.config.js",
-	"production": "node server.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "nodemon": "^1.18.11",
-    "socketio": "^1.0.0",
-    "webpack": "4.32.0"
-  },
-  "devDependencies": {
-    "webpack-cli": "^3.3.2"
-  }
+	"name": "server",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "nodemon index.js",
+		"build": "webpack --config webpack.config.js",
+		"production": "PORT=80 node server.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"nodemon": "^1.18.11",
+		"socketio": "^1.0.0",
+		"webpack": "4.32.0"
+	},
+	"devDependencies": {
+		"webpack-cli": "^3.3.2"
+	}
 }

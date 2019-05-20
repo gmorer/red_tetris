@@ -47,8 +47,6 @@ const sendMessage = (socket, name, gameName) => () => {
 
 }
 
-const messagdes = [{ user: "toto", msg: "ready" }, { user: "tata", msg: "ready" }, { user: "titi", msg: "ready" }]
-
 const Chat = ({ messages, socket, gameName, name }) => (
 	<div style={mainStyle}>
 		{gameName}

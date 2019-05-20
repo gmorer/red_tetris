@@ -4,8 +4,8 @@ import ShowGames from '../components/showGames'
 import LoadingRoom from '../components/loadingRoom'
 import MainBoard from './mainBoard'
 
-const PORT = 1337
-const URL = 'http://localhost'
+const PORT = 8080
+const URL = process.env.NODE_ENV === 'production' ? '/' : `http://localhost:${PORT}`;
 const COLUMNS_NUMBER = 10;
 const LIGNE_NUMBER = 20;
 
@@ -34,7 +34,7 @@ const Handler = ({ socket }) => {
 	const [gameName, setGameName] = useState(null)
 	const [piecesArray, setPiecesArray] = useState(null)
 	const [init, setInit] = useState(false)
-	let [messages, setMessage] = useState(new Array())
+	let [messages, setMessage] = useState([])
 	const [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
 	useEffect(() => {
 		if (!init) {
@@ -44,7 +44,7 @@ const Handler = ({ socket }) => {
 			socket.on('piecesArray', setPiecesArray)
 			socket.on('getMessages', newMessages => {
 				setMessage(newMessages);
-				messages = newMessages
+				messages = newMessages // eslint-disable-line
 				socket.on('newMessage', args => {
 					const newNewMessages = messages.concat([args])
 					messages = newNewMessages;
@@ -69,7 +69,7 @@ const Handler = ({ socket }) => {
 						return entry
 					})
 				setBoards(updatedBoards)
-				boards = updatedBoards;
+				boards = updatedBoards; // eslint-disable-line
 			})
 			setInit(true)
 		}
@@ -89,7 +89,7 @@ const Handler = ({ socket }) => {
 	}
 }
 const Connector = () => {
-	const socket = openSocket(`${URL}:${PORT}`);
+	const socket = openSocket(`${URL}`);
 	socket.on('message', console.log)
 	socket.emit('message', { a: 'mdr' })
 	return <Handler socket={socket} />

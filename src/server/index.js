@@ -4,7 +4,7 @@ const fs = require('fs')
 const socketio = require('socket.io')
 const launch = require('./src/app')
 
-const PORT = process.env.port || 1337
+const PORT = process.env.PORT || 8080
 
 
 const error404 = (_, res) => {
@@ -13,7 +13,7 @@ const error404 = (_, res) => {
 }
 
 const sendFile = (req, res) => {
-	const file_path = path.normalize(__dirname + '/public/' + req.url)
+	const file_path = path.normalize('.' + '/public/' + (req.url === '/' ? 'index.html' : req.url)) // __dirname not working in the www folder
 	fs.access(file_path, fs.R_OK, err => {
 		if (!!err || !fs.lstatSync(file_path).isFile()) return error404(req, res)
 		const fileReadStrim = fs.createReadStream(file_path);
@@ -22,7 +22,7 @@ const sendFile = (req, res) => {
 }
 
 const handler = (req, res) => {
-		return sendFile(req, res)
+	return sendFile(req, res)
 };
 
 const server = http.createServer(handler);
