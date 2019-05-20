@@ -16,6 +16,15 @@ const twoDArray = (x, y, fill) =>
 		.fill(null)
 		.map(() => Array(y).fill(fill));
 
+const tabToPreview = tab => {
+	const result = tab.map(y => y.map(x => x))
+	result.forEach((line, y) =>
+		line.forEach((cube, x) => {
+			if (y !== 0 && result[y - 1][x] !== ' ') result[y][x] = "black"
+		}))
+	return result;
+}
+
 const Handler = ({ socket }) => {
 	const [name, setName] = useState(null)
 	const [state, setState] = useState("inactive")
@@ -46,7 +55,8 @@ const Handler = ({ socket }) => {
 				tab.splice(0, n);
 				for (let i = 0; i < n; i++)
 					tab.push(Array(COLUMNS_NUMBER).fill(BLACKBLOCK))
-				setTab(tab)
+				setTab(tab.map(a => a))
+				socket.emit('boardChange', tabToPreview(tab))
 			})
 			socket.on('newPlayerBoard', ({ board, name }) => {
 				const updateIndex = boards.findIndex(board => board.name === name)
