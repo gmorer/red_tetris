@@ -6,13 +6,6 @@ const launch = require('./src/app')
 
 const PORT = process.env.port || 1337
 
-const getIndex = (req, res) => {
-	res.end('Hey')
-}
-
-const specialndpoint = {
-	'/': getIndex
-}
 
 const error404 = (_, res) => {
 	res.statusCode = 404
@@ -29,9 +22,6 @@ const sendFile = (req, res) => {
 }
 
 const handler = (req, res) => {
-	if (!!specialndpoint[req.url])
-		return specialndpoint[req.url](req, res)
-	else
 		return sendFile(req, res)
 };
 
