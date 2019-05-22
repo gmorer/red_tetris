@@ -14,7 +14,7 @@ build:
 	cp $(SERVER_DIRECTORY)/build/server.js www/
 	# npm i --prefix www
 
-docker: build docker-build docker-run
+docker: build docker-buil3d docker-run
 
 docker-build:
 	docker build -t $(DOCKER_NAME) .

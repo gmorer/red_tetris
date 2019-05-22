@@ -1,8 +1,6 @@
 import React from 'react'
 import NameChooser from './nameChooser'
 
-// const games = [{ id: "superGame", no: 6 }]
-
 const mainStyle = {
 	height: "100%",
 	backgroundImage: "url('bg.jpg')",
@@ -12,8 +10,6 @@ const mainStyle = {
 }
 
 const topBarStyle = {
-	// backgroundColor: "black",
-	// border: "1px solid #717D88",
 	borderRadius: "5px",
 	textAlign: "end",
 	padding: "1em",
@@ -88,7 +84,6 @@ const ShowGames = ({ games, name, socket, setName, setGameName }) => {
 	if (!name) return <NameChooser setName={setName} />
 	else return (
 		<div style={mainStyle}>
-			{/* {console.log(games)} */}
 			<div style={topBarStyle}>
 				<p style={{ display: "inline-block", color: "white", fontSize: "30px" }}>{name}</p>
 				<button style={buttonStyle} onClick={() => setName(null)}>

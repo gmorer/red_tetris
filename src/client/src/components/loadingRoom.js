@@ -1,18 +1,10 @@
 import React from "react"
 import Chat from "./chat"
 
-// const players = [
-// 	{ name: "linus", state: "ready" },
-// 	{ name: "torvald", state: "loading" },
-// 	{ name: "smash", state: "loading" },
-// 	{ name: "bros", state: "ready" }
-// ]
-
 const mainStyle = {
 	height: "100%",
 	backgroundImage: "url('bg.jpg')",
 	backgroundSize: "cover",
-	// backgroundColor: "blue",
 	textAlign: "center"
 }
 
@@ -42,7 +34,6 @@ const PlayerCard = ({ name, state }, index) => (
 		</div>
 		<div style={stateStyle(state)}>
 			<b>
-				{/* {console.log(state)} */}
 				{state}
 			</b>
 		</div>
