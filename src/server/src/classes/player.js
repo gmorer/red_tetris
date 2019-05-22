@@ -21,13 +21,16 @@ class Player {
 			this.state = state;
 			cb('state', this.id, state);
 		})
-		socket.on('blackLine', ({ n }) => {
+		socket.on('blackLine', ({ n }) =>
 			cb('blackLine', this.id, n)
-		})
+		)
 		socket.on('boardChange', board => {
 			this.board = board;
 			cb('board', this.name, this.id, board)
 		})
+		socket.on('newMessage', args => 
+			cb('newMessage', this.name, args)
+		)
 	}
 
 	/* Bonus */

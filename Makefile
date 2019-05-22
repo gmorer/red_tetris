@@ -3,7 +3,7 @@ SERVER_DIRECTORY := src/server
 DOCKER_NAME := red_tetris
 PORT := 8080
 
-all: build run
+all: build
 
 build:
 	npm run build --prefix $(CLIENT_DIRECTORY)
@@ -14,6 +14,10 @@ build:
 	cp $(SERVER_DIRECTORY)/build/server.js www/
 	# npm i --prefix www
 
-run:
+docker: build docker-build docker-run
+
+docker-build:
 	docker build -t $(DOCKER_NAME) .
+
+docker-run:
 	docker run --restart=always -p $(PORT):8080 -d $(DOCKER_NAME)

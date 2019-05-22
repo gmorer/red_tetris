@@ -19,30 +19,20 @@ const disconnect = (socket, io) => () => {
 
 const launch = (socket, io) => {
 	socket.emit('getGames', packGames())
-	socket.on('newGame', ({ gameId, playerId }, cb) => {
-		if (getGameId(gameId) !== -1) return cb(false) // cb
-		const newGame = new Game(gameId)
-		newGame.addPlayer(playerId, socket)
-		games.push(newGame)
-		io.emit('getGames', packGames())
-		return cb(true)
-	})
-	socket.on('connectToGame', ({ playerId, gameId }, cb) => {
+	socket.on('hideConnect', ({ playerId, gameId }, cb) => {
 		const game = games[getGameId(gameId)]
-		if (game.addPlayer(playerId, socket)) {
+		if (!game) {
+			const newGame = new Game(gameId)
+			newGame.addPlayer(playerId, socket)
+			games.push(newGame)
 			io.emit('getGames', packGames())
-			return cb(true)
+			cb(true)
+		} else {
+			if (game.addPlayer(playerId, socket)) {
+				io.emit('getGames', packGames())
+				cb(true)
+			} else cb(false)
 		}
-		return cb(false)
-	})
-
-	socket.on('newMessage', ({ msg, name, gameId }, cb) => {
-		console.log("msg: ", msg)
-		console.log("name: ", name)
-		console.log("gameId: ", gameId)
-		const game = games[getGameId(gameId)]
-		if (!game) return
-		game.addMessage(msg, name)
 	})
 	socket.on('disconnect', disconnect(socket, io))
 	socket.on('disconnectFromGame', disconnect(socket, io))

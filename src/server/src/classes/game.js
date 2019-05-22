@@ -25,6 +25,7 @@ class Game {
 				case 'board': return this.boardCB(...args)
 				case 'disconnect': return this.disconnect(...args)
 				case 'quit': return this.disconnect(...args)
+				case 'newMessage': return this.addMessage(args.msg, name)
 			}
 		}
 	}

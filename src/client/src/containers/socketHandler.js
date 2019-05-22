@@ -25,19 +25,23 @@ const tabToPreview = tab => {
 	return result;
 }
 
-const Handler = ({ socket }) => {
-	const [name, setName] = useState(null)
+const Handler = ({ socket, defaultGameName, defaultName }) => {
+	const [name, setName] = useState(defaultName)
 	const [state, setState] = useState("inactive")
 	const [players, setPlayers] = useState([])
 	let [boards, setBoards] = useState([])
 	const [games, setGames] = useState([])
-	const [gameName, setGameName] = useState(null)
+	const [gameName, setGameName] = useState(defaultGameName)
 	const [piecesArray, setPiecesArray] = useState(null)
 	const [init, setInit] = useState(false)
 	let [messages, setMessage] = useState([])
 	const [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
 	useEffect(() => {
 		if (!init) {
+			if (defaultGameName && defaultName)
+				socket.emit('hideConnect', {gameId: gameName, playerId: name}, res => (
+					!res ? alert("Error, cannot join/create the game") : setState("loading")
+				))
 			socket.on('getGames', setGames)
 			socket.on('changeState', setState)
 			socket.on('playersList', setPlayers)
@@ -74,9 +78,6 @@ const Handler = ({ socket }) => {
 			setInit(true)
 		}
 	})
-	// console.log('piecesArray:', piecesArray)
-	// return <LoadingRoom socket={socket} setState={setState} players={players} gameName={gameName} messages={messages} />
-
 
 	switch (state) {
 		case "inactive":
@@ -89,9 +90,15 @@ const Handler = ({ socket }) => {
 	}
 }
 const Connector = () => {
-	const socket = openSocket(`${URL}`);
-	socket.on('message', console.log)
-	socket.emit('message', { a: 'mdr' })
+	const socket = openSocket(URL);
+	const regexResult = /\#(.*)\[(.*)\]/.exec(window.location.hash)
+	if (!!regexResult) {
+		return <Handler
+			socket={socket}
+			defaultName={regexResult[1].trim() || null}
+			defaultGameName={regexResult[2].trim() || null}
+		/>
+	}
 	return <Handler socket={socket} />
 }
 

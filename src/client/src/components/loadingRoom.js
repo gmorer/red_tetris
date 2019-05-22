@@ -65,7 +65,7 @@ const LoadingRoom = ({ socket, setState, players, gameName, messages, name }) =>
 			<b style={{ fontSize: "3em", color: "white" }}>{gameName}</b>
 			<button style={{ margin: "1em", float: "right" }} onClick={exitRoom(socket, setState)}>Exit Room</button>
 		</div>
-		<div style={{ display: "flex", height: "90%", marginLeft: "5%", width: "90%" }}>
+		<div style={{ display: "flex", height: "40%", marginLeft: "5%", width: "90%" }}>
 			<Chat messages={messages} socket={socket} gameName={gameName} name={name} />
 			<div style={{ width: "65%", display: "flex", justifyContent: "space-evenly", marginLeft: "5%" }}>
 				{players.map(PlayerCard)}

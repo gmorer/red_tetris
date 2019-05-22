@@ -53,7 +53,7 @@ const buttonStyle = {
 }
 
 const joinGame = (socket, name, id, setGameName) => () => {
-	socket.emit('connectToGame', { playerId: name, gameId: id }, itWorked => {
+	socket.emit('hideConnect', { playerId: name, gameId: id }, itWorked => {
 		if (!itWorked) alert("Error maybe someone as the same name as you in that game")
 		else setGameName(id)
 	})
@@ -78,7 +78,7 @@ const newGame = (socket, playerId, setGameName) => () => {
 	const gameId = prompt("Enter game name");
 	if (gameId === null) return
 	if (!gameId.trim()) return alert("invalid name")
-	socket.emit('newGame', { gameId: gameId.trim(), playerId }, itWorked => {
+	socket.emit('hideConnect', { gameId: gameId.trim(), playerId }, itWorked => {
 		if (!itWorked) alert("Error maybe the name is already taken")
 		else setGameName(gameId)
 	})
