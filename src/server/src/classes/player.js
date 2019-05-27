@@ -9,38 +9,31 @@ const BOARD_WIDTH = 10;
 */
 
 class Player {
-	constructor(name, socket, cb) {
-		this.name = name;
+	constructor(socket) {
+		this.name = null;
 		this.socket = socket;
-		this.state = "loading";
+		this.state = 'waiting';
 		this.id = socket.id;
 		this.board = twoDArray(BOARD_HEIGHT, BOARD_WIDTH, ' ');
-		this.cb = cb
-		socket.emit('changeState', 'loading')
+		this.cb = null;
 		socket.on('changeState', state => {
+			if (!this.cb) return
 			this.state = state;
-			cb('state', this.id, state);
+			this.cb('state', this.id, state) 
 		})
-		socket.on('blackLine', ({ n }) =>
-			cb('blackLine', this.id, n)
-		)
+		socket.on('blackLine', ({ n }) => {
+			if (!this.cb) return
+			this.cb('blackLine', this.id, n)
+		})
 		socket.on('boardChange', board => {
+			if (!this.cb) return
 			this.board = board;
-			cb('board', this.name, this.id, board)
+			this.cb('boardChange', this.name, this.id, board)
 		})
-		socket.on('newMessage', args => 
-			cb('newMessage', this.name, args)
-		)
-	}
-
-	/* Bonus */
-	setDifficulty(n) {
-		if (n >= 20 || n < 0) return;
-		this.board = this.board.slice(n);
-		while (n) {
-			this.board.push(new Array(BOARD_WIDTH).fill(BLACK))
-			n--;
-		}
+		socket.on('newMessage', args => {
+			if (!this.cb) return
+			this.cb('newMessage', this.name, args)
+		})
 	}
 
 	changeState(state) {
@@ -71,11 +64,13 @@ class Player {
 		this.socket.emit('getMessages', msgs);
 	}
 
-	newPlayerList(players) { console.log('hey'); this.socket.emit('playersList', players) }
+	newPlayerList(players) { this.socket.emit('playersList', players) }
 	givePieces(pieces) { this.socket.emit('piecesArray', pieces) }
 	isId(id) { return id === this.id }
 
 	/* GETTER */
+	setName(name) { this.name = name }
+	setCb(cb) { this.cb = cb }
 	getState() { return this.state }
 	getName() { return this.name }
 	getId() { return this.id }

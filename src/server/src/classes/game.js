@@ -25,7 +25,7 @@ class Game {
 				case 'board': return this.boardCB(...args)
 				case 'disconnect': return this.disconnect(...args)
 				case 'quit': return this.disconnect(...args)
-				case 'newMessage': return this.addMessage(args.msg, name)
+				case 'newMessage': return this.addMessage(...args)
 			}
 		}
 	}
@@ -69,25 +69,27 @@ class Game {
 
 	disconnect(id) {
 		let index = this.players.findIndex(player => player.getId() === id)
-		delete this.players[index];
+		this.players[index].setCb(null)
 		this.players.splice(index, 1)
 		const playersList = getPlayerList(this.players)
 		this.players.forEach(player => player.newPlayerList(playersList))
 	}
 
-	addPlayer(name, socket) {
+	addPlayer(player, name) {
 		if (this.state === 'playing') return false
 		const playersList = getPlayerList(this.players)
 		if (playersList.some(player => player.name === name)) return false // one player already with the same name
 		playersList.push({ name, state: "loading" })
-		const index = this.players.push(new Player(name, socket, this.cb))
-		console.log(playersList)
+		player.setName(name)
+		player.changeState('loading')
+		player.setCb(this.cb)
+		const index = this.players.push(player)
 		this.players.forEach(player => player.newPlayerList(playersList, this.id))
 		this.players[index - 1].sendMessages(this.messages)
 		return true
 	}
 
-	addMessage(msg, name) {
+	addMessage(name, msg) {
 		this.messages.push({ name, msg })
 		this.players.forEach(player => player.sendMessage(msg, name))
 		return true

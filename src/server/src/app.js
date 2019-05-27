@@ -1,4 +1,5 @@
 const Game = require('./classes/game')
+const Player = require('./classes/player')
 
 let games = []
 
@@ -18,17 +19,18 @@ const disconnect = (socket, io) => () => {
 }
 
 const launch = (socket, io) => {
+	const player = new Player(socket);
 	socket.emit('getGames', packGames())
 	socket.on('hideConnect', ({ playerId, gameId }, cb) => {
 		const game = games[getGameId(gameId)]
 		if (!game) {
 			const newGame = new Game(gameId)
-			newGame.addPlayer(playerId, socket)
+			newGame.addPlayer(player, playerId, socket)
 			games.push(newGame)
 			io.emit('getGames', packGames())
 			cb(true)
 		} else {
-			if (game.addPlayer(playerId, socket)) {
+			if (game.addPlayer(player, playerId, socket)) {
 				io.emit('getGames', packGames())
 				cb(true)
 			} else cb(false)

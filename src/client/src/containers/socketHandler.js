@@ -46,14 +46,14 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 			socket.on('changeState', setState)
 			socket.on('playersList', setPlayers)
 			socket.on('piecesArray', setPiecesArray)
-			socket.on('getMessages', newMessages => {
+			socket.on('getMessages',args => {
+				setMessage(args);
+				messages = args;
+			})
+			socket.on('newMessage', args => {
+				const newMessages = messages.concat([args])
+				messages = newMessages;
 				setMessage(newMessages);
-				messages = newMessages // eslint-disable-line
-				socket.on('newMessage', args => {
-					const newNewMessages = messages.concat([args])
-					messages = newNewMessages;
-					setMessage(newNewMessages);
-				})
 			})
 			socket.on('blackLine', n => {
 				tab.splice(0, n);
