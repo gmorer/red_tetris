@@ -5,7 +5,7 @@ import LoadingRoom from '../components/loadingRoom'
 import MainBoard from './mainBoard'
 
 const PORT = 8080
-const URL = process.env.NODE_ENV === 'production' ? '/' : `http://localhost:${PORT}`;
+const URL = process.env.NODE_ENV === 'production' ? '/' : `10.18.192.14:${PORT}`;
 const COLUMNS_NUMBER = 10;
 const LIGNE_NUMBER = 20;
 
@@ -35,15 +35,22 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 	const [piecesArray, setPiecesArray] = useState(null)
 	const [init, setInit] = useState(false)
 	let [messages, setMessage] = useState([])
-	const [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
+	let [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
 	useEffect(() => {
-		if (!init) {
+		// if (!init) {
+			console.log('INITTTTT')
 			if (defaultGameName && defaultName)
 				socket.emit('hideConnect', {gameId: gameName, playerId: name}, res => (
 					!res ? alert("Error, cannot join/create the game") : setState("loading")
 				))
 			socket.on('getGames', setGames)
-			socket.on('changeState', setState)
+			socket.on('changeState', newState => {
+				if (newState === 'loading') {
+					tab = twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' ')
+					setTab(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
+				}
+				setState(newState)
+			})
 			socket.on('playersList', setPlayers)
 			socket.on('piecesArray', setPiecesArray)
 			socket.on('getMessages',args => {
@@ -56,7 +63,7 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 				setMessage(newMessages);
 			})
 			socket.on('blackLine', n => {
-				tab.splice(0, n);
+				tab.splice(0, n)
 				for (let i = 0; i < n; i++)
 					tab.push(Array(COLUMNS_NUMBER).fill(BLACKBLOCK))
 				setTab(tab.map(a => a))
@@ -75,9 +82,9 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 				setBoards(updatedBoards)
 				boards = updatedBoards; // eslint-disable-line
 			})
-			setInit(true)
-		}
-	})
+			// setInit(true)
+		// }
+	}, [])
 
 	switch (state) {
 		case "inactive":
@@ -85,7 +92,17 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 		case "ready":
 		case "loading": return <LoadingRoom socket={socket} setState={setState} players={players} gameName={gameName} messages={messages} name={name} />
 		case "gameOver":
-		case "playing": return <MainBoard piecesArray={piecesArray} gameName={gameName} players={players} tab={tab} setTab={setTab} socket={socket} setState={setState} state={state} setPiecesArray={setPiecesArray} boards={boards} />
+		case "playing": return <MainBoard
+			piecesArray={piecesArray}
+			gameName={gameName}
+			players={players}
+			tab={tab}
+			setTab={newTab => {tab = newTab;setTab(newTab)}}
+			socket={socket}
+			setState={setState}
+			state={state}
+			setPiecesArray={setPiecesArray}
+			boards={boards} />
 		default: return null
 	}
 }

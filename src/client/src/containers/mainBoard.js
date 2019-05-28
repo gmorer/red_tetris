@@ -82,7 +82,6 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 			setState('gameOver')
 			socket.emit('changeState', 'gameOver')
 			setIndex(0)
-			setTab(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
 			return
 		}
 		if (!!deleted) {

@@ -20,4 +20,8 @@ docker-build:
 	docker build -t $(DOCKER_NAME) .
 
 docker-run:
-	docker run --restart=always -p $(PORT):8080 -d $(DOCKER_NAME)
+	docker run --name $(DOCKER_NAME) --restart=always -p $(PORT):8080 -d $(DOCKER_NAME)
+
+docker-clean:
+	docker kill $(DOCKER_NAME)
+	docker ps -a | awk '{ print $$1,$$2 }' | grep $(DOCKER_NAME) | awk '{print $$1 }' | xargs -I {} docker rm {}
