@@ -22,7 +22,7 @@ class Game {
 			switch (type) {
 				case 'state': return this.stateCB(...args)
 				case 'blackLine': return this.blackLineCB(...args)
-				case 'board': return this.boardCB(...args)
+				case 'boardChange': return this.boardCB(...args)
 				case 'disconnect': return this.disconnect(...args)
 				case 'quit': return this.disconnect(...args)
 				case 'newMessage': return this.addMessage(...args)
