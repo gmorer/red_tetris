@@ -1,4 +1,6 @@
 bug:
-black line to much after many lines
-game over at restart of the game => sometime after blackline board get cleaned
+~black line to much after many lines~
+~game over at restart of the game => sometime after blackline board get cleaned~
 space + blackline => bugged
+cube do not pop at the begining of the screen
+the piece dos not appear if it's the last one

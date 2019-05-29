@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Piece from './piece';
 import PieceDejaPose from '../components/putedPieces';
 import PiecePreview from '../components/piecePreview';
@@ -64,7 +64,7 @@ const tabToPreview = tab => {
 	return result;
 }
 
-const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, boards }) => {
+const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, boards, setBoards }) => {
 	const [pieceIndex, setIndex] = useState(0);
 	const [score, setScore] = useState(0);
 	const finish_cb = (pos, piece) => {
@@ -74,8 +74,7 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 				if (cube !== ' ' && !(y + pos.y >= tab.length || y + pos.y < 0))
 					tab[y + pos.y][x + pos.x] = piece.color;
 			})
-		}
-		);
+		});
 		setIndex(getNextPiece(piecesArray, pieceIndex));
 		const deleted = deleteEmptyRow(tab);
 		if (isGameOver(tab)) {
@@ -92,6 +91,10 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 		setTab(tab);
 		socket.emit('boardChange', tabToPreview(tab))
 	};
+	useEffect(() => {
+		setTab(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
+		setBoards([])
+	}, []) // eslint-disable-line
 	return (
 		<div style={pageStyle}>
 			<div style={{ flex: 1 }}>

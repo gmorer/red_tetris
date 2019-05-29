@@ -19,7 +19,9 @@ class Player {
 		socket.on('changeState', state => {
 			if (!this.cb) return
 			this.state = state;
-			this.cb('state', this.id, state) 
+			if (state === 'loading')
+				this.board = twoDArray(BOARD_HEIGHT, BOARD_WIDTH, ' ')
+			this.cb('state', this.id, state)
 		})
 		socket.on('blackLine', ({ n }) => {
 			if (!this.cb) return
