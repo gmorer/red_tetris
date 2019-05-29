@@ -27,7 +27,7 @@ const goRight = (pos, hitbox, setPose, piece, tab) => {
 const goDown = (pos, piece, setPose, finish_cb, tab) => {
 	if (pos.y - piece.position[pos.rotation].hitbox.bot >= 16 || pos.space_trigered ||
 		IsItBlock(piece, { y: pos.y + 1, x: pos.x, rotation: pos.rotation }, tab)) {
-		setPose({ rotation: 0, x: 3, y: 0, last_interval: Date.now() })
+		setPose({ rotation: 0, x: 3, y: 0 - piece.position[0].hitbox.top, last_interval: Date.now() })
 		finish_cb({ x: pos.x, y: pos.y, rotation: pos.rotation }, piece)
 	} else
 		setPose({ ...pos, y: pos.y + 1, last_interval: Date.now() })
@@ -48,8 +48,12 @@ const rotate = (pos, piece, setPose, tab) => {
 		setPose({ ...pos, rotation: (pos.rotation + 1) % piece.position.length })
 }
 
-const Piece = ({ piece, finish_cb, tab }) => {
+const Piece = ({ piece, finish_cb, tab, setState }) => {
 	const [pos, setPose] = useState({ x: 3, y: 0 - piece.position[0].hitbox.top, last_interval: Date.now(), rotation: 0, space_trigered: false });
+	if (IsItBlock(piece, pos, tab)) {
+		finish_cb(pos, piece)
+		setState('gameOver')
+	}
 	const onKeyPress = ({ key }) => {
 		switch (key) {
 			case 'ArrowLeft':

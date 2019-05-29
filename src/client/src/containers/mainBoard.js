@@ -75,7 +75,6 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 					tab[y + pos.y][x + pos.x] = piece.color;
 			})
 		});
-		setIndex(getNextPiece(piecesArray, pieceIndex));
 		const deleted = deleteEmptyRow(tab);
 		if (isGameOver(tab)) {
 			setState('gameOver')
@@ -83,6 +82,7 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 			setIndex(0)
 			return
 		}
+		setIndex(getNextPiece(piecesArray, pieceIndex));
 		if (!!deleted) {
 			setScore(score + scorePoints[deleted])
 			if (deleted > 1)
@@ -102,7 +102,7 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 				<div style={{ display: "flex", justifyContent: "space-evenly" }}>
 					<div style={board_style}>
 						{state === 'playing' ?
-							<Piece piece={pieces[piecesArray[pieceIndex]]} tab={tab} finish_cb={finish_cb} /> :
+							<Piece piece={pieces[piecesArray[pieceIndex]]} tab={tab} finish_cb={finish_cb} setState={setState} /> :
 							<GameOver />
 						}
 						<PieceDejaPose tab={tab} state={state} />
