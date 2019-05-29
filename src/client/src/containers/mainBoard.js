@@ -102,7 +102,7 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 				<div style={{ display: "flex", justifyContent: "space-evenly" }}>
 					<div style={board_style}>
 						{state === 'playing' ?
-							<Piece piece={pieces[piecesArray[pieceIndex]]} tab={tab} finish_cb={finish_cb} setState={setState} /> :
+							<Piece piece={pieces[piecesArray[pieceIndex]]} tab={tab} finish_cb={finish_cb} setState={setState} nextPiece={pieces[piecesArray[getNextPiece(piecesArray, pieceIndex)]]} /> :
 							<GameOver />
 						}
 						<PieceDejaPose tab={tab} state={state} />
