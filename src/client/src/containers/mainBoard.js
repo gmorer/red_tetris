@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Piece from './piece';
 import PieceDejaPose from '../components/putedPieces';
 import PiecePreview from '../components/piecePreview';
@@ -32,8 +32,6 @@ const pageStyle = {
 }
 
 const scorePoints = [0, 40, 100, 300, 1200];
-
-const isGameOver = tab => tab[0].some(n => n !== ' ')
 
 const deleteEmptyRow = tab => {
 	const toRemove = [];

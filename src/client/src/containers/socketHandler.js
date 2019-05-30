@@ -47,6 +47,7 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 	let [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
 	let [boards, setBoards] = useState([])
 	let [messages, setMessage] = useState([])
+
 	const addBackline = n => {
 		tab.splice(0, n);
 		for (let i = 0; i < n; i++)
@@ -54,6 +55,7 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 		setTab(tab.map(a => a))
 		socket.emit('boardChange', tabToPreview(tab))
 	}
+
 	useEffect(() => {
 		if (defaultGameName && defaultName) {
 			socket.emit('hideConnect', { gameId: gameName, playerId: name }, res => (
@@ -64,10 +66,10 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 		socket.on('getGames', setGames)
 		socket.on('changeState', state => {
 			if (state === 'playing') {
-				tab = twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' ')
+				tab = twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' ')  // eslint-disable-line
 				setTab(tab)
 				setBoards([])
-				boards = []
+				boards = []  // eslint-disable-line
 			}
 			setState(state)
 		})
