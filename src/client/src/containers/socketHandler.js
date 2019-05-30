@@ -31,7 +31,7 @@ const getPage = state => {
 			return ShowGames
 		case "ready":
 		case "loading": return LoadingRoom
-		case "gameOver":
+		case 'gameOver':
 		case "playing": return MainBoard
 		default: return null
 	}
@@ -44,28 +44,33 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 	const [games, setGames] = useState([])
 	const [gameName, setGameName] = useState(defaultGameName)
 	const [piecesArray, setPiecesArray] = useState(null)
-	const [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
+	let [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
 	let [boards, setBoards] = useState([])
 	let [messages, setMessage] = useState([])
-	useEffect(() => {
-		const blacklinehandler = n => {
-			tab.splice(0, n)
-			for (let i = 0; i < n; i++)
-				tab.push(Array(COLUMNS_NUMBER).fill(BLACKBLOCK))
-			setTab(tab.map(a => a))
-			socket.emit('boardChange', tabToPreview(tab))
-		}
-		socket.on('blackLine', blacklinehandler)
-		return (() => socket.off('blackline', blacklinehandler))
-	}, [tab, socket])
+	const addBackline = n => {
+		tab.splice(0, n);
+		for (let i = 0; i < n; i++)
+			tab.push(Array(COLUMNS_NUMBER).fill(BLACKBLOCK))
+		setTab(tab.map(a => a))
+		socket.emit('boardChange', tabToPreview(tab))
+	}
 	useEffect(() => {
 		if (defaultGameName && defaultName) {
 			socket.emit('hideConnect', { gameId: gameName, playerId: name }, res => (
 				!res ? alert("Error, cannot join/create the game") : setState("loading")
 			))
 		}
+		socket.on('blackLine', addBackline)
 		socket.on('getGames', setGames)
-		socket.on('changeState', setState)
+		socket.on('changeState', state => {
+			if (state === 'playing') {
+				tab = twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' ')
+				setTab(tab)
+				setBoards([])
+				boards = []
+			}
+			setState(state)
+		})
 		socket.on('playersList', setPlayers)
 		socket.on('piecesArray', setPiecesArray)
 		socket.on('getMessages', args => {

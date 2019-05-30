@@ -48,14 +48,7 @@ class Player {
 	}
 
 	getBlackLine(n) {
-		let heigth = getMapHeigth(this.board);
-		if (heigth + n > BOARD_HEIGHT) {
-			this.state = 'game_over'
-			this.cb('state', this.id, 'game_over');
-			this.socket.emit('state', 'game_over')
-		} else {
-			this.socket.emit('blackLine', n)
-		}
+		this.socket.emit('blackLine', n)
 	}
 
 	sendMessage(msg, name) {

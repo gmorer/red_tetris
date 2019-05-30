@@ -19,10 +19,6 @@ const board_style = {
 	position: "relative"
 };
 
-const twoDArray = (x, y, fill) =>
-	Array(x)
-		.fill(null)
-		.map(() => Array(y).fill(fill));
 
 const pageStyle = {
 	textAlign: "center",
@@ -76,12 +72,7 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 			})
 		});
 		const deleted = deleteEmptyRow(tab);
-		if (isGameOver(tab)) {
-			setState('gameOver')
-			socket.emit('changeState', 'gameOver')
-			setIndex(0)
-			return
-		}
+
 		setIndex(getNextPiece(piecesArray, pieceIndex));
 		if (!!deleted) {
 			setScore(score + scorePoints[deleted])
@@ -91,10 +82,7 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 		setTab(tab);
 		socket.emit('boardChange', tabToPreview(tab))
 	};
-	useEffect(() => {
-		setTab(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
-		setBoards([])
-	}, []) // eslint-disable-line
+
 	return (
 		<div style={pageStyle}>
 			<div style={{ flex: 1 }}>
@@ -102,7 +90,7 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 				<div style={{ display: "flex", justifyContent: "space-evenly" }}>
 					<div style={board_style}>
 						{state === 'playing' ?
-							<Piece piece={pieces[piecesArray[pieceIndex]]} tab={tab} finish_cb={finish_cb} setState={setState} nextPiece={pieces[piecesArray[getNextPiece(piecesArray, pieceIndex)]]} /> :
+							<Piece piece={pieces[piecesArray[pieceIndex]]} socket={socket} tab={tab} finish_cb={finish_cb} setState={setState} nextPiece={pieces[piecesArray[getNextPiece(piecesArray, pieceIndex)]]} /> :
 							<GameOver />
 						}
 						<PieceDejaPose tab={tab} state={state} />

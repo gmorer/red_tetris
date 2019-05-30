@@ -4,7 +4,7 @@ import Block from './block'
 const piece_style = state => ({
 	width: "100%",
 	height: "100%",
-	marginTop: state === "gameOver" ? null : "-40%",
+	marginTop: state === 'gameOver' ? null : "-40%",
 	display: "flex",
 	flexDirection: "column"
 })
