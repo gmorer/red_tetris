@@ -3,6 +3,7 @@ import openSocket from 'socket.io-client';
 import ShowGames from '../components/showGames'
 import LoadingRoom from '../components/loadingRoom'
 import MainBoard from './mainBoard'
+import { tabToPreview } from './utils'
 
 const PORT = 8080
 const URL = process.env.NODE_ENV === 'production' ? '/' : `localhost:${PORT}`;
@@ -15,15 +16,6 @@ const twoDArray = (x, y, fill) =>
 	Array(x)
 		.fill(null)
 		.map(() => Array(y).fill(fill));
-
-const tabToPreview = tab => {
-	const result = tab.map(y => y.map(x => x))
-	result.forEach((line, y) =>
-		line.forEach((cube, x) => {
-			if (y !== 0 && result[y - 1][x] !== ' ') result[y][x] = "black"
-		}))
-	return result;
-}
 
 const getPage = state => {
 	switch (state) {
@@ -49,9 +41,11 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 	let [messages, setMessage] = useState([])
 
 	const addBackline = n => {
+		console.log('tab before:', tab)
 		tab.splice(0, n);
 		for (let i = 0; i < n; i++)
 			tab.push(Array(COLUMNS_NUMBER).fill(BLACKBLOCK))
+		console.log('tab after: ', tab)
 		setTab(tab.map(a => a))
 		socket.emit('boardChange', tabToPreview(tab))
 	}
@@ -64,6 +58,8 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 		}
 		socket.on('blackLine', addBackline)
 		socket.on('getGames', setGames)
+		socket.on('playersList', setPlayers)
+		socket.on('piecesArray', setPiecesArray)
 		socket.on('changeState', state => {
 			if (state === 'playing') {
 				tab = twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' ')  // eslint-disable-line
@@ -73,8 +69,6 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 			}
 			setState(state)
 		})
-		socket.on('playersList', setPlayers)
-		socket.on('piecesArray', setPiecesArray)
 		socket.on('getMessages', args => {
 			setMessage(args);
 			messages = args; // eslint-disable-line
@@ -109,7 +103,10 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 		messages={messages}
 		setGameName={setGameName}
 		setName={setName}
-		setTab={setTab}
+		setTab={a => {
+			tab = a
+			setTab(a)
+		}}
 		socket={socket}
 		setState={setState}
 		state={state}

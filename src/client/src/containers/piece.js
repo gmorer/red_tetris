@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import DisplayPiece from "../components/piece"
+import { IsItBlock, getUpPos } from './utils'
 
 // PURE FUNCTIONS :O
-
-const IsItBlock = (piece, pos, tab) => {
-	return piece.position[pos.rotation].display.some((row, y) => row.some((cube, x) => {
-		if (y + pos.y - piece.position[pos.rotation].hitbox.bot >= 20) {
-			console.log('buggged')
-			return true
-		}
-		if (cube !== ' ')
-			return tab[y + pos.y < 0 ? 0 : y + pos.y][x + pos.x] !== ' ';
-		return false
-	}))
-}
 
 const downStop = (pos, piece, tab) => {
 	if ((pos.y - piece.position[pos.rotation].hitbox.bot >= 16 ||
@@ -43,12 +32,7 @@ const goDown = (pos, piece, tab) => {
 
 const goSpace = (pos, piece, tab) => {
 	if (pos.space_trigered) return null
-	for (let i = 0; ; i++) {
-		if (pos.y + i - piece.position[pos.rotation].hitbox.bot >= 17 ||
-			IsItBlock(piece, { y: pos.y + i, x: pos.x, rotation: pos.rotation }, tab)) {
-			return ({ ...pos, y: pos.y + i - 1, space_trigered: true, last_interval: Date.now() })
-		}
-	}
+	return ({ ...getUpPos(pos, piece, tab), space_trigered: true, last_interval: Date.now() })
 }
 
 const rotate = (pos, piece, tab) => {
@@ -68,13 +52,17 @@ const actions = {
 
 const Piece = ({ piece, finish_cb, tab, setState, nextPiece, socket }) => {
 	const [pos, setPose] = useState({ x: 3, y: 0 - piece.position[0].hitbox.top, last_interval: Date.now(), rotation: 0, space_trigered: false });
-	if (IsItBlock(piece, pos, tab)) {
-		// finish_cb(pos, piece)
+	if (IsItBlock(piece, pos, tab) && pos.y < 1) {
 		console.log('Hey wtf')
 		console.log(tab)
 		console.log(pos)
-		socket.emit('changeState', 'gameOver')
-		setState('gameOver')
+		//getUpPos(pos, piece, tab)
+		if (pos.y < 1) {
+			socket.emit('changeState', 'gameOver')
+			setState('gameOver')
+		} 
+		// else 
+		// 	setPose(getUpPos(pos, piece, tab))
 	}
 	const onKeyPress = ({ key }) => {
 		if (!!actions[key]) {
@@ -88,6 +76,7 @@ const Piece = ({ piece, finish_cb, tab, setState, nextPiece, socket }) => {
 	const callback = () => {
 		if (downStop(pos, piece, tab)) {
 			setPose({ rotation: 0, x: 3, y: 0 - nextPiece.position[0].hitbox.top, last_interval: Date.now() })
+			// finish_cb(getUpPos(pos, piece, tab), piece)
 			finish_cb({ x: pos.x, y: pos.y, rotation: pos.rotation }, piece)
 		} else {
 			const newPos = goDown(pos, piece, tab)

@@ -6,6 +6,7 @@ import Score from '../components/score';
 import GameOver from '../components/gameOver'
 import pieces from '../ressources/pieces.json';
 import Previews from '../components/previews'
+import { getUpPos, tabToPreview } from './utils'
 
 const CUBE_SIZE = 2;
 const COLUMNS_NUMBER = 10;
@@ -18,7 +19,6 @@ const board_style = {
 	width: `${CUBE_SIZE * COLUMNS_NUMBER}em`,
 	position: "relative"
 };
-
 
 const pageStyle = {
 	textAlign: "center",
@@ -49,19 +49,13 @@ const deleteEmptyRow = tab => {
 const getNextPiece = (array, index) =>
 	index === (array.length - 1) ? 0 : index + 1
 
-const tabToPreview = tab => {
-	const result = tab.map(y => y.map(x => x))
-	result.forEach((line, y) =>
-		line.forEach((cube, x) => {
-			if (y !== 0 && result[y - 1][x] !== ' ') result[y][x] = "black"
-		}))
-	return result;
-}
-
 const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, boards, setBoards }) => {
 	const [pieceIndex, setIndex] = useState(0);
 	const [score, setScore] = useState(0);
 	const finish_cb = (pos, piece) => {
+		// console.log('oldPos:', pos)
+		pos = getUpPos(pos, piece, tab)
+		// console.log('newPos:', pos)
 		piece.position[pos.rotation].display.forEach((row, y) => {
 			if (pos.y + y > tab.length) pos.y = tab.length - y - 1
 			row.forEach((cube, x) => {
