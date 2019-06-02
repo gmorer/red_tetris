@@ -53,31 +53,19 @@ const actions = {
 const Piece = ({ piece, finish_cb, tab, setState, nextPiece, socket }) => {
 	const [pos, setPose] = useState({ x: 3, y: 0 - piece.position[0].hitbox.top, last_interval: Date.now(), rotation: 0, space_trigered: false });
 	if (IsItBlock(piece, pos, tab) && pos.y < 1) {
-		console.log('Hey wtf')
-		console.log(tab)
-		console.log(pos)
-		//getUpPos(pos, piece, tab)
 		if (pos.y < 1) {
 			socket.emit('changeState', 'gameOver')
 			setState('gameOver')
-		} 
-		// else 
-		// 	setPose(getUpPos(pos, piece, tab))
-	}
-	const onKeyPress = ({ key }) => {
-		if (!!actions[key]) {
-			const newPos = actions[key](pos, piece, tab)
-			if (!!newPos)
-				setPose(newPos)
-		}
+		} else
+			setPose(getUpPos(pos, piece, tab))
 	}
 
 	// get executed at the end of the tick
 	const callback = () => {
 		if (downStop(pos, piece, tab)) {
 			setPose({ rotation: 0, x: 3, y: 0 - nextPiece.position[0].hitbox.top, last_interval: Date.now() })
-			// finish_cb(getUpPos(pos, piece, tab), piece)
-			finish_cb({ x: pos.x, y: pos.y, rotation: pos.rotation }, piece)
+			finish_cb(getUpPos(pos, piece, tab), piece)
+			// finish_cb({ x: pos.x, y: pos.y, rotation: pos.rotation }, piece)
 		} else {
 			const newPos = goDown(pos, piece, tab)
 			if (!!newPos) setPose(newPos)
@@ -85,11 +73,23 @@ const Piece = ({ piece, finish_cb, tab, setState, nextPiece, socket }) => {
 	}
 
 	useEffect(() => {
+
 		const interval = setInterval(callback, pos.last_interval + 500 - Date.now())
+
+		const onKeyPress = ({ key }) => {
+			if (!!actions[key]) {
+				const newPos = actions[key](pos, piece, tab)
+				if (!!newPos) {
+					setPose(newPos)
+					clearInterval(interval)
+				}
+			}
+		}
+
 		window.addEventListener('keydown', onKeyPress);
 		return () => {
-			window.removeEventListener('keydown', onKeyPress)
 			clearInterval(interval);
+			window.removeEventListener('keydown', onKeyPress)
 		}
 	})
 	return <DisplayPiece piece={piece} pos={pos} />

@@ -58,14 +58,17 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 		}
 		socket.on('blackLine', addBackline)
 		socket.on('getGames', setGames)
-		socket.on('playersList', setPlayers)
+		socket.on('playersList', newPlayers => {
+			console.log(newPlayers)
+			setBoards(newPlayers.filter(player => player.name !== name).map(player => ({ board: twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '), name: player.name })))
+			setPlayers(newPlayers)
+		})
 		socket.on('piecesArray', setPiecesArray)
 		socket.on('changeState', state => {
 			if (state === 'playing') {
 				tab = twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' ')  // eslint-disable-line
 				setTab(tab)
-				setBoards([])
-				boards = []  // eslint-disable-line
+				// boards = []  // eslint-disable-line
 			}
 			setState(state)
 		})
@@ -89,6 +92,7 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 					return entry
 				})
 			setBoards(updatedBoards)
+			console.log(updatedBoards)
 			boards = updatedBoards; // eslint-disable-line
 		})
 	}, [])
