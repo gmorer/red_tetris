@@ -6,7 +6,7 @@ import Score from '../components/score';
 import GameOver from '../components/gameOver'
 import pieces from '../ressources/pieces.json';
 import Previews from '../components/previews'
-import { getUpPos, tabToPreview } from './utils'
+import { getDownPos, tabToPreview } from './utils'
 
 const CUBE_SIZE = 2;
 const COLUMNS_NUMBER = 10;
@@ -17,7 +17,8 @@ const board_style = {
 	backgroundColor: 'grey',
 	height: `${CUBE_SIZE * LIGNE_NUMBER}em`,
 	width: `${CUBE_SIZE * COLUMNS_NUMBER}em`,
-	position: "relative"
+	position: "relative",
+	overflow: "hidden"
 };
 
 const pageStyle = {
@@ -53,24 +54,24 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 	const [pieceIndex, setIndex] = useState(0);
 	const [score, setScore] = useState(0);
 	const finish_cb = (pos, piece) => {
-		setTab(tab => {
-			pos = getUpPos(pos, piece, tab)
+		setTab(stateTab => {
+			pos = getDownPos(pos, piece, stateTab)
 			piece.position[pos.rotation].display.forEach((row, y) => {
-				if (pos.y + y > tab.length) pos.y = tab.length - y - 1
+				if (pos.y + y > stateTab.length) pos.y = stateTab.length - y - 1
 				row.forEach((cube, x) => {
-					if (cube !== ' ' && !(y + pos.y >= tab.length || y + pos.y < 0))
-						tab[y + pos.y][x + pos.x] = piece.color;
+					if (cube !== ' ' && !(y + pos.y >= stateTab.length || y + pos.y < 0))
+						stateTab[y + pos.y][x + pos.x] = piece.color;
 				})
 			});
-			const deleted = deleteEmptyRow(tab);
+			const deleted = deleteEmptyRow(stateTab);
 			setIndex(getNextPiece(piecesArray, pieceIndex));
 			if (!!deleted) {
 				setScore(score + (scorePoints[deleted] || 0))
 				if (deleted > 1)
 					socket.emit('blackLine', { n: deleted - 1 })
 			}
-			socket.emit('boardChange', tabToPreview(tab))
-			return tab.map(a => a);
+			socket.emit('boardChange', tabToPreview(stateTab))
+			return stateTab.map(a => a);
 		})
 	};
 

@@ -35,7 +35,6 @@ const msgStyle = {
 const sendMessage = (socket) => () => {
 	let msg = document.getElementById("msg").value.trim();
 	if (!!msg) {
-		console.log('emittting')
 		socket.emit("newMessage", msg)
 		document.getElementById("msg").value = "";
 	}

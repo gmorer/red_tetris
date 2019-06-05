@@ -1,7 +1,6 @@
 export const IsItBlock = (piece, pos, tab) => {
 	return piece.position[pos.rotation].display.some((row, y) => row.some((cube, x) => {
 		if (y + pos.y - piece.position[pos.rotation].hitbox.bot >= 20) {
-			console.log('buggged')
 			return true
 		}
 		if (cube !== ' ')
@@ -11,11 +10,19 @@ export const IsItBlock = (piece, pos, tab) => {
 }
 
 export const getUpPos = (pos, piece, tab) => {
-	for (let i = 0; ; i++ ) {
+	for (let i = 0; ; i++) {
 		if (pos.y + i - piece.position[pos.rotation].hitbox.bot >= 17 ||
 			IsItBlock(piece, { y: pos.y + i, x: pos.x, rotation: pos.rotation }, tab)) {
-			// console.log('return: ', pos.y + i - 1, 'tab:', tab[pos.y + i - 1])
-			return ({ ...pos, y: pos.y + i - 1})
+			return ({ ...pos, y: pos.y + i - 1 })
+		}
+	}
+}
+
+export const getDownPos = (pos, piece, tab) => {
+	for (let i = 0; ; i++) {
+		if (pos.y + i - piece.position[pos.rotation].hitbox.bot >= 17 ||
+			!IsItBlock(piece, { y: pos.y - i, x: pos.x, rotation: pos.rotation }, tab)) {
+			return ({ ...pos, y: pos.y - i })
 		}
 	}
 }

@@ -63,16 +63,16 @@ const Piece = ({ piece, finish_cb, tab, setState, nextPiece, socket }) => {
 		if (pos.y < 1) {
 			socket.emit('changeState', 'gameOver')
 			setState('gameOver')
-		} else
-			setPose(pos => getUpPos(pos, piece, tab))
+		}
+		//else
+		// 	setPose(pos => getUpPos(pos, piece, tab))
 	}
 
 	// get executed at the end of the tick
 	const callback = () => {
 		if (downStop(pos, piece, tab)) {
 			setPose({ rotation: 0, x: 3, y: 0 - nextPiece.position[0].hitbox.top, last_interval: Date.now() })
-			finish_cb(getUpPos(pos, piece, tab), piece)
-			// finish_cb({ x: pos.x, y: pos.y, rotation: pos.rotation }, piece)
+			finish_cb(pos, piece)
 		} else {
 			setPose(pos => goDown(pos, piece, tab) || pos)
 		}
@@ -88,7 +88,7 @@ const Piece = ({ piece, finish_cb, tab, setState, nextPiece, socket }) => {
 					const newPos = actions[key](pos, piece, tab)
 					if (!!newPos) {
 						clearInterval(interval)
-						return(newPos)
+						return (newPos)
 					}
 					return pos
 				})
