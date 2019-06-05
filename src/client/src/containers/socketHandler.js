@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useReducer } from 'react'
 import openSocket from 'socket.io-client';
 import ShowGames from '../components/showGames'
 import LoadingRoom from '../components/loadingRoom'
@@ -29,73 +29,72 @@ const getPage = state => {
 	}
 }
 
+const messagesReducer = (messages, args) => {
+	if (Array.isArray(args))
+		return args
+	return messages.concat([args])
+}
+
+const boardReducer = (boards, { board, name, init }) => {
+	if (!!init) return []
+	const updateIndex = boards.findIndex(board => board.name === name)
+	if (updateIndex === -1)
+		return boards.concat([{ board, name }])
+	else
+		return boards.map((entry, index) => {
+			if (index === updateIndex) return { board, name }
+			return entry
+		})
+}
+
+const stateReducer = (setTab, setBoards) => (_, newState) => {
+	if (newState === 'playing') {
+		setTab(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
+		setBoards({ init: true })
+	}
+	return newState
+}
+
+const addBackline = (socket, setTab) => n => {
+	setTab(tab => {
+		tab.splice(0, n);
+		for (let i = 0; i < n; i++)
+			tab.push(Array(COLUMNS_NUMBER).fill(BLACKBLOCK))
+		socket.emit('boardChange', tabToPreview(tab))
+		return tab.map(a => a) // w8
+	})
+}
+
 const Handler = ({ socket, defaultGameName, defaultName }) => {
 	const [name, setName] = useState(defaultName)
-	const [state, setState] = useState("inactive")
 	const [players, setPlayers] = useState([])
 	const [games, setGames] = useState([])
 	const [gameName, setGameName] = useState(defaultGameName)
 	const [piecesArray, setPiecesArray] = useState(null)
-	let [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
-	let [boards, setBoards] = useState([])
-	let [messages, setMessage] = useState([])
-
-	const addBackline = n => {
-		console.log('tab before:', tab)
-		tab.splice(0, n);
-		for (let i = 0; i < n; i++)
-			tab.push(Array(COLUMNS_NUMBER).fill(BLACKBLOCK))
-		console.log('tab after: ', tab)
-		setTab(tab.map(a => a))
-		socket.emit('boardChange', tabToPreview(tab))
-	}
+	const [tab, setTab] = useState(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '))
+	const [boards, setBoards] = useReducer(boardReducer, [])
+	const [messages, setMessages] = useReducer(messagesReducer, [])
+	const [state, setState] = useReducer(stateReducer(setTab, setBoards), "inactive")
 
 	useEffect(() => {
 		if (defaultGameName && defaultName) {
-			socket.emit('hideConnect', { gameId: gameName, playerId: name }, res => (
+			socket.emit('hideConnect', { gameId: defaultGameName, playerId: defaultName }, res => (
 				!res ? alert("Error, cannot join/create the game") : setState("loading")
 			))
 		}
-		socket.on('blackLine', addBackline)
+		socket.on('blackLine', addBackline(socket, setTab))
 		socket.on('getGames', setGames)
+		socket.on('piecesArray', setPiecesArray)
+		socket.on('getMessages', setMessages)
+		socket.on('newMessage', setMessages)
+		socket.on('newPlayerBoard', setBoards)
 		socket.on('playersList', newPlayers => {
 			console.log(newPlayers)
-			setBoards(newPlayers.filter(player => player.name !== name).map(player => ({ board: twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '), name: player.name })))
+			setBoards(newPlayers.filter(player => player.name !== name).map(player => ({ board: twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '), name: player.name }))) //name
 			setPlayers(newPlayers)
 		})
-		socket.on('piecesArray', setPiecesArray)
-		socket.on('changeState', state => {
-			if (state === 'playing') {
-				tab = twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' ')  // eslint-disable-line
-				setTab(tab)
-				// boards = []  // eslint-disable-line
-			}
-			setState(state)
-		})
-		socket.on('getMessages', args => {
-			setMessage(args);
-			messages = args; // eslint-disable-line
-		})
-		socket.on('newMessage', args => {
-			const newMessages = messages.concat([args])
-			messages = newMessages;
-			setMessage(newMessages);
-		})
-		socket.on('newPlayerBoard', ({ board, name }) => {
-			const updateIndex = boards.findIndex(board => board.name === name)
-			let updatedBoards = null
-			if (updateIndex === -1)
-				updatedBoards = boards.concat([{ board, name }])
-			else
-				updatedBoards = boards.map((entry, index) => {
-					if (index === updateIndex) return { board, name }
-					return entry
-				})
-			setBoards(updatedBoards)
-			console.log(updatedBoards)
-			boards = updatedBoards; // eslint-disable-line
-		})
-	}, [])
+		socket.on('changeState', setState)
+	}, [socket, defaultGameName, defaultName])
 	const Page = getPage(state)
 	return <Page
 		piecesArray={piecesArray}
@@ -107,15 +106,11 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 		messages={messages}
 		setGameName={setGameName}
 		setName={setName}
-		setTab={a => {
-			tab = a
-			setTab(a)
-		}}
+		setTab={setTab}
 		socket={socket}
 		setState={setState}
 		state={state}
 		setPiecesArray={setPiecesArray}
-		setBoards={setBoards}
 		boards={boards}
 	/>
 }

@@ -49,30 +49,29 @@ const deleteEmptyRow = tab => {
 const getNextPiece = (array, index) =>
 	index === (array.length - 1) ? 0 : index + 1
 
-const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, boards, setBoards }) => {
+const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, boards }) => {
 	const [pieceIndex, setIndex] = useState(0);
 	const [score, setScore] = useState(0);
 	const finish_cb = (pos, piece) => {
-		// console.log('oldPos:', pos)
 		pos = getUpPos(pos, piece, tab)
-		// console.log('newPos:', pos)
-		piece.position[pos.rotation].display.forEach((row, y) => {
-			if (pos.y + y > tab.length) pos.y = tab.length - y - 1
-			row.forEach((cube, x) => {
-				if (cube !== ' ' && !(y + pos.y >= tab.length || y + pos.y < 0))
-					tab[y + pos.y][x + pos.x] = piece.color;
-			})
-		});
-		const deleted = deleteEmptyRow(tab);
-
-		setIndex(getNextPiece(piecesArray, pieceIndex));
-		if (!!deleted) {
-			setScore(score + scorePoints[deleted])
-			if (deleted > 1)
-				socket.emit('blackLine', { n: deleted - 1 })
-		}
-		setTab(tab);
-		socket.emit('boardChange', tabToPreview(tab))
+		setTab(tab => {
+			piece.position[pos.rotation].display.forEach((row, y) => {
+				if (pos.y + y > tab.length) pos.y = tab.length - y - 1
+				row.forEach((cube, x) => {
+					if (cube !== ' ' && !(y + pos.y >= tab.length || y + pos.y < 0))
+						tab[y + pos.y][x + pos.x] = piece.color;
+				})
+			});
+			const deleted = deleteEmptyRow(tab);
+			setIndex(getNextPiece(piecesArray, pieceIndex));
+			if (!!deleted) {
+				setScore(score + (scorePoints[deleted] || 0))
+				if (deleted > 1)
+					socket.emit('blackLine', { n: deleted - 1 })
+			}
+			socket.emit('boardChange', tabToPreview(tab))
+			return tab.map(a => a);
+		})
 	};
 
 	return (
