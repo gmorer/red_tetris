@@ -51,13 +51,20 @@ const actions = {
 // End of the pure function :(
 
 const Piece = ({ piece, finish_cb, tab, setState, nextPiece, socket }) => {
-	const [pos, setPose] = useState({ x: 3, y: 0 - piece.position[0].hitbox.top, last_interval: Date.now(), rotation: 0, space_trigered: false });
+	const [pos, setPose] = useState({
+		x: 3,
+		y: 0 - piece.position[0].hitbox.top,
+		last_interval: Date.now(),
+		rotation: 0,
+		space_trigered: false
+	});
+
 	if (IsItBlock(piece, pos, tab) && pos.y < 1) {
 		if (pos.y < 1) {
 			socket.emit('changeState', 'gameOver')
 			setState('gameOver')
 		} else
-			setPose(getUpPos(pos, piece, tab))
+			setPose(pos => getUpPos(pos, piece, tab))
 	}
 
 	// get executed at the end of the tick
@@ -67,8 +74,7 @@ const Piece = ({ piece, finish_cb, tab, setState, nextPiece, socket }) => {
 			finish_cb(getUpPos(pos, piece, tab), piece)
 			// finish_cb({ x: pos.x, y: pos.y, rotation: pos.rotation }, piece)
 		} else {
-			const newPos = goDown(pos, piece, tab)
-			if (!!newPos) setPose(newPos)
+			setPose(pos => goDown(pos, piece, tab) || pos)
 		}
 	}
 
@@ -78,11 +84,14 @@ const Piece = ({ piece, finish_cb, tab, setState, nextPiece, socket }) => {
 
 		const onKeyPress = ({ key }) => {
 			if (!!actions[key]) {
-				const newPos = actions[key](pos, piece, tab)
-				if (!!newPos) {
-					setPose(newPos)
-					clearInterval(interval)
-				}
+				setPose(pos => {
+					const newPos = actions[key](pos, piece, tab)
+					if (!!newPos) {
+						clearInterval(interval)
+						return(newPos)
+					}
+					return pos
+				})
 			}
 		}
 

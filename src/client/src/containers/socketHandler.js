@@ -67,7 +67,6 @@ const addBackline = (socket, setTab) => n => {
 
 const Handler = ({ socket, defaultGameName, defaultName }) => {
 	const [name, setName] = useState(defaultName)
-	const [players, setPlayers] = useState([])
 	const [games, setGames] = useState([])
 	const [gameName, setGameName] = useState(defaultGameName)
 	const [piecesArray, setPiecesArray] = useState(null)
@@ -75,6 +74,15 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 	const [boards, setBoards] = useReducer(boardReducer, [])
 	const [messages, setMessages] = useReducer(messagesReducer, [])
 	const [state, setState] = useReducer(stateReducer(setTab, setBoards), "inactive")
+
+	const playersReducer = (_, newPlayers) => {
+		setBoards(newPlayers
+			.filter(player => player.name !== name)
+			.map(player => ({ board: twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '), name: player.name })))
+		return newPlayers
+	}
+
+	const [players, setPlayers] = useReducer(playersReducer, [])
 
 	useEffect(() => {
 		if (defaultGameName && defaultName) {
@@ -88,11 +96,7 @@ const Handler = ({ socket, defaultGameName, defaultName }) => {
 		socket.on('getMessages', setMessages)
 		socket.on('newMessage', setMessages)
 		socket.on('newPlayerBoard', setBoards)
-		socket.on('playersList', newPlayers => {
-			console.log(newPlayers)
-			setBoards(newPlayers.filter(player => player.name !== name).map(player => ({ board: twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '), name: player.name }))) //name
-			setPlayers(newPlayers)
-		})
+		socket.on('playersList', setPlayers)
 		socket.on('changeState', setState)
 	}, [socket, defaultGameName, defaultName])
 	const Page = getPage(state)

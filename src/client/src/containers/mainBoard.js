@@ -53,8 +53,8 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 	const [pieceIndex, setIndex] = useState(0);
 	const [score, setScore] = useState(0);
 	const finish_cb = (pos, piece) => {
-		pos = getUpPos(pos, piece, tab)
 		setTab(tab => {
+			pos = getUpPos(pos, piece, tab)
 			piece.position[pos.rotation].display.forEach((row, y) => {
 				if (pos.y + y > tab.length) pos.y = tab.length - y - 1
 				row.forEach((cube, x) => {
