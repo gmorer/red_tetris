@@ -6,28 +6,32 @@ const parentStyle = {
 	justifyContent: "center",
 	height: "100%",
 	textAlign: "center",
-	backgroundImage: "url('bg.jpg')",
-	backgroundSize: "cover"
+	backgroundImage: "url('bg2.jpg')",
+	backgroundSize: "100% 100%",
+	backgroundRepeat: "no-repeat",
+	width: "100%"
 
 }
 
 const inputStyle = {
 	width: "100%",
-	border: "none",
+	border: "2px solid black",
 	padding: "12px 20px",
 	boxSizing: "border-box",
 	borderRadius: "25px",
 }
 
 const buttonStyle = {
-	backgroundColor: "white",
+	backgroundColor: "#9f233a",
+	color: "white",
 	marginTop: "1em",
-	border: "none",
+	border: "2px solid white",
 	cursor: "pointer",
-	height: "2em",
-	width: "6em",
+	height: "3em",
+	width: "15em",
 	textDecoration: "none",
-	borderRadius: "4px",
+	borderRadius: "8px",
+
 }
 
 const clickHandler = setName => e => {

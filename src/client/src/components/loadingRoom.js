@@ -3,9 +3,11 @@ import Chat from "./chat"
 
 const mainStyle = {
 	height: "100%",
-	backgroundImage: "url('bg.jpg')",
-	backgroundSize: "cover",
-	textAlign: "center"
+	backgroundImage: "url('bg2.jpg')",
+	textAlign: "center",
+	backgroundSize: "100% 100%",
+	backgroundRepeat: "no-repeat",
+	width: "100%"
 }
 
 const entryStyle = {

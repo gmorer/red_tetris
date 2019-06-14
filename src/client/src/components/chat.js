@@ -1,8 +1,9 @@
 import React from "react"
 
 const mainStyle = {
-	background: "linear-gradient(to bottom right, black, white)",
+	background: "linear-gradient(to bottom right, #9f233a, white)",
 	borderRadius: "10px",
+	opacity: "0.8",
 	width: "50%"
 }
 

@@ -3,10 +3,11 @@ import NameChooser from './nameChooser'
 
 const mainStyle = {
 	height: "100%",
-	backgroundImage: "url('bg.jpg')",
-	backgroundSize: "cover",
-	backgroundColor: "blue",
-	overflowY: "auto"
+	overflowY: "auto",
+	backgroundImage: "url('bg2.jpg')",
+	backgroundSize: "100% 100%",
+	backgroundRepeat: "no-repeat",
+	width: "100%"
 }
 
 const topBarStyle = {
@@ -19,12 +20,15 @@ const topBarStyle = {
 
 const entryStyle = {
 	height: "10em",
-	width: "10em",
-	backgroundColor: "grey",
+	width: "20em",
+	color: "white",
+	backgroundColor: "#9f233a",
+	fontSize: "10px",
 	boxShadow: "0 2px 3px rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.1)",
 	margin: "1em",
 	textAlign: "center",
 	borderRadius: "10px",
+	border: "2px solid white",
 	overflow: "hidden"
 }
 
@@ -40,12 +44,19 @@ const roomListStyle = {
 const buttonStyle = {
 	marginLeft: "1em",
 	color: "#fff",
-	backgroundColor: "black",
-	borderRadius: "50px",
+	backgroundColor: "#9f233a",
+	borderRadius: "10px",
 	display: "inline-block",
-	border: "none",
+	border: "2px solid white",
 	width: "15em",
 	height: "5em"
+}
+
+const nameStyle = {
+	// display: "inline-block",
+	color: "white",
+	fontSize: "50px",
+	textAlign: "center"
 }
 
 const joinRoom = (socket, name, id, setRoomName) => () => {
@@ -83,15 +94,16 @@ const newRoom = (socket, playerId, setRoomName) => () => {
 const ShowRooms = ({ rooms, name, socket, setName, setRoomName }) => {
 	if (!name) return <NameChooser setName={setName} />
 	else return (
+		// return (
 		<div style={mainStyle}>
 			<div style={topBarStyle}>
-				<p style={{ display: "inline-block", color: "white", fontSize: "30px" }}>{name}</p>
+				<p style={nameStyle}> Bienvenue {name}</p>
 				<button style={buttonStyle} onClick={() => setName(null)}>
 					<p style={{ fontSize: "150%" }}>change username</p>
 				</button>
 			</div>
 			<div style={roomListStyle}>
-				<button style={entryStyle} onClick={newRoom(socket, name, setRoomName)}>+</button>
+				<button style={entryStyle} onClick={newRoom(socket, name, setRoomName)}>Create new Room</button>
 				{rooms.map(RoomCard(socket, name, setRoomName))}
 			</div>
 		</div >
