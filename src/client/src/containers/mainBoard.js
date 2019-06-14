@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Piece from './piece';
 import PieceDejaPose from '../components/putedPieces';
 import PiecePreview from '../components/piecePreview';
@@ -15,8 +15,9 @@ const BLACKBLOCK = "#393939"
 
 const board_style = {
 	backgroundColor: 'grey',
-	height: `${CUBE_SIZE * LIGNE_NUMBER}em`,
-	width: `${CUBE_SIZE * COLUMNS_NUMBER}em`,
+	// height: `${CUBE_SIZE * LIGNE_NUMBER}em`,
+	// width: `${CUBE_SIZE * COLUMNS_NUMBER}em`,
+	height: "80%",
 	position: "relative",
 	overflow: "hidden"
 };
@@ -75,12 +76,28 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 		})
 	};
 
+
+useEffect(() => {
+	console.log('hey')
+	const board = (document.getElementById('mainBoard'))
+	// console.log(board)
+	board.setAttribute("style",`width:${board.clientHeight / 2}px;background-color:grey;height:80%;position:relative;overflow:hidden`);
+	// console.log("res:", board.clientHeight / 2)
+	// console.log("width;", board.style)
+	// board.clientWidth = board.clientHeight / 2
+	// background-color: 'grey',
+	// height: "80%",
+	// position: "relative",
+	// overflow: "hidden"
+})
+
+
 	return (
 		<div style={pageStyle}>
 			<div style={{ flex: 1 }}>
 				<h1 style={{ color: "white" }}>{gameName}</h1>
-				<div style={{ display: "flex", justifyContent: "space-evenly" }}>
-					<div style={board_style}>
+				<div style={{ display: "flex", justifyContent: "space-evenly", height: "100%" }}>
+					<div style={board_style} id="mainBoard">
 						{state === 'playing' ?
 							<Piece piece={pieces[piecesArray[pieceIndex]]} socket={socket} tab={tab} finish_cb={finish_cb} setState={setState} nextPiece={pieces[piecesArray[getNextPiece(piecesArray, pieceIndex)]]} /> :
 							<GameOver />

@@ -28,13 +28,21 @@ const style = (color, height, width) => ({
 	boxSizing: "border-box",
 })
 
+const insideStyle = (color) => ({
+	width: "0px",
+	height: "0px",
+	borderStyle: "solid",
+	borderColor: `${color} red red ${shadeColor(color, 20)}`,
+	borderWidth: "10em 0em 0em 10em"
+
+})
+
+
 const Block = ({ color, height, width }) => (
 	<div style={style(color, height, width)}>
-		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-			viewBox="0 0 64 64" style={{ enableBackground: "new 0 0 496 496", height: "100%", width: "100%" }} >
-			<rect x="0" y="0" style={{ fill: color }} width="64" height="64" />
-			<polyline style={{ fill: shadeColor(color, 40) }} points="0,0 64,0 64,64 " />
-		</svg>
+		<div style={{overflow: "hidden", height: "100%", width: "100%"}}>
+		<div style={insideStyle(color)}></div>
+		</div>
 	</div >
 )
 

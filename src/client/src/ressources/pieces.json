@@ -1,7 +1,7 @@
 [
 	{
 		"name": "Bâton",
-		"color": "#FF765C",
+		"color": "#0088FF",
 		"position": [
 			{
 				"display": [
@@ -35,7 +35,7 @@
 	},
 	{
 		"name": "Bloc",
-		"color": "#E85654",
+		"color": "#FFFF00",
 		"position": [
 			{
 				"display": [
@@ -55,7 +55,7 @@
 	},
 	{
 		"name": "Té",
-		"color": "#FF68AC",
+		"color": "#501050",
 		"position": [
 			{
 				"display": [
@@ -117,7 +117,7 @@
 	},
 	{
 		"name": "Lambda",
-		"color": "#E854E1",
+		"color": "#FFA500",
 		"position": [
 			{
 				"display": [
@@ -179,7 +179,7 @@
 	},
 	{
 		"name": "Gamma",
-		"color": "#D75CFF",
+		"color": "#6495ED",
 		"position": [
 			{
 				"display": [
@@ -241,7 +241,7 @@
 	},
 	{
 		"name": "Biais",
-		"color": "#E38986",
+		"color": "#CB3030",
 		"position": [
 			{
 				"display": [
@@ -275,7 +275,7 @@
 	},
 	{
 		"name": "Biais inversé",
-		"color": "#C888FF",
+		"color": "#78DB78",
 		"position": [
 			{
 				"display": [
