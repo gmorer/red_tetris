@@ -35,3 +35,8 @@ export const tabToPreview = tab => {
 		}))
 	return result;
 }
+
+export const twoDArray = (x, y, fill) =>
+	Array(x)
+		.fill(null)
+		.map(() => Array(y).fill(fill));

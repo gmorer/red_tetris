@@ -3,7 +3,7 @@ import openSocket from 'socket.io-client';
 import ShowRooms from '../components/showRooms'
 import LoadingRoom from '../components/loadingRoom'
 import MainBoard from './mainBoard'
-import { tabToPreview } from './utils'
+import { tabToPreview, twoDArray } from './utils'
 
 const PORT = 8080
 const URL = process.env.NODE_ENV === 'production' ? '/' : `localhost:${PORT}`;
@@ -11,11 +11,6 @@ const COLUMNS_NUMBER = 10;
 const LIGNE_NUMBER = 20;
 
 const BLACKBLOCK = "#393939"
-
-const twoDArray = (x, y, fill) =>
-	Array(x)
-		.fill(null)
-		.map(() => Array(y).fill(fill));
 
 const getPage = state => {
 	switch (state) {
