@@ -25,7 +25,6 @@ const cube_style = (actual) => ({
 
 const PutedPieces = ({ tab, state, mode }) => (
 	<div style={piece_style(state)}>
-
 		{tab ? tab.map((column, index) => (
 			<div key={index} style={column_style}>
 				{column.map((actual, index) => {

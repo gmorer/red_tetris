@@ -1,106 +1,60 @@
+const socketio = require('socket.io')
 const Player = require('./player')
-const { random_pieces_array } = require('../utils')
+const Room = require('./room')
+
 /*
-	state cycle -> loading => playing
+	Piece is like room, and Game is like the whole game, with only one instance
 */
 
-const informPlayers = (players, id, fn) => players.forEach(player => {
-	if (player.isId(id)) return;
-	fn(player);
-})
-
-const getPlayerList = players => players.map(player => ({ name: player.getName(), state: player.getState() }))
-
 class Game {
-	/* TO DO : destructor callback to remove the game from the array when everyone disconnected */
-	constructor(id) {
-		this.players = [];
-		this.id = id;
-		this.state = "loading";
-		this.messages = [];
-		this.cb = (type, ...args) => {
-			switch (type) {
-				case 'state': return this.stateCB(...args)
-				case 'blackLine': return this.blackLineCB(...args)
-				case 'boardChange': return this.boardCB(...args)
-				case 'disconnect': return this.disconnect(...args)
-				case 'quit': return this.disconnect(...args)
-				case 'newMessage': return this.addMessage(...args)
-			}
+	constructor(server) {
+		this.io = socketio(server)
+		this.rooms = []
+		this.io.on('connection', this.newConnection.bind(this))
+	}
+
+	packRooms() {
+		return this.rooms.filter(room => room.getState() === "loading")
+			.map(room => ({ id: room.getId(), no: room.getPlayerNo() }))
+	}
+
+	newConnection(socket) {
+		const player = new Player(socket);
+		socket.emit('getRooms', this.packRooms())
+		socket.on('hideConnect', (...args) => this.hideConnect(player, socket, ...args))
+		socket.on('disconnect', _ => this.disconnect(socket))
+		socket.on('disconnectFromRoom', _ => this.disconnect(socket))
+	}
+
+	hideConnect(player, socket, { playerId, roomId }, cb) {
+		const room = this.rooms[this.getGameId(roomId)]
+		if (!room) {
+			const newRoom = new Room(roomId)
+			newRoom.addPlayer(player, playerId, socket)
+			this.rooms.push(newRoom)
+			this.io.emit('getRooms', this.packRooms())
+			cb(true)
+		} else {
+			if (room.addPlayer(player, playerId, socket)) {
+				this.io.emit('getRooms', this.packRooms())
+				cb(true)
+			} else cb(false)
 		}
 	}
 
-	stateCB(id, newState) {
-		let all_same = true
-		const playersList = getPlayerList(this.players)
-		this.players.forEach(player => {
-			player.newPlayerList(playersList, this.id)
-			if (player.getState() !== newState) all_same = false
-		})
-		if (all_same && this.players.length > 0) {
-			if (this.players[0].getState() === 'ready') {
-				/* NEW GAME */
-				const piecesSet = random_pieces_array(500);
-				this.state = 'playing'
-				this.players.forEach(player => {
-					player.givePieces(piecesSet);
-					player.changeState('playing')
-				})
-			}
-			else if (this.players[0].getState() === 'gameOver') {
-				/* GAME FINISHED */
-				this.state = 'loading';
-				this.players.forEach(player => player.changeState('loading'))
-			}
+	getGameId(id) {
+		return this.rooms.findIndex(room => room.getId() === id)
+	}
+
+	disconnect(socket) {
+		const index = this.rooms.findIndex(room => room.isIdIn(socket.id))
+		if (index === -1) return
+		this.rooms[index].disconnect(socket.id)
+		if (this.rooms[index].getPlayerNo() === 0) {
+			this.rooms.splice(index, 1)
 		}
+		this.io.emit('getRooms', this.packRooms())
 	}
-
-	blackLineCB(id, n) {
-		informPlayers(this.players, id, player => {
-			player.getBlackLine(n);
-		})
-	}
-
-	boardCB(name, id, board) {
-		informPlayers(this.players, id, player => {
-			player.newPlayerBoard(name, board)
-		})
-	}
-
-	disconnect(id) {
-		let index = this.players.findIndex(player => player.getId() === id)
-		this.players[index].setCb(null)
-		this.players.splice(index, 1)
-		const playersList = getPlayerList(this.players)
-		this.players.forEach(player => player.newPlayerList(playersList))
-	}
-
-	addPlayer(player, name) {
-		if (this.state === 'playing') return false
-		const playersList = getPlayerList(this.players)
-		if (playersList.some(player => player.name === name)) return false // one player already with the same name
-		playersList.push({ name, state: "loading" })
-		player.setName(name)
-		player.changeState('loading')
-		player.setCb(this.cb)
-		const index = this.players.push(player)
-		this.players.forEach(player => player.newPlayerList(playersList, this.id))
-		this.players[index - 1].sendMessages(this.messages)
-		return true
-	}
-
-	addMessage(name, msg) {
-		this.messages.push({ name, msg })
-		this.players.forEach(player => player.sendMessage(msg, name))
-		return true
-	}
-
-
-	getId() { return this.id }
-	getState() { return this.state }
-	getPlayerNo() { return this.players.length }
-	getMessages() { return this.messages }
-	isIdIn(id) { return this.players.some(player => player.getId() === id) }
 }
 
 module.exports = Game

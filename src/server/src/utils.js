@@ -12,7 +12,7 @@ const getMapHeigth = map => map.findIndex(line => {
 const random_pieces_array = x =>
 	Array(x)
 		.fill(null)
-		// .map(_ => 1)
+		// .map(_ => 0)
 		.map(_ => Math.floor(Math.random() * pieces.length));
 
 module.exports = {

@@ -42,7 +42,7 @@ const PlayerCard = ({ name, state }, index) => (
 
 const exitRoom = (socket, setState) => () => {
 	setState("inactive");
-	socket.emit('disconnectFromGame')
+	socket.emit('disconnectFromRoom')
 }
 
 const readyButton = (socket, setState) => () => {
@@ -50,10 +50,10 @@ const readyButton = (socket, setState) => () => {
 	socket.emit('changeState', "ready")
 }
 
-const LoadingRoom = ({ socket, setState, players, gameName, messages, name }) => (
+const LoadingRoom = ({ socket, setState, players, roomName, messages, name }) => (
 	<div style={mainStyle}>
 		<div style={{ paddingTop: "1em", paddingBottom: "1em" }}>
-			<b style={{ fontSize: "3em", color: "white" }}>{gameName}</b>
+			<b style={{ fontSize: "3em", color: "white" }}>{roomName}</b>
 			<button style={{ margin: "1em", float: "right" }} onClick={exitRoom(socket, setState)}>Exit Room</button>
 		</div>
 		<div style={{ display: "flex", height: "40%", marginLeft: "5%", width: "90%" }}>
