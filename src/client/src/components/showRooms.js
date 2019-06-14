@@ -80,10 +80,11 @@ const newRoom = (socket, playerId, setRoomName) => () => {
 	})
 }
 
-const ShowRooms = ({ rooms, name, socket, setName, setRoomName }) => {
+const ShowRooms = ({ rooms, name, socket, setName, setRoomName, no }) => {
 	if (!name) return <NameChooser setName={setName} />
 	else return (
 		<div style={mainStyle}>
+				<p style={{marginLeft: "1em", position: "absolute", color: "white", fontSize: "25px"}}>Number of player: {no}</p>
 			<div style={topBarStyle}>
 				<p style={{ display: "inline-block", color: "white", fontSize: "30px" }}>{name}</p>
 				<button style={buttonStyle} onClick={() => setName(null)}>

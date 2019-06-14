@@ -12,11 +12,12 @@ const getPlayerList = players => players.map(player => ({ name: player.getName()
 
 class Piece {
 	/* TO DO : destructor callback to remove the game from the array when everyone disconnected */
-	constructor(id) {
+	constructor(id, cb) {
 		this.players = [];
 		this.id = id;
 		this.state = "loading";
 		this.messages = [];
+		this.resendAvailableRooms = cb;
 		this.cb = (type, ...args) => {
 			switch (type) {
 				case 'state': return this.stateCB(...args)
@@ -45,6 +46,7 @@ class Piece {
 					player.givePieces(piecesSet);
 					player.changeState('playing')
 				})
+				this.resendAvailableRooms();
 			}
 			else if (this.players[0].getState() === 'gameOver') {
 				/* GAME FINISHED */
@@ -70,6 +72,14 @@ class Piece {
 		let index = this.players.findIndex(player => player.getId() === id)
 		this.players[index].setCb(null)
 		this.players.splice(index, 1)
+		if (this.state === 'playing') {
+			// handle if everyone is gameover
+			if (!this.players.some(player => player.getState() !== 'gameOver'))
+				this.players.forEach(player => player.changeState('loading'))
+		} else if (this.state === 'loading') {
+			// put evreyone in loading
+			this.players.forEach(player => player.changeState('loading'))
+		}
 		const playersList = getPlayerList(this.players)
 		this.players.forEach(player => player.newPlayerList(playersList))
 	}

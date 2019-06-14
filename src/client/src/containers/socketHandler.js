@@ -62,6 +62,7 @@ const addBackline = (socket, setTab) => n => {
 
 const Handler = ({ socket, defaultRoomName, defaultName }) => {
 	const [name, setName] = useState(defaultName)
+	const [no, setNo] = useState(0)
 	const [rooms, setRooms] = useState([])
 	const [roomName, setRoomName] = useState(defaultRoomName)
 	const [piecesArray, setPiecesArray] = useState(null)
@@ -85,6 +86,7 @@ const Handler = ({ socket, defaultRoomName, defaultName }) => {
 				!res ? alert("Error, cannot join/create the game") : setState("loading")
 			))
 		}
+		socket.on('no', setNo)
 		socket.on('blackLine', addBackline(socket, setTab))
 		socket.on('getRooms', setRooms)
 		socket.on('piecesArray', setPiecesArray)
@@ -96,6 +98,7 @@ const Handler = ({ socket, defaultRoomName, defaultName }) => {
 	}, [socket, defaultRoomName, defaultName])
 	const Page = getPage(state)
 	return <Page
+		no={no}
 		piecesArray={piecesArray}
 		roomName={roomName}
 		players={players}
