@@ -52,6 +52,7 @@ class Piece {
 				/* GAME FINISHED */
 				this.state = 'loading';
 				this.players.forEach(player => player.changeState('loading'))
+				this.addMessage(false, "Game finished")
 			}
 		}
 	}

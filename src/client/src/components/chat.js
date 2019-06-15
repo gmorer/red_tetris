@@ -1,57 +1,81 @@
 import React from "react"
 
 const mainStyle = {
-	background: "linear-gradient(to bottom right, black, white)",
-	borderRadius: "10px",
+	height: "100%",
 	width: "50%"
 }
 
+const anotherStyle = {
+	overflowY: "auto",
+	height: "100%",
+	padding: "1em",
+	textAlign: "justify",
+	backgroundColor: "grey"
+}
+
 const inputStyle = {
-	height: "4.5%",
+	// height: "4.5%",
+	// width: "80%",
+	// borderRadius: "6px",
+	border: "2px solid #5E5E5E",
+	height: "2em",
 	width: "80%",
-	borderRadius: "6px",
-	border: "2px solid black",
-	marginTop: "2em"
+	backgroundColor: "transparent",
+	paddingLeft: "1em"
 }
 
 const buttonStyle = {
-	marginTop: "3em",
-	width: "40%",
-	height: "3%",
+	// width: "40%",
+	// height: "3%",
+	// height: "2em",
 	color: "white",
-	border: "2px solid black",
-	borderRadius: "6px",
-	backgroundColor: "black"
+	border: "none",
+	borderRadius: "0px",
+	backgroundColor: "#5E5E5E",
+	width: "20%",
 }
 
 const msgStyle = {
-	backgroundColor: "black",
-	color: "white",
+	// backgroundColor: "black",
+	// color: "white",
 	width: "80%",
 	height: "10%",
 	borderRadius: "5px"
 }
 
-const sendMessage = (socket) => () => {
+const sendMessage = (socket) => e => {
 	let msg = document.getElementById("msg").value.trim();
 	if (!!msg) {
 		socket.emit("newMessage", msg)
 		document.getElementById("msg").value = "";
 	}
+	e.preventDefault();
 }
+
+const Entry = (e, index) => (
+	<div key={index}>
+		{
+			!!e.name ? 
+			<p>
+				<b>{e.name} :</b>
+				<span style={msgStyle}> {e.msg}</span>
+			</p> :
+			<p style={{fontWeight: "bold", fontStyle: "italic"}}>
+				{e.msg}
+			</p>
+		}
+</div>
+)
 
 const Chat = ({ messages, socket }) => (
 	<div style={mainStyle}>
-		{
-			messages.map((e, index) => (
-				<div key={index}>
-					<p > {e.name}</p>
-					<div style={msgStyle}> {e.msg}</div>
-				</div>
-			))
-		}
-		<input style={inputStyle} placeholder="Your message" id="msg" />
-		<button style={buttonStyle} onClick={sendMessage(socket)}>Send</button>
+		<div style={anotherStyle}>
+		{	messages.map(Entry) }
+		</div>
+		<form onSubmit={sendMessage(socket)} style={{display: "flex", background: "grey"}}>
+			<input style={inputStyle} placeholder="Your message" id="msg" />
+			<button style={buttonStyle} onClick={sendMessage(socket)}>Send</button>
+		</form>
 	</div >
 )
 
