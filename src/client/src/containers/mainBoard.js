@@ -14,18 +14,21 @@ const LIGNE_NUMBER = 20;
 const BLACKBLOCK = "#393939"
 
 const board_style = {
-	backgroundColor: 'grey',
+	// backgroundColor: 'grey',
+	// background: "linear-gradient(to bottom right, rgba(159, 35, 58, 0.5), rgba(255,255,255,0.5))",
 	// height: `${CUBE_SIZE * LIGNE_NUMBER}em`,
 	// width: `${CUBE_SIZE * COLUMNS_NUMBER}em`,
-	height: "80%",
-	position: "relative",
-	overflow: "hidden"
+	// height: "80%",
+	// position: "relative",
+	// overflow: "hidden"
 };
 
 const pageStyle = {
 	textAlign: "center",
-	backgroundImage: "url('bg.jpg')",
-	backgroundSize: "cover",
+	backgroundImage: "url('bg2.jpg')",
+	backgroundSize: "100% 100%",
+	backgroundRepeat: "no-repeat",
+	width: "100%",
 	display: "flex",
 	position: "relative",
 	height: "100%",
@@ -77,25 +80,25 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 	};
 
 
-useEffect(() => {
-	console.log('hey')
-	const board = (document.getElementById('mainBoard'))
-	// console.log(board)
-	board.setAttribute("style",`width:${board.clientHeight / 2}px;background-color:grey;height:80%;position:relative;overflow:hidden`);
-	// console.log("res:", board.clientHeight / 2)
-	// console.log("width;", board.style)
-	// board.clientWidth = board.clientHeight / 2
-	// background-color: 'grey',
-	// height: "80%",
-	// position: "relative",
-	// overflow: "hidden"
-})
+	useEffect(() => {
+		console.log('hey')
+		const board = (document.getElementById('mainBoard'))
+		// console.log(board)
+		board.setAttribute("style", `width:${board.clientHeight / 2}px;background-color:rgba(159, 35, 58, 0.5);height:80%;position:relative;overflow:hidden`);
+		// console.log("res:", board.clientHeight / 2)
+		// console.log("width;", board.style)
+		// board.clientWidth = board.clientHeight / 2
+		// background-color: 'grey',
+		// height: "80%",
+		// position: "relative",
+		// overflow: "hidden"
+	})
 
 
 	return (
 		<div style={pageStyle}>
 			<div style={{ flex: 1 }}>
-				<h1 style={{ color: "white" }}>{gameName}</h1>
+				<h1 style={{ color: "black" }}>{gameName}</h1>
 				<div style={{ display: "flex", justifyContent: "space-evenly", height: "100%" }}>
 					<div style={board_style} id="mainBoard">
 						{state === 'playing' ?

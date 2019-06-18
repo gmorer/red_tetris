@@ -17,7 +17,7 @@ const anotherStyle = {
 }
 
 const inputStyle = {
-	color: "white",
+	color: "black",
 	border: "2px solid #5E5E5E",
 	height: "2em",
 	width: "80%",

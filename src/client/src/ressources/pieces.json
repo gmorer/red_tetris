@@ -1,7 +1,7 @@
 [
 	{
 		"name": "Bâton",
-		"color": "#0088FF",
+		"color": "#9f233a",
 		"position": [
 			{
 				"display": [
@@ -35,7 +35,7 @@
 	},
 	{
 		"name": "Bloc",
-		"color": "#FFFF00",
+		"color": "#FFB6C1",
 		"position": [
 			{
 				"display": [
@@ -179,7 +179,7 @@
 	},
 	{
 		"name": "Gamma",
-		"color": "#6495ED",
+		"color": "#FFFFFF",
 		"position": [
 			{
 				"display": [
@@ -275,7 +275,7 @@
 	},
 	{
 		"name": "Biais inversé",
-		"color": "#78DB78",
+		"color": "#FF1493",
 		"position": [
 			{
 				"display": [
