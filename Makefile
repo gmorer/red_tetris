@@ -26,3 +26,8 @@ docker-clean:
 	-docker kill $(DOCKER_NAME)
 	-docker ps -a | awk '{ print $$1,$$2 }' | grep $(DOCKER_NAME) | awk '{print $$1 }' | xargs -I {} docker rm {}
 	docker image rm $(DOCKER_NAME)
+
+heroku:
+	heroku container:push web --app=red42tetris
+	heroku container:release web --app=red42tetris
+

@@ -1,5 +1,6 @@
 import React from "react"
 import Chat from "./chat"
+import { twoDArray } from '../containers/utils'
 
 const mainStyle = {
 	height: "100%",
@@ -10,22 +11,74 @@ const mainStyle = {
 	width: "100%"
 }
 
+// const entryStyle = {
+// 	height: "10em",
+// 	width: "10em",
+// 	backgroundColor: "grey",
+// 	boxShadow: "0 2px 3px rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.1)",
+// 	margin: "1em",
+// 	textAlign: "center",
+// 	borderRadius: "10px",
+// 	overflow: "hidden"
+// }
+
 const entryStyle = {
-	height: "10em",
-	width: "10em",
-	backgroundColor: "grey",
+	height: "20em",
+	width: "20em",
+	color: "black",
+	backgroundColor: "transparent",
+	fontSize: "10px",
 	boxShadow: "0 2px 3px rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.1)",
 	margin: "1em",
 	textAlign: "center",
 	borderRadius: "10px",
-	overflow: "hidden"
+	border: "2px solid white",
+	overflow: "hidden",
+	background: "linear-gradient(to bottom right, #9f233a, white)",
 }
+
+const topBarStyle = {
+	borderRadius: "5px",
+	textAlign: "end",
+	padding: "1em",
+	marginBottom: "1em",
+	color: "#A54C4E",
+	background: "linear-gradient(to bottom right, rgba(159, 35, 58, 0.5), rgba(255,255,255,0.5))"
+}
+
+const buttonStyle = {
+	marginLeft: "1em",
+	color: "#fff",
+	backgroundColor: "rgba(159, 35, 58, 0.9)",
+	borderRadius: "10px",
+	display: "inline-block",
+	width: "15em",
+	height: "5em"
+}
+
+const nameStyle = {
+	color: "white",
+	fontSize: "50px",
+	textAlign: "center"
+}
+
+const readyStyle = {
+	color: "#fff",
+	position: "fixed",
+	bottom: "4em",
+	right: "4em",
+	borderRadius: "10px",
+	height: "6em",
+	width: "10em",
+	backgroundColor: "rgba(159, 35, 58, 0.9)",
+}
+
 
 const stateStyle = state => ({
 	height: "35%",
 	width: "100%",
 	textAlign: "center",
-	backgroundColor: state === "ready" ? "green" : "red",
+	backgroundColor: state === "ready" ? "green" : "white",
 	paddingTop: "10%" // redo that
 })
 
@@ -47,22 +100,23 @@ const exitRoom = (socket, setState) => () => {
 	socket.emit('disconnectFromRoom')
 }
 
-const readyButton = (socket, setState) => () => {
+const readyButton = (socket, setState, setTab) => () => {
+	setTab(twoDArray(20, 10, ' '))
 	setState("ready");
 	socket.emit('changeState', "ready")
 }
 
-const LoadingRoom = ({ socket, setState, players, roomName, messages, name }) => (
+const LoadingRoom = ({ socket, setState, players, roomName, messages, name, setTab }) => (
 	<div style={mainStyle}>
-		<div style={{ paddingTop: "1em", paddingBottom: "1em" }}>
-			<b style={{ fontSize: "3em", color: "white" }}>{roomName}</b>
-			<button style={{ margin: "1em", float: "right" }} onClick={exitRoom(socket, setState)}>Exit Room</button>
+		<div style={topBarStyle}>
+			<p style={nameStyle}>{roomName}</p>
+			<button style={buttonStyle} onClick={exitRoom(socket, setState)}>Exit Room</button>
 		</div>
 		<div style={{ display: "flex", height: "40%", marginLeft: "5%", width: "90%" }}>
 			<Chat messages={messages} socket={socket} />
 			<div style={{ width: "65%", display: "flex", justifyContent: "space-evenly", marginLeft: "5%" }}>
 				{players.map(PlayerCard)}
-				<button onClick={readyButton(socket, setState)} style={{ position: "fixed", bottom: "4em", right: "4em", borderRadius: "20px", height: "6em", width: "10em", backgroundColor: "green" }}><b>Ready</b></button>
+				<button onClick={readyButton(socket, setState, setTab)} style={readyStyle}><b>Ready</b></button>
 			</div>
 		</div>
 	</div >

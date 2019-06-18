@@ -15,21 +15,19 @@ const topBarStyle = {
 	textAlign: "end",
 	padding: "1em",
 	marginBottom: "1em",
-	boxShadow: "0 2px 3px rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.1)"
+	color: "#A54C4E",
+	background: "linear-gradient(to bottom right, rgba(159, 35, 58, 0.5), rgba(255,255,255,0.5))",
 }
 
 const entryStyle = {
 	height: "10em",
 	width: "20em",
 	color: "white",
-	backgroundColor: "#9f233a",
-	fontSize: "10px",
-	boxShadow: "0 2px 3px rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.1)",
+	backgroundColor: "rgba(159, 35, 58, 0.9)",
 	margin: "1em",
 	textAlign: "center",
 	borderRadius: "10px",
-	border: "2px solid white",
-	overflow: "hidden"
+	overflow: "hidden",
 }
 
 const roomListStyle = {
@@ -44,16 +42,14 @@ const roomListStyle = {
 const buttonStyle = {
 	marginLeft: "1em",
 	color: "#fff",
-	backgroundColor: "#9f233a",
+	backgroundColor: "rgba(159, 35, 58, 0.9)",
 	borderRadius: "10px",
 	display: "inline-block",
-	border: "2px solid white",
 	width: "15em",
 	height: "5em"
 }
 
 const nameStyle = {
-	// display: "inline-block",
 	color: "white",
 	fontSize: "50px",
 	textAlign: "center"
@@ -91,11 +87,12 @@ const newRoom = (socket, playerId, setRoomName) => () => {
 	})
 }
 
-const ShowRooms = ({ rooms, name, socket, setName, setRoomName }) => {
+const ShowRooms = ({ rooms, name, socket, setName, setRoomName, no }) => {
 	if (!name) return <NameChooser setName={setName} />
 	else return (
 		// return (
 		<div style={mainStyle}>
+			<p style={{ marginLeft: "1em", position: "absolute", color: "white", fontSize: "25px" }}>Number of player: {no}</p>
 			<div style={topBarStyle}>
 				<p style={nameStyle}> Bienvenue {name}</p>
 				<button style={buttonStyle} onClick={() => setName(null)}>
