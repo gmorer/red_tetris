@@ -70,7 +70,6 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 	};
 
 	useEffect(() => {
-		console.log('hey')
 		const board = (document.getElementById('mainBoard'))
 		board.setAttribute("style",
 			`width:${board.clientHeight / 2}px;background-color:rgba(159, 35, 58, 0.5);height:80%;position:relative;overflow:hidden`

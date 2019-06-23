@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react'
 import openSocket from 'socket.io-client';
+import { toast } from 'react-toastify';
 import ShowRooms from '../components/showRooms'
 import LoadingRoom from '../components/loadingRoom'
 import MainBoard from './mainBoard'
@@ -45,8 +46,9 @@ const boardReducer = (boards, { board, name, init }) => {
 const stateReducer = (socket, setBoards) => (_, newState) => {
 	if (newState === 'playing') {
 		setBoards({ init: true })
-		socket.emit('boardChange', tabToPreview(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' ')))
+		socket.emit('boardChange',  tabToPreview(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' ')))
 	}
+	socket.emit('changeState', newState)
 	return newState
 }
 
@@ -60,6 +62,19 @@ const addBackline = (socket, setTab) => n => {
 	})
 }
 
+const playersReducer = (name) => (oldPlayers, newPlayers) => {
+	if (!oldPlayers || oldPlayers.length !== newPlayers.length) return newPlayers
+	const diff = newPlayers.find((player) =>
+		(oldPlayers.find(({name}) => name === player.name) || player).state !== player.state
+	)
+	if (!diff) return newPlayers
+	if (diff.state === 'gameOver') {
+		const pos = (oldPlayers.length - oldPlayers.filter(({state}) => state === 'gameOver')) || 1;
+		toast(`${diff.name === name ? 'You' : name} finished ${pos}th`);
+	}
+	return newPlayers;
+}
+
 const Handler = ({ socket, defaultRoomName, defaultName }) => {
 	const [name, setName] = useState(defaultName)
 	const [no, setNo] = useState(0)
@@ -70,7 +85,7 @@ const Handler = ({ socket, defaultRoomName, defaultName }) => {
 	const [boards, setBoards] = useReducer(boardReducer, [])
 	const [messages, setMessages] = useReducer(messagesReducer, [])
 	const [state, setState] = useReducer(stateReducer(socket, setBoards), "inactive")
-	const [players, setPlayers] = useState([])
+	const [players, setPlayers] = useReducer(playersReducer(name), [])
 
 	useEffect(() => {
 		if (defaultRoomName && defaultName) {
@@ -108,9 +123,14 @@ const Handler = ({ socket, defaultRoomName, defaultName }) => {
 		boards={boards}
 	/>
 }
+
 const Connector = () => {
 	const socket = openSocket(URL);
 	const regexResult = /\#(.*)\[(.*)\]/.exec(window.location.hash) // eslint-disable-line
+	toast.configure({
+		autoClose: 8000,
+		draggable: false,
+	  });
 	if (!!regexResult) {
 		return <Handler
 			socket={socket}

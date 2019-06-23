@@ -61,11 +61,8 @@ const Piece = ({ piece, finish_cb, tab, setState, nextPiece, socket }) => {
 
 	if (IsItBlock(piece, pos, tab) && pos.y < 1) {
 		if (pos.y < 1) {
-			socket.emit('changeState', 'gameOver')
 			setState('gameOver')
 		}
-		//else
-		// 	setPose(pos => getUpPos(pos, piece, tab))
 	}
 
 	// get executed at the end of the tick

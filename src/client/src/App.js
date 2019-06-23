@@ -1,6 +1,8 @@
 import React from 'react';
-import './App.css';
 import SocketHandler from './containers/socketHandler'
+
+import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const mainStyle = {
 	height: "100%",

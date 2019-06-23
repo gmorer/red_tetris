@@ -28,6 +28,7 @@ class Piece {
 
 	stateCB(_, newState) {
 		let all_same = true
+		console.log(newState)
 		const playersList = getPlayerList(this.players)
 		this.players.forEach(player => {
 			player.newPlayerList(playersList, this.id)
