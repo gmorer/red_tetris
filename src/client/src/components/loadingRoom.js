@@ -2,26 +2,6 @@ import React from "react"
 import Chat from "./chat"
 import { twoDArray } from '../containers/utils'
 
-const mainStyle = {
-	height: "100%",
-	backgroundImage: "url('bg2.jpg')",
-	textAlign: "center",
-	backgroundSize: "100% 100%",
-	backgroundRepeat: "no-repeat",
-	width: "100%"
-}
-
-// const entryStyle = {
-// 	height: "10em",
-// 	width: "10em",
-// 	backgroundColor: "grey",
-// 	boxShadow: "0 2px 3px rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.1)",
-// 	margin: "1em",
-// 	textAlign: "center",
-// 	borderRadius: "10px",
-// 	overflow: "hidden"
-// }
-
 const entryStyle = {
 	height: "20em",
 	width: "20em",
@@ -35,25 +15,6 @@ const entryStyle = {
 	border: "2px solid white",
 	overflow: "hidden",
 	background: "linear-gradient(to bottom right, #9f233a, white)",
-}
-
-const topBarStyle = {
-	borderRadius: "5px",
-	textAlign: "end",
-	padding: "1em",
-	marginBottom: "1em",
-	color: "#A54C4E",
-	background: "linear-gradient(to bottom right, rgba(159, 35, 58, 0.5), rgba(255,255,255,0.5))"
-}
-
-const buttonStyle = {
-	marginLeft: "1em",
-	color: "#fff",
-	backgroundColor: "rgba(159, 35, 58, 0.9)",
-	borderRadius: "10px",
-	display: "inline-block",
-	width: "15em",
-	height: "5em"
 }
 
 const nameStyle = {
@@ -72,7 +33,6 @@ const readyStyle = {
 	width: "10em",
 	backgroundColor: "rgba(159, 35, 58, 0.9)",
 }
-
 
 const stateStyle = state => ({
 	height: "35%",
@@ -107,10 +67,10 @@ const readyButton = (socket, setState, setTab) => () => {
 }
 
 const LoadingRoom = ({ socket, setState, players, roomName, messages, name, setTab }) => (
-	<div style={mainStyle}>
-		<div style={topBarStyle}>
+	<div>
+		<div className="topBarStyle">
 			<p style={nameStyle}>{roomName}</p>
-			<button style={buttonStyle} onClick={exitRoom(socket, setState)}>Exit Room</button>
+			<button className="redButton" onClick={exitRoom(socket, setState)}>Exit Room</button>
 		</div>
 		<div style={{ display: "flex", height: "40%", marginLeft: "5%", width: "90%" }}>
 			<Chat messages={messages} socket={socket} />

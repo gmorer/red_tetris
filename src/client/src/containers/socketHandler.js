@@ -70,15 +70,7 @@ const Handler = ({ socket, defaultRoomName, defaultName }) => {
 	const [boards, setBoards] = useReducer(boardReducer, [])
 	const [messages, setMessages] = useReducer(messagesReducer, [])
 	const [state, setState] = useReducer(stateReducer(socket, setBoards), "inactive")
-
-	const playersReducer = (_, newPlayers) => {
-		setBoards(newPlayers
-			.filter(player => player.name !== name)
-			.map(player => ({ board: twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' '), name: player.name })))
-		return newPlayers
-	}
-
-	const [players, setPlayers] = useReducer(playersReducer, [])
+	const [players, setPlayers] = useState([])
 
 	useEffect(() => {
 		if (defaultRoomName && defaultName) {

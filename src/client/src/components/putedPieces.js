@@ -16,11 +16,10 @@ const column_style = {
 	flexDirection: "row"
 }
 
-const cube_style = (actual) => ({
+const cube_style = actual => ({
 	width: "10%",
 	height: "100%",
 	backgroundColor: actual !== ' ' ? actual : 'transparent'
-	// border: "2px solid black"
 })
 
 const PutedPieces = ({ tab, state, mode }) => (

@@ -1,7 +1,4 @@
 const { random_pieces_array } = require('../utils')
-/*
-	state cycle -> loading => playing
-*/
 
 const informPlayers = (players, id, fn) => players.forEach(player => {
 	if (player.isId(id)) return;
@@ -11,7 +8,6 @@ const informPlayers = (players, id, fn) => players.forEach(player => {
 const getPlayerList = players => players.map(player => ({ name: player.getName(), state: player.getState() }))
 
 class Piece {
-	/* TO DO : destructor callback to remove the game from the array when everyone disconnected */
 	constructor(id, cb) {
 		this.players = [];
 		this.id = id;
@@ -30,7 +26,7 @@ class Piece {
 		}
 	}
 
-	stateCB(id, newState) {
+	stateCB(_, newState) {
 		let all_same = true
 		const playersList = getPlayerList(this.players)
 		this.players.forEach(player => {

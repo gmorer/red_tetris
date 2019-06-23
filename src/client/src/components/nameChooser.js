@@ -10,7 +10,6 @@ const parentStyle = {
 	backgroundSize: "100% 100%",
 	backgroundRepeat: "no-repeat",
 	width: "100%"
-
 }
 
 const inputStyle = {
@@ -42,14 +41,12 @@ const clickHandler = setName => e => {
 
 const NameChooser = ({ setName }) => (
 	<div style={parentStyle} >
-		{/* <div style={{ maxWidth: "50%" }} /> */}
 		<form onSubmit={clickHandler(setName)}>
 			<input id="name_input" style={inputStyle} placeholder="Enter your Name" autoFocus={true} />
 			<button style={buttonStyle} onClick={clickHandler(setName)}>
 				OK
 		</button>
 		</form>
-		{/* <div style={{ maxWidth: "50%" }} /> */}
 	</div>
 )
 

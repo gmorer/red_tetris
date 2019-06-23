@@ -26,7 +26,6 @@ const inputStyle = {
 }
 
 const buttonStyle = {
-
 	color: "white",
 	border: "none",
 	borderRadius: "0px",

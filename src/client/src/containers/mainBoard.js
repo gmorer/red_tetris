@@ -13,16 +13,6 @@ const COLUMNS_NUMBER = 10;
 const LIGNE_NUMBER = 20;
 const BLACKBLOCK = "#393939"
 
-const board_style = {
-	// backgroundColor: 'grey',
-	// background: "linear-gradient(to bottom right, rgba(159, 35, 58, 0.5), rgba(255,255,255,0.5))",
-	// height: `${CUBE_SIZE * LIGNE_NUMBER}em`,
-	// width: `${CUBE_SIZE * COLUMNS_NUMBER}em`,
-	// height: "80%",
-	// position: "relative",
-	// overflow: "hidden"
-};
-
 const pageStyle = {
 	textAlign: "center",
 	backgroundImage: "url('bg2.jpg')",
@@ -79,19 +69,12 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 		})
 	};
 
-
 	useEffect(() => {
 		console.log('hey')
 		const board = (document.getElementById('mainBoard'))
-		// console.log(board)
-		board.setAttribute("style", `width:${board.clientHeight / 2}px;background-color:rgba(159, 35, 58, 0.5);height:80%;position:relative;overflow:hidden`);
-		// console.log("res:", board.clientHeight / 2)
-		// console.log("width;", board.style)
-		// board.clientWidth = board.clientHeight / 2
-		// background-color: 'grey',
-		// height: "80%",
-		// position: "relative",
-		// overflow: "hidden"
+		board.setAttribute("style",
+			`width:${board.clientHeight / 2}px;background-color:rgba(159, 35, 58, 0.5);height:80%;position:relative;overflow:hidden`
+		);
 	})
 
 
@@ -100,7 +83,7 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 			<div style={{ flex: 1 }}>
 				<h1 style={{ color: "black" }}>{gameName}</h1>
 				<div style={{ display: "flex", justifyContent: "space-evenly", height: "100%" }}>
-					<div style={board_style} id="mainBoard">
+					<div id="mainBoard">
 						{state === 'playing' ?
 							<Piece piece={pieces[piecesArray[pieceIndex]]} socket={socket} tab={tab} finish_cb={finish_cb} setState={setState} nextPiece={pieces[piecesArray[getNextPiece(piecesArray, pieceIndex)]]} /> :
 							<GameOver />

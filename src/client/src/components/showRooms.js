@@ -1,24 +1,6 @@
 import React from 'react'
 import NameChooser from './nameChooser'
 
-const mainStyle = {
-	height: "100%",
-	overflowY: "auto",
-	backgroundImage: "url('bg2.jpg')",
-	backgroundSize: "100% 100%",
-	backgroundRepeat: "no-repeat",
-	width: "100%"
-}
-
-const topBarStyle = {
-	borderRadius: "5px",
-	textAlign: "end",
-	padding: "1em",
-	marginBottom: "1em",
-	color: "#A54C4E",
-	background: "linear-gradient(to bottom right, rgba(159, 35, 58, 0.5), rgba(255,255,255,0.5))",
-}
-
 const entryStyle = {
 	height: "10em",
 	width: "20em",
@@ -37,16 +19,6 @@ const roomListStyle = {
 	padding: "0",
 	margin: "0",
 	alignItems: "center"
-}
-
-const buttonStyle = {
-	marginLeft: "1em",
-	color: "#fff",
-	backgroundColor: "rgba(159, 35, 58, 0.9)",
-	borderRadius: "10px",
-	display: "inline-block",
-	width: "15em",
-	height: "5em"
 }
 
 const nameStyle = {
@@ -90,14 +62,13 @@ const newRoom = (socket, playerId, setRoomName) => () => {
 const ShowRooms = ({ rooms, name, socket, setName, setRoomName, no }) => {
 	if (!name) return <NameChooser setName={setName} />
 	else return (
-		// return (
-		<div style={mainStyle}>
+		<div>
 			<p style={{ marginLeft: "1em", position: "absolute", color: "white", fontSize: "25px" }}>Number of player: {no}</p>
-			<div style={topBarStyle}>
-				<p style={nameStyle}> Bienvenue {name}</p>
-				<button style={buttonStyle} onClick={() => setName(null)}>
+			<button className="redButton" onClick={() => setName(null)}>
 					<p style={{ fontSize: "150%" }}>change username</p>
 				</button>
+			<div className="topBarStyle">
+				<p style={nameStyle}> Bienvenue {name}</p>
 			</div>
 			<div style={roomListStyle}>
 				<button style={entryStyle} onClick={newRoom(socket, name, setRoomName)}>Create new Room</button>
