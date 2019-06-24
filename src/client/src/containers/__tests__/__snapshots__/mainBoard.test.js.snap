@@ -1,0 +1,431 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Socket hanlder test 1`] = `
+<div
+  style={
+    Object {
+      "backgroundImage": "url('bg2.jpg')",
+      "backgroundRepeat": "no-repeat",
+      "backgroundSize": "100% 100%",
+      "display": "flex",
+      "height": "100%",
+      "justifyContent": "space-around",
+      "paddingTop": "2em",
+      "position": "relative",
+      "textAlign": "center",
+      "width": "100%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  >
+    <h1
+      style={
+        Object {
+          "color": "black",
+        }
+      }
+    />
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "height": "100%",
+          "justifyContent": "space-evenly",
+        }
+      }
+    >
+      <div
+        id="mainBoard"
+      >
+        <div
+          style={
+            Object {
+              "backgroundColor": "rgba(0, 0, 0,  0.5)",
+              "height": "100%",
+              "position": "absolute",
+              "textAlign": "center",
+              "width": "100%",
+              "zIndex": "99",
+            }
+          }
+        >
+          <h3
+            style={
+              Object {
+                "color": "red",
+                "fontSize": "3em",
+                "marginTop": "50%",
+              }
+            }
+          >
+            Game
+            <br />
+            Over
+          </h3>
+        </div>
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "column",
+              "height": "100%",
+              "marginTop": "-40%",
+              "width": "100%",
+            }
+          }
+        />
+      </div>
+      <div>
+        <div
+          style={
+            Object {
+              "backgroundColor": "rgba(159, 35, 58, 0.5)",
+              "height": "10em",
+              "width": "10em",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "display": "flex",
+                "flexDirection": "column",
+                "height": "100%",
+                "left": "0%",
+                "position": "relative",
+                "top": "0%",
+                "width": "100%",
+              }
+            }
+          >
+            <div
+              style={
+                Object {
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "height": "25%",
+                  "width": "100%",
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              />
+              <div
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              />
+              <div
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              />
+              <div
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              />
+            </div>
+            <div
+              style={
+                Object {
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "height": "25%",
+                  "width": "100%",
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "border": "2px solid #996300",
+                    "boxSizing": "border-box",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "height": "100%",
+                      "overflow": "hidden",
+                      "width": "100%",
+                    }
+                  }
+                >
+                  <div
+                    style={
+                      Object {
+                        "borderColor": "#FFA500 red red #ffc600",
+                        "borderStyle": "solid",
+                        "borderWidth": "10em 0em 0em 10em",
+                        "height": "0px",
+                        "width": "0px",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+              <div
+                style={
+                  Object {
+                    "border": "2px solid #996300",
+                    "boxSizing": "border-box",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "height": "100%",
+                      "overflow": "hidden",
+                      "width": "100%",
+                    }
+                  }
+                >
+                  <div
+                    style={
+                      Object {
+                        "borderColor": "#FFA500 red red #ffc600",
+                        "borderStyle": "solid",
+                        "borderWidth": "10em 0em 0em 10em",
+                        "height": "0px",
+                        "width": "0px",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+              <div
+                style={
+                  Object {
+                    "border": "2px solid #996300",
+                    "boxSizing": "border-box",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "height": "100%",
+                      "overflow": "hidden",
+                      "width": "100%",
+                    }
+                  }
+                >
+                  <div
+                    style={
+                      Object {
+                        "borderColor": "#FFA500 red red #ffc600",
+                        "borderStyle": "solid",
+                        "borderWidth": "10em 0em 0em 10em",
+                        "height": "0px",
+                        "width": "0px",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+              <div
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              />
+            </div>
+            <div
+              style={
+                Object {
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "height": "25%",
+                  "width": "100%",
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "border": "2px solid #996300",
+                    "boxSizing": "border-box",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              >
+                <div
+                  style={
+                    Object {
+                      "height": "100%",
+                      "overflow": "hidden",
+                      "width": "100%",
+                    }
+                  }
+                >
+                  <div
+                    style={
+                      Object {
+                        "borderColor": "#FFA500 red red #ffc600",
+                        "borderStyle": "solid",
+                        "borderWidth": "10em 0em 0em 10em",
+                        "height": "0px",
+                        "width": "0px",
+                      }
+                    }
+                  />
+                </div>
+              </div>
+              <div
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              />
+              <div
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              />
+              <div
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              />
+            </div>
+            <div
+              style={
+                Object {
+                  "display": "flex",
+                  "flexDirection": "row",
+                  "height": "25%",
+                  "width": "100%",
+                }
+              }
+            >
+              <div
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              />
+              <div
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              />
+              <div
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              />
+              <div
+                style={
+                  Object {
+                    "backgroundColor": "transparent",
+                    "height": "100%",
+                    "width": "25%",
+                  }
+                }
+              />
+            </div>
+          </div>
+          <p>
+            Lambda
+          </p>
+        </div>
+        <div
+          style={
+            Object {
+              "backgroundColor": "rgba(159, 35, 58, 0.5)",
+              "height": "5em",
+              "width": "10em",
+            }
+          }
+        >
+          Score : 
+          0
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    style={
+      Object {
+        "alignSelf": "center",
+        "flex": 1,
+        "height": "80%",
+        "overflowY": "auto",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "alignSelf": "center",
+          "display": "flex",
+          "flexFlow": "row wrap",
+          "justifyContent": "space-around",
+          "marginRight": "3em",
+          "marginTop": "5em",
+        }
+      }
+    />
+  </div>
+</div>
+`;

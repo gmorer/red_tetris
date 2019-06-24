@@ -8,9 +8,7 @@ import pieces from '../ressources/pieces.json';
 import Previews from '../components/previews'
 import { getDownPos, tabToPreview } from './utils'
 
-const CUBE_SIZE = 2;
 const COLUMNS_NUMBER = 10;
-const LIGNE_NUMBER = 20;
 const BLACKBLOCK = "#393939"
 
 const pageStyle = {

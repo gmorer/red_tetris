@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useReducer } from 'react'
-import openSocket from 'socket.io-client';
 import { toast } from 'react-toastify';
 import ShowRooms from '../components/showRooms'
 import LoadingRoom from '../components/loadingRoom'
 import MainBoard from './mainBoard'
 import { tabToPreview, twoDArray } from './utils'
 
-const PORT = 8080
-const URL = process.env.NODE_ENV === 'production' ? '/' : `localhost:${PORT}`;
 const COLUMNS_NUMBER = 10;
 const LIGNE_NUMBER = 20;
 
@@ -125,24 +122,4 @@ const Handler = ({ socket, defaultRoomName, defaultName }) => {
 	/>
 }
 
-const Connector = () => {
-	const socket = openSocket(URL);
-	const regexResult = /\#(.*)\[(.*)\]/.exec(window.location.hash) // eslint-disable-line
-	toast.configure({
-		autoClose: 8000,
-		draggable: false,
-	});
-	socket.on('disconnect', () => toast.error("Got disconect :("))
-	socket.on("connect_error", () => toast.error("Cannot connect to the server"))
-	socket.on("reconnect", () => toast.success("Successfully reconected to the server"))
-	if (!!regexResult) {
-		return <Handler
-			socket={socket}
-			defaultName={regexResult[1].trim() || null}
-			defaultRoomName={regexResult[2].trim() || null}
-		/>
-	}
-	return <Handler socket={socket} />
-}
-
-export default Connector
+export default Handler

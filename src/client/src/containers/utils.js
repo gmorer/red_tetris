@@ -30,7 +30,7 @@ export const getDownPos = (pos, piece, tab) => {
 export const tabToPreview = tab => {
 	const result = tab.map(y => y.map(x => x))
 	result.forEach((line, y) =>
-		line.forEach((cube, x) => {
+		line.forEach((_, x) => {
 			if (y !== 0 && result[y - 1][x] !== ' ') result[y][x] = "black"
 		}))
 	return result;

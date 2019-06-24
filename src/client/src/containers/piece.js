@@ -49,7 +49,7 @@ const actions = {
 }
 
 // End of the pure function :(
-const Piece = ({ piece, finish_cb, tab, setState, nextPiece, socket }) => {
+const Piece = ({ piece, finish_cb, tab, setState, nextPiece }) => {
 	const [pos, setPose] = useState({
 		x: 3,
 		y: 0 - piece.position[0].hitbox.top,
