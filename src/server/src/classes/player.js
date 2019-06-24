@@ -8,6 +8,13 @@ const BOARD_WIDTH = 10;
 	state cycle: loading => ready => playing => game_over
 */
 
+const putYou = (name, players) => {
+	return players.map(player => {
+		if (player.name === name) return { ...player, name: 'You' }
+		return player
+	})
+}
+
 class Player {
 	constructor(socket) {
 		this.name = null;
@@ -59,7 +66,7 @@ class Player {
 		this.socket.emit('getMessages', msgs);
 	}
 
-	newPlayerList(players) { this.socket.emit('playersList', players) }
+	newPlayerList(players) { this.socket.emit('playersList', putYou(this.name, players)) }
 	givePieces(pieces) { this.socket.emit('piecesArray', pieces) }
 	isId(id) { return id === this.id }
 

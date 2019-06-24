@@ -46,7 +46,7 @@ const boardReducer = (boards, { board, name, init }) => {
 const stateReducer = (socket, setBoards) => (_, newState) => {
 	if (newState === 'playing') {
 		setBoards({ init: true })
-		socket.emit('boardChange',  tabToPreview(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' ')))
+		socket.emit('boardChange', tabToPreview(twoDArray(LIGNE_NUMBER, COLUMNS_NUMBER, ' ')))
 	}
 	socket.emit('changeState', newState)
 	return newState
@@ -62,15 +62,16 @@ const addBackline = (socket, setTab) => n => {
 	})
 }
 
-const playersReducer = (name) => (oldPlayers, newPlayers) => {
+const playersReducer = (oldPlayers, newPlayers) => {
 	if (!oldPlayers || oldPlayers.length !== newPlayers.length) return newPlayers
 	const diff = newPlayers.find((player) =>
-		(oldPlayers.find(({name}) => name === player.name) || player).state !== player.state
+		(oldPlayers.find(({ name, state }) => name === player.name && state === 'playing') || player).state !== player.state
 	)
 	if (!diff) return newPlayers
 	if (diff.state === 'gameOver') {
-		const pos = (oldPlayers.length - oldPlayers.filter(({state}) => state === 'gameOver')) || 1;
-		toast(`${diff.name === name ? 'You' : name} finished ${pos}th`);
+		const pos = (oldPlayers.length - oldPlayers.filter(({ state }) => state === 'gameOver')) || 1;
+		const msg = `${diff.name} finished ${pos}th`;
+		toast(msg);
 	}
 	return newPlayers;
 }
@@ -85,7 +86,7 @@ const Handler = ({ socket, defaultRoomName, defaultName }) => {
 	const [boards, setBoards] = useReducer(boardReducer, [])
 	const [messages, setMessages] = useReducer(messagesReducer, [])
 	const [state, setState] = useReducer(stateReducer(socket, setBoards), "inactive")
-	const [players, setPlayers] = useReducer(playersReducer(name), [])
+	const [players, setPlayers] = useReducer(playersReducer, [])
 
 	useEffect(() => {
 		if (defaultRoomName && defaultName) {
@@ -102,7 +103,7 @@ const Handler = ({ socket, defaultRoomName, defaultName }) => {
 		socket.on('newPlayerBoard', setBoards)
 		socket.on('playersList', setPlayers)
 		socket.on('changeState', setState)
-	}, [socket, defaultRoomName, defaultName])
+	}, [socket, defaultRoomName, defaultName, setMessages])
 	const Page = getPage(state)
 	return <Page
 		no={no}
@@ -130,7 +131,7 @@ const Connector = () => {
 	toast.configure({
 		autoClose: 8000,
 		draggable: false,
-	  });
+	});
 	if (!!regexResult) {
 		return <Handler
 			socket={socket}

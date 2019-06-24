@@ -1,12 +1,14 @@
 import React from 'react'
 import PutedPieces from './putedPieces'
+import GameOver from './gameOver'
 
 const previewStyle = {
 	marginTop: "2em",
 	marginBot: "2em",
 	marginLeft: "3em",
 	marginRigth: "3em",
-	color: "white"
+	color: "white",
+	position: "relative"
 }
 
 const mainStyle = {
@@ -18,8 +20,11 @@ const mainStyle = {
 	marginRight: "3em"
 }
 
+const isGameOver = baord => baord[0].some(block => block !== ' ')
+
 const MiniBoard = ({ board }) => (
 	<div style={{ width: "12em", height: "24em", backgroundColor: "white" }}>
+		{isGameOver(board) ? <GameOver style={{ height: "24em" }} /> : null}
 		<PutedPieces tab={board} mode="dark" />
 	</div>
 )

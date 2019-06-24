@@ -35,6 +35,7 @@ const buttonStyle = {
 
 const clickHandler = setName => e => {
 	let name = document.getElementById("name_input").value.trim()
+	if (name === 'You') return alert('Invalid name')
 	if (!!name) setName(name)
 	e.preventDefault();
 }
