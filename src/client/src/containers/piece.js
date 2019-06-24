@@ -49,7 +49,6 @@ const actions = {
 }
 
 // End of the pure function :(
-
 const Piece = ({ piece, finish_cb, tab, setState, nextPiece, socket }) => {
 	const [pos, setPose] = useState({
 		x: 3,

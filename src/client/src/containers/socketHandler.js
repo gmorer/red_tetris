@@ -71,7 +71,7 @@ const playersReducer = (oldPlayers, newPlayers) => {
 	if (diff.state === 'gameOver') {
 		const pos = (oldPlayers.length - oldPlayers.filter(({ state }) => state === 'gameOver')) || 1;
 		const msg = `${diff.name} finished ${pos}th`;
-		toast(msg);
+		toast.info(msg);
 	}
 	return newPlayers;
 }
@@ -132,6 +132,9 @@ const Connector = () => {
 		autoClose: 8000,
 		draggable: false,
 	});
+	socket.on('disconnect', () => toast.error("Got disconect :("))
+	socket.on("connect_error", () => toast.error("Cannot connect to the server"))
+	socket.on("reconnect", () => toast.success("Successfully reconected to the server"))
 	if (!!regexResult) {
 		return <Handler
 			socket={socket}
