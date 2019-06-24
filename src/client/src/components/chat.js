@@ -5,6 +5,7 @@ const mainStyle = {
 	borderRadius: "10px",
 	opacity: "0.8",
 	width: "25%",
+	height: "20em"
 }
 
 const anotherStyle = {

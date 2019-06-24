@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Some test 1`] = `
+<div
+  style={
+    Object {
+      "border": "2px solid #0a1f33",
+      "boxSizing": "border-box",
+      "height": "50%",
+      "width": "50%",
+    }
+  }
+>
+  <div
+    style={
+      Object {
+        "height": "100%",
+        "overflow": "hidden",
+        "width": "100%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "borderColor": "#123456 red red #153e67",
+          "borderStyle": "solid",
+          "borderWidth": "10em 0em 0em 10em",
+          "height": "0px",
+          "width": "0px",
+        }
+      }
+    />
+  </div>
+</div>
+`;
