@@ -26,13 +26,18 @@ class Piece {
 		}
 	}
 
-	stateCB(_, newState) {
+	stateCB(name, newState, oldState) {
 		let all_same = true
 		const playersList = getPlayerList(this.players)
 		this.players.forEach(player => {
 			player.newPlayerList(playersList, this.id)
 			if (player.getState() !== newState) all_same = false
 		})
+		if (newState === 'gameOver' && oldState != 'gameOver') {
+			const pos = this.players.length - this.players.filter(player => player.getState() === 'gameOver').length;
+			const msg = `${name} finished ${pos}th`;
+			this.addMessage(false, msg)
+		}
 		if (all_same && this.players.length > 0) {
 			if (this.players[0].getState() === 'ready') {
 				/* NEW Piece */
