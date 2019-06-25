@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Some test 1`] = `
+<div
+  style={
+    Object {
+      "background": "linear-gradient(to bottom right, #9f233a, white)",
+      "borderRadius": "10px",
+      "height": "20em",
+      "opacity": "0.8",
+      "width": "25%",
+    }
+  }
+>
+  <p>
+    Chat++ 
+  </p>
+  <div
+    style={
+      Object {
+        "background": "linear-gradient(to bottom right, #9f233a, white)",
+        "backgroundColor": "#9f233a",
+        "height": "100%",
+        "overflowY": "auto",
+        "padding": "1em",
+        "textAlign": "justify",
+      }
+    }
+  >
+    <div>
+      <p>
+        <b>
+          toto
+           :
+        </b>
+        <span
+          style={
+            Object {
+              "borderRadius": "5px",
+              "height": "10%",
+              "width": "80%",
+            }
+          }
+        >
+           
+          test
+        </span>
+      </p>
+    </div>
+  </div>
+  <form
+    onSubmit={[Function]}
+    style={
+      Object {
+        "background": "white",
+        "display": "flex",
+      }
+    }
+  >
+    <input
+      id="msg"
+      placeholder="Your message"
+      style={
+        Object {
+          "backgroundColor": "transparent",
+          "border": "2px solid #5E5E5E",
+          "color": "black",
+          "height": "2em",
+          "paddingLeft": "1em",
+          "width": "80%",
+        }
+      }
+    />
+    <button
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#9f233a",
+          "border": "none",
+          "borderRadius": "0px",
+          "color": "white",
+          "width": "20%",
+        }
+      }
+    >
+      Send
+    </button>
+  </form>
+</div>
+`;

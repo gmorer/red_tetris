@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Some test 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "rgba(0, 0, 0,  0.5)",
+      "height": "100%",
+      "position": "absolute",
+      "textAlign": "center",
+      "width": "100%",
+      "zIndex": "99",
+    }
+  }
+>
+  <h3
+    style={
+      Object {
+        "color": "red",
+        "fontSize": "3em",
+        "marginTop": "50%",
+      }
+    }
+  >
+    Game
+    <br />
+    Over
+  </h3>
+</div>
+`;

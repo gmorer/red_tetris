@@ -66,7 +66,7 @@ const readyButton = (socket, setState, setTab) => () => {
 	// socket.emit('changeState', "ready")
 }
 
-const LoadingRoom = ({ socket, setState, players, roomName, messages, name, setTab }) => (
+const LoadingRoom = ({ socket, setState, players, roomName, messages, setTab }) => (
 	<div>
 		<div className="topBarStyle">
 			<p style={nameStyle}>{roomName}</p>
@@ -79,7 +79,7 @@ const LoadingRoom = ({ socket, setState, players, roomName, messages, name, setT
 				<button onClick={readyButton(socket, setState, setTab)} style={readyStyle}><b>Ready</b></button>
 			</div>
 		</div>
-	</div >
+	</div>
 )
 
 export default LoadingRoom

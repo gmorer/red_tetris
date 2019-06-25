@@ -1,0 +1,152 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Some test 1`] = `
+<div>
+  <div
+    className="topBarStyle"
+  >
+    <p
+      style={
+        Object {
+          "color": "white",
+          "fontSize": "50px",
+          "textAlign": "center",
+        }
+      }
+    />
+    <button
+      className="redButton"
+      onClick={[Function]}
+    >
+      Exit Room
+    </button>
+  </div>
+  <div
+    style={
+      Object {
+        "display": "flex",
+        "height": "40%",
+        "marginLeft": "5%",
+        "width": "90%",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "background": "linear-gradient(to bottom right, #9f233a, white)",
+          "borderRadius": "10px",
+          "height": "20em",
+          "opacity": "0.8",
+          "width": "25%",
+        }
+      }
+    >
+      <p>
+        Chat++ 
+      </p>
+      <div
+        style={
+          Object {
+            "background": "linear-gradient(to bottom right, #9f233a, white)",
+            "backgroundColor": "#9f233a",
+            "height": "100%",
+            "overflowY": "auto",
+            "padding": "1em",
+            "textAlign": "justify",
+          }
+        }
+      >
+        <div>
+          <p>
+            <b>
+              toto
+               :
+            </b>
+            <span
+              style={
+                Object {
+                  "borderRadius": "5px",
+                  "height": "10%",
+                  "width": "80%",
+                }
+              }
+            >
+               
+              test
+            </span>
+          </p>
+        </div>
+      </div>
+      <form
+        onSubmit={[Function]}
+        style={
+          Object {
+            "background": "white",
+            "display": "flex",
+          }
+        }
+      >
+        <input
+          id="msg"
+          placeholder="Your message"
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "border": "2px solid #5E5E5E",
+              "color": "black",
+              "height": "2em",
+              "paddingLeft": "1em",
+              "width": "80%",
+            }
+          }
+        />
+        <button
+          onClick={[Function]}
+          style={
+            Object {
+              "backgroundColor": "#9f233a",
+              "border": "none",
+              "borderRadius": "0px",
+              "color": "white",
+              "width": "20%",
+            }
+          }
+        >
+          Send
+        </button>
+      </form>
+    </div>
+    <div
+      style={
+        Object {
+          "display": "flex",
+          "justifyContent": "space-evenly",
+          "marginLeft": "5%",
+          "width": "65%",
+        }
+      }
+    >
+      <button
+        onClick={[Function]}
+        style={
+          Object {
+            "backgroundColor": "rgba(159, 35, 58, 0.9)",
+            "borderRadius": "10px",
+            "bottom": "4em",
+            "color": "#fff",
+            "height": "6em",
+            "position": "fixed",
+            "right": "4em",
+            "width": "10em",
+          }
+        }
+      >
+        <b>
+          Ready
+        </b>
+      </button>
+    </div>
+  </div>
+</div>
+`;
