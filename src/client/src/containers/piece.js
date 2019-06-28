@@ -13,21 +13,19 @@ const downStop = (pos, piece, tab) => {
 
 const goLeft = (pos, piece, tab) => {
 	if (pos.x + piece.position[pos.rotation].hitbox.left <= 0) return null
-	if (IsItBlock(piece, { x: pos.x - 1, y: pos.y, rotation: pos.rotation }, tab)) return
+	if (IsItBlock(piece, { x: pos.x - 1, y: pos.y, rotation: pos.rotation }, tab)) return null
 	return ({ ...pos, x: pos.x - 1 })
 }
 
 const goRight = (pos, piece, tab) => {
 	if (pos.x - piece.position[pos.rotation].hitbox.right >= 6) return null
-	if (IsItBlock(piece, { x: pos.x + 1, y: pos.y, rotation: pos.rotation }, tab)) return
+	if (IsItBlock(piece, { x: pos.x + 1, y: pos.y, rotation: pos.rotation }, tab)) return null
 	return ({ ...pos, x: pos.x + 1 })
 }
 
 const goDown = (pos, piece, tab) => {
-	if (downStop(pos, piece, tab))
-		return null
-	else
-		return ({ ...pos, y: pos.y + 1, last_interval: Date.now() })
+	if (downStop(pos, piece, tab)) return null
+	else return ({ ...pos, y: pos.y + 1, last_interval: Date.now() })
 }
 
 const goSpace = (pos, piece, tab) => {
@@ -38,6 +36,7 @@ const goSpace = (pos, piece, tab) => {
 const rotate = (pos, piece, tab) => {
 	if (!IsItBlock(piece, { ...pos, rotation: (pos.rotation + 1) % piece.position.length }, tab))
 		return ({ ...pos, rotation: (pos.rotation + 1) % piece.position.length })
+	else return null
 }
 
 const actions = {
@@ -57,13 +56,9 @@ const Piece = ({ piece, finish_cb, tab, setState, nextPiece }) => {
 		rotation: 0,
 		space_trigered: false
 	});
-
-	if (IsItBlock(piece, pos, tab) && pos.y < 1) {
-		if (pos.y < 1) {
-			setState('gameOver')
-		}
+	if (IsItBlock(piece, pos, tab) && pos.y < 1 && pos.y < 1) {
+		setState('gameOver')
 	}
-
 	// get executed at the end of the tick
 	const callback = () => {
 		if (downStop(pos, piece, tab)) {
@@ -73,11 +68,8 @@ const Piece = ({ piece, finish_cb, tab, setState, nextPiece }) => {
 			setPose(pos => goDown(pos, piece, tab) || pos)
 		}
 	}
-
 	useEffect(() => {
-
 		const interval = setInterval(callback, pos.last_interval + 500 - Date.now())
-
 		const onKeyPress = ({ key }) => {
 			if (!!actions[key]) {
 				setPose(pos => {
@@ -85,12 +77,10 @@ const Piece = ({ piece, finish_cb, tab, setState, nextPiece }) => {
 					if (!!newPos) {
 						clearInterval(interval)
 						return (newPos)
-					}
-					return pos
+					} else return pos
 				})
 			}
 		}
-
 		window.addEventListener('keydown', onKeyPress);
 		return () => {
 			clearInterval(interval);
@@ -100,4 +90,12 @@ const Piece = ({ piece, finish_cb, tab, setState, nextPiece }) => {
 	return <DisplayPiece piece={piece} pos={pos} />
 }
 
-export default Piece
+export default process.env.NODE_ENV === 'test' ? {
+	Piece,
+	downStop,
+	goLeft,
+	goRight,
+	goDown,
+	goSpace,
+	rotate
+} : Piece;

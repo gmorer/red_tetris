@@ -21,28 +21,25 @@ const mainStyle = {
 const App = () => {
 	const socket = openSocket(URL);
 	const regexResult = /\#(.*)\[(.*)\]/.exec(window.location.hash) // eslint-disable-line
-	toast.configure({
-		autoClose: 8000,
-		draggable: false,
-	});
+	toast.configure({ autoClose: 8000, draggable: false });
 	socket.on('disconnect', () => toast.error("Got disconect :("))
 	socket.on("connect_error", () => toast.error("Cannot connect to the server"))
 	socket.on("reconnect", () => toast.success("Successfully reconected to the server"))
 	if (!!regexResult) {
 		return (
-		<div style={mainStyle}>
-			<SocketHandler
-				socket={socket}
-				defaultName={regexResult[1].trim() || null}
-				defaultRoomName={regexResult[2].trim() || null}
+			<div style={mainStyle}>
+				<SocketHandler
+					socket={socket}
+					defaultName={regexResult[1].trim() || null}
+					defaultRoomName={regexResult[2].trim() || null}
 				/>
-		</div>
+			</div>
 		)
 	}
 	return (
-	<div style={mainStyle}>
-		<SocketHandler socket={socket}/>
-	</div>
+		<div style={mainStyle}>
+			<SocketHandler socket={socket} />
+		</div>
 	)
 }
 

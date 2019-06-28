@@ -12,5 +12,71 @@ exports[`Some test 1`] = `
       "marginTop": "5em",
     }
   }
-/>
+>
+  <div
+    style={
+      Object {
+        "color": "white",
+        "marginBot": "2em",
+        "marginLeft": "3em",
+        "marginRigth": "3em",
+        "marginTop": "2em",
+        "position": "relative",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "backgroundColor": "white",
+          "height": "24em",
+          "width": "12em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "display": "flex",
+            "flexDirection": "column",
+            "height": "100%",
+            "marginTop": "-40%",
+            "width": "100%",
+          }
+        }
+      >
+        <div
+          style={
+            Object {
+              "display": "flex",
+              "flexDirection": "row",
+              "height": "5%",
+              "width": "100%",
+            }
+          }
+        >
+          <div
+            style={
+              Object {
+                "backgroundColor": "transparent",
+                "height": "100%",
+                "width": "10%",
+              }
+            }
+          />
+          <div
+            style={
+              Object {
+                "backgroundColor": "transparent",
+                "height": "100%",
+                "width": "10%",
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
+    toto
+  </div>
+</div>
 `;

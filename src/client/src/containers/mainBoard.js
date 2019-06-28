@@ -100,4 +100,4 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 	);
 };
 
-export default Board;
+export default process.env.NODE_ENV === 'test' ? { Board, deleteEmptyRow, getNextPiece } : Board;

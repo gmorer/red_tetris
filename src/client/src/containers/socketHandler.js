@@ -50,7 +50,7 @@ const stateReducer = (socket, setBoards) => (_, newState) => {
 }
 
 const addBackline = (socket, setTab) => n => {
-	setTab(tab => {
+	return setTab(tab => {
 		tab.splice(0, n);
 		for (let i = 0; i < n; i++)
 			tab.push(Array(COLUMNS_NUMBER).fill(BLACKBLOCK))
@@ -122,4 +122,11 @@ const Handler = ({ socket, defaultRoomName, defaultName }) => {
 	/>
 }
 
-export default Handler
+export default process.env.NODE_ENV === 'test' ? {
+	Handler,
+	playersReducer,
+	addBackline,
+	stateReducer,
+	boardReducer,
+	messagesReducer,
+} : Handler;

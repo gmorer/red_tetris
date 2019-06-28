@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Some test 1`] = `
+<div>
+  <p
+    style={
+      Object {
+        "color": "white",
+        "fontSize": "25px",
+        "marginLeft": "1em",
+        "position": "absolute",
+      }
+    }
+  >
+    Number of player: 
+  </p>
+  <button
+    className="redButton"
+    onClick={[Function]}
+  >
+    <p
+      style={
+        Object {
+          "fontSize": "150%",
+        }
+      }
+    >
+      change username
+    </p>
+  </button>
+  <div
+    className="topBarStyle"
+  >
+    <p
+      style={
+        Object {
+          "color": "white",
+          "fontSize": "50px",
+          "textAlign": "center",
+        }
+      }
+    >
+       Bienvenue 
+      mdr
+    </p>
+  </div>
+  <div
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "flexFlow": "row wrap",
+        "justifyContent": "space-around",
+        "margin": "0",
+        "padding": "0",
+      }
+    }
+  >
+    <button
+      onClick={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(159, 35, 58, 0.9)",
+          "borderRadius": "10px",
+          "color": "white",
+          "height": "10em",
+          "margin": "1em",
+          "overflow": "hidden",
+          "textAlign": "center",
+          "width": "20em",
+        }
+      }
+    >
+      Create new Room
+    </button>
+    <div
+      style={
+        Object {
+          "backgroundColor": "rgba(159, 35, 58, 0.9)",
+          "borderRadius": "10px",
+          "color": "white",
+          "height": "10em",
+          "margin": "1em",
+          "overflow": "hidden",
+          "textAlign": "center",
+          "width": "20em",
+        }
+      }
+    >
+      <div
+        style={
+          Object {
+            "height": "60%",
+          }
+        }
+      >
+        <h2
+          style={
+            Object {
+              "marginTop": "5%",
+            }
+          }
+        >
+          1
+        </h2>
+        <br />
+        2 players
+      </div>
+      <button
+        onClick={[Function]}
+        style={
+          Object {
+            "border": "none",
+            "cursor": "pointer",
+            "height": "35%",
+            "outline": "none",
+            "width": "100%",
+          }
+        }
+      >
+        Join
+      </button>
+    </div>
+  </div>
+</div>
+`;

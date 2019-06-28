@@ -1,8 +1,7 @@
 export const IsItBlock = (piece, pos, tab) => {
 	return piece.position[pos.rotation].display.some((row, y) => row.some((cube, x) => {
-		if (y + pos.y - piece.position[pos.rotation].hitbox.bot >= 20) {
+		if (y + pos.y - piece.position[pos.rotation].hitbox.bot >= 20)
 			return true
-		}
 		if (cube !== ' ')
 			return tab[y + pos.y < 0 ? 0 : y + pos.y][x + pos.x] !== ' ';
 		return false

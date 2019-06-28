@@ -31,3 +31,5 @@ heroku:
 	heroku container:push web --app=red42tetris
 	heroku container:release web --app=red42tetris
 
+test:
+	npm test --prefix $(CLIENT_DIRECTORY) -- --watchAll --coverage

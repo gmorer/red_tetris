@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Some test 1`] = `
+<div
+  style={
+    Object {
+      "backgroundColor": "rgba(159, 35, 58, 0.5)",
+      "height": "5em",
+      "width": "10em",
+    }
+  }
+>
+  Score : 
+  6
+</div>
+`;

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Socket hanlder test 1`] = `
+exports[`mainboard test 1`] = `
 <div
   style={
     Object {

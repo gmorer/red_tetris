@@ -63,7 +63,6 @@ const exitRoom = (socket, setState) => () => {
 const readyButton = (socket, setState, setTab) => () => {
 	setTab(twoDArray(20, 10, ' '))
 	setState("ready");
-	// socket.emit('changeState', "ready")
 }
 
 const LoadingRoom = ({ socket, setState, players, roomName, messages, setTab }) => (
