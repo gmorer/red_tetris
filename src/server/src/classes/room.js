@@ -76,8 +76,10 @@ class Piece {
 		this.players.splice(index, 1)
 		if (this.state === 'playing') {
 			// handle if everyone is gameover
-			if (!this.players.some(player => player.getState() !== 'gameOver'))
+			if (this.players.every(player => player.getState() == 'gameOver')) {
 				this.players.forEach(player => player.changeState('loading'))
+				this.state = 'loading'
+			}
 		} else if (this.state === 'loading') {
 			// put evreyone in loading
 			this.players.forEach(player => player.changeState('loading'))

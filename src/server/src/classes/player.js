@@ -70,9 +70,10 @@ class Player {
 	givePieces(pieces) { this.socket.emit('piecesArray', pieces) }
 	isId(id) { return id === this.id }
 
-	/* GETTER */
 	setName(name) { this.name = name }
 	setCb(cb) { this.cb = cb }
+	setState(state) { this.state = state }
+	/* GETTER */
 	getState() { return this.state }
 	getName() { return this.name }
 	getId() { return this.id }

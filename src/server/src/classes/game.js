@@ -57,9 +57,8 @@ class Game {
 		const index = this.rooms.findIndex(room => room.isIdIn(socket.id))
 		if (index === -1) return
 		this.rooms[index].disconnect(socket.id)
-		if (this.rooms[index].getPlayerNo() === 0) {
+		if (this.rooms[index].getPlayerNo() === 0)
 			this.rooms.splice(index, 1)
-		}
 		this.io.emit('getRooms', this.packRooms())
 	}
 }
