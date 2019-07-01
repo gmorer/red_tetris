@@ -30,8 +30,8 @@ const App = () => {
 			<div style={mainStyle}>
 				<SocketHandler
 					socket={socket}
-					defaultName={regexResult[1].trim() || null}
-					defaultRoomName={regexResult[2].trim() || null}
+					defaultName={regexResult[2].trim() || null}
+					defaultRoomName={regexResult[1].trim() || null}
 				/>
 			</div>
 		)
