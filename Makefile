@@ -34,3 +34,7 @@ heroku:
 test:
 	npm test --prefix $(CLIENT_DIRECTORY) -- --watchAll --coverage
 	npm test --prefix $(SERVER_DIRECTORY)
+
+install:
+	npm install --prefix $(CLIENT_DIRECTORY)
+	npm install --prefix $(SERVER_DIRECTORY)
