@@ -6,7 +6,9 @@ PORT := 8080
 all: build
 
 build:
+	npm i --prefix $(CLIENT_DIRECTORY)
 	npm run build --prefix $(CLIENT_DIRECTORY)
+	npm i --prefix $(SERVER_DIRECTORY)
 	npm run build --prefix $(SERVER_DIRECTORY)
 	mkdir -p www
 	cp -rf $(CLIENT_DIRECTORY)/build www/public

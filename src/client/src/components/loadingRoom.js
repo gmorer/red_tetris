@@ -61,8 +61,8 @@ const exitRoom = (socket, setState) => () => {
 }
 
 const readyButton = (socket, setState, setTab) => () => {
-	setTab(twoDArray(20, 10, ' '))
 	setState("ready");
+	setTab(twoDArray(20, 10, ' '))
 }
 
 const LoadingRoom = ({ socket, setState, players, roomName, messages, setTab }) => (

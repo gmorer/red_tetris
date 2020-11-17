@@ -74,7 +74,6 @@ const Board = ({ piecesArray, gameName, tab, setTab, socket, state, setState, bo
 		);
 	})
 
-
 	return (
 		<div style={pageStyle}>
 			<div style={{ flex: 1 }}>

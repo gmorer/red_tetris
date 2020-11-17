@@ -27,8 +27,8 @@ class Player {
 			if (!this.cb) return
 			if (state === 'loading')
 				this.board = twoDArray(BOARD_HEIGHT, BOARD_WIDTH, ' ')
-			this.cb('state', this.name, state, this.state)
 			this.state = state;
+			this.cb('state', this.name, state, this.state)
 		})
 		socket.on('blackLine', ({ n }) => {
 			if (!this.cb) return
