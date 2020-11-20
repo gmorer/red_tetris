@@ -1,13 +1,16 @@
-FROM node:10
-
-ADD www /www
-
-WORKDIR /www
-
+FROM node:lts-alpine as builder
+WORKDIR /usr/src/red_tetris
 COPY . .
+RUN npm i --prefix ./src/client --no-optional --no-shrinkwrap --no-package-lock --only=prod
+RUN npm i --prefix ./src/server --no-optional --no-shrinkwrap --no-package-lock --only=prod
+RUN npm run build --prefix ./src/server
+RUN mkdir -p www
+RUN cp -rf ./src/client/build www/public
+RUN cp ./src/server/package.json www/
+RUN cp ./src/server/build/server.js www/
+RUN cp -rf ./src/server/node_modules www/
 
-RUN npm i --no-optional --no-shrinkwrap --no-package-lock --only=prod
-
-EXPOSE 8080
-
-CMD [ "npm", "run", "production" ]
+FROM node:lts-alpine as production
+COPY --from=builder /usr/src/red_tetris/www /var/www
+WORKDIR /var/www
+CMD ["node", "server"]
