@@ -3,6 +3,8 @@ WORKDIR /usr/src/red_tetris
 COPY . .
 RUN npm i --prefix ./src/client --no-optional --no-shrinkwrap --no-package-lock --only=prod
 RUN npm i --prefix ./src/server --no-optional --no-shrinkwrap --no-package-lock --only=prod
+RUN npm i -g webpack webpack-cli
+RUN npm run build --prefix ./src/client
 RUN npm run build --prefix ./src/server
 RUN mkdir -p www
 RUN cp -rf ./src/client/build www/public
